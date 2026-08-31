@@ -7,10 +7,9 @@
 ---
 
 ## 👥 Grupo 11 - Integrantes
-- **Integrante 1:** Matías Rocha (matiasrocha@udec.cl)
-- **Integrante 2:** [Integrante 2]
-- **Integrante 3:** [Integrante 3]
-- **Integrante 4:** [Integrante 4]
+- **Integrante 1:** Matías Rocha
+- **Integrante 2:** Xavier Godoy
+- **Integrante 3:** Benjamin Grandon
 
 ---
 
