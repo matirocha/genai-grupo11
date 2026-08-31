@@ -8,8 +8,7 @@
 
 ## 👥 Grupo 11 - Integrantes
 - **Integrante 1:** Matías Rocha
-- **Integrante 2:** Xavier Godoy
-- **Integrante 3:** Benjamin Grandon
+- **Integrante 2:** Benjamin Grandon
 
 ---
 
