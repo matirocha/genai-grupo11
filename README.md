@@ -26,7 +26,7 @@ Al ser consultados directamente (*zero-shot prompting*), los modelos de lenguaje
 
 ---
 
-## 🔬 Modelos Candidatos y Justificación (<8B)
+## 🔬 Modelos Candidatos y Justificación
 
 Para abordar la tarea con alta eficiencia computacional y rápida iteración, seleccionamos tres modelos compactos de última generación en el rango de **3.0B a 3.8B** (dentro del límite de 8B):
 
