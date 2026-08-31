@@ -1,8 +1,8 @@
-# Automated Hospital Staff Scheduling with Small Open-Weight LLMs (<8B)
+# Asignación Automatizada de Turnos Médicos con LLMs Open-Weight (<8B)
 
-**Generative Artificial Intelligence (580694) - Spring 2026**  
+**Inteligencia Artificial Generativa (580694) - Primavera 2026**  
 **Universidad de Concepción**  
-**Deliverable 1: Problem Definition, Failure Diagnosis & Feasibility**
+**Entrega 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad**
 
 ---
 
@@ -14,75 +14,75 @@
 
 ---
 
-## 📌 Project Overview
-The **Medical Staff Scheduling Problem (MSSP)** is a mission-critical, combinatorial constraint satisfaction problem (CSP) in healthcare operations. The goal is to generate a valid weekly hospital shift schedule assigning medical personnel to shifts while strictly satisfying hard operational and legal constraints (rest periods, weekly working hour caps, specialty coverage) and optimizing soft preferences.
+## 📌 Descripción del Proyecto
+El **Problema de Asignación de Turnos Médicos** (*Medical Staff Scheduling Problem*, MSSP) es un problema combinatorio de satisfacción de restricciones (CSP) crítico en la gestión y operaciones hospitalarias. El objetivo es generar una planificación semanal de turnos para el personal médico que satisfaga estrictamente las restricciones duras legales y operativas (periodos de descanso obligatorio, límites de horas semanales por contrato, cobertura mínima de especialidades) y optimice las preferencias blandas.
 
-When prompted directly, small open-weight language models ($\le 8\text{B}$) **consistently fail** due to their autoregressive nature, inability to perform multi-step lookahead / backtracking, and state tracking drift.
-
----
-
-## 🎯 Task Specification & Ground Truth
-- **Input:** Staff roster (IDs, specialties, weekly maximum hour limits, unavailable slots) and shift requirements (required headcount and specialty minimums across 21 weekly shifts).
-- **Output:** A strict JSON object containing the complete 7-day schedule.
-- **Ground Truth Evaluation:** Evaluated via a deterministic programmatic verifier (`src/verifier.py`):
-  1. `HC1_MIN_REST`: $\ge 16$ hours continuous rest between consecutive shifts.
-  2. `HC2_NO_DOUBLE_SHIFT`: Maximum 1 shift per staff member per calendar day.
-  3. `HC3_STAFFING_DEMAND`: Exact required personnel count per shift.
-  4. `HC4_SPECIALTY_COVERAGE`: Mandatory specialty presence (e.g., Anesthesiologists on Night shifts).
-  5. `HC5_MAX_HOURS`: No doctor exceeds their weekly legal limit.
-  6. `HC6_UNAVAILABLE_SLOTS`: No staff member scheduled during pre-requested off-slots.
+Al ser consultados directamente (*zero-shot prompting*), los modelos de lenguaje pequeños de pesos abiertos ($\le 8\text{B}$) **fallan sistemáticamente** debido a su naturaleza autorregresiva, la incapacidad de realizar búsqueda con retroceso (*backtracking*) o planificación a futuro, y la deriva en el seguimiento del estado y la aritmética.
 
 ---
 
-## 🔬 Candidate Models (<8B & Size Bonus)
+## 🎯 Especificación de la Tarea y Ground Truth
+- **Entrada:** Nómina del personal médico (identificadores, especialidades, límites de horas semanales, franjas no disponibles) y requerimientos de turnos (dotación requerida y mínimos por especialidad a lo largo de 21 turnos semanales).
+- **Salida:** Un objeto JSON estricto y válido con la planificación completa de los 7 días (21 turnos).
+- **Evaluación Ground Truth:** Evaluado mediante un verificador programático determinista (`src/verifier.py`):
+  1. `HC1_MIN_REST`: $\ge 16$ horas de descanso continuo obligatorio entre turnos consecutivos.
+  2. `HC2_NO_DOUBLE_SHIFT`: Máximo 1 turno por profesional al día calendario.
+  3. `HC3_STAFFING_DEMAND`: Dotación exacta de personal requerida por turno.
+  4. `HC4_SPECIALTY_COVERAGE`: Presencia obligatoria de especialistas requeridos (ej. Anestesiólogos en turno Noche).
+  5. `HC5_MAX_HOURS`: Ningún médico puede exceder su límite de horas semanales por contrato ($\le 40$h).
+  6. `HC6_UNAVAILABLE_SLOTS`: Cero asignaciones en franjas horarias bloqueadas por solicitud previa.
 
-To target the **bonus points** for selecting models meaningfully smaller than the 8B ceiling, we propose three high-performing compact models in the **3B–3.8B** range:
+---
 
-| Candidate Model | Parameters | Context | Key Benchmark Highlights |
+## 🔬 Modelos Candidatos (<8B y Bono por Tamaño)
+
+Para postular al **bono de puntaje (+3 pts)** por seleccionar modelos significativamente menores al tope de 8B, proponemos tres modelos compactos de alto rendimiento en el rango de **3.0B a 3.8B**:
+
+| Modelo Candidato | Parámetros | Contexto | Aspectos Clave de Benchmarks |
 | :--- | :---: | :---: | :--- |
-| **Qwen 2.5 3B-Instruct** | 3.09B | 32k / 128k | MMLU: 65.4%, GSM8k: 84.5%. Superior structured JSON formatting and reasoning. |
-| **Phi-3.5-mini-Instruct** | 3.82B | 128k | GSM8k: 86.0%, HumanEval: 70.1%. Synthetic high-reasoning data curriculum. |
-| **Llama 3.2 3B-Instruct** | 3.21B | 128k | MMLU: 63.4%, MATH: 48.0%. Highly efficient instruction-following and LoRA fine-tuning. |
+| **Qwen 2.5 3B-Instruct** | 3.09B | 32k / 128k | MMLU: 65.4%, GSM8k: 84.5%. Rendimiento SOTA en formato estructurado JSON y seguimiento de restricciones lógicas. |
+| **Phi-3.5-mini-Instruct** | 3.82B | 128k | GSM8k: 86.0%, HumanEval: 70.1%. Curado con datos sintéticos de alto razonamiento y lógica paso a paso. |
+| **Llama 3.2 3B-Instruct** | 3.21B | 128k | MMLU: 63.4%, MATH: 48.0%. Excelente seguimiento de instrucciones y altamente eficiente para *fine-tuning* con LoRA. |
 
 ---
 
-## ⚡ Execution Feasibility
-- **VRAM Profile (4-bit QLoRA/NF4):** $\approx 2.2 - 2.8\text{ GB}$ VRAM.
-- **VRAM Profile (16-bit FP16/BF16):** $\approx 6.2 - 7.5\text{ GB}$ VRAM.
-- **Target Platform:** Google Colab Free Tier (Nvidia T4 GPU, 15 GB VRAM) providing $> 100\%$ safety margin for long context evaluation and fast inference ($\approx 35\text{ tokens/s}$).
+## ⚡ Factibilidad de Ejecución
+- **Perfil de VRAM (Cuantización 4-bit QLoRA/NF4):** $\approx 2.2 - 2.8\text{ GB}$ de VRAM.
+- **Perfil de VRAM (Precisión 16-bit FP16/BF16):** $\approx 6.2 - 7.5\text{ GB}$ de VRAM.
+- **Plataforma Objetivo:** Nivel gratuito de Google Colab (GPU Nvidia T4 con 15 GB de VRAM), ofreciendo un margen de seguridad $> 100\%$ para evaluación con contexto largo e inferencia rápida ($\approx 35\text{ tokens/s}$).
 
 ---
 
-## 📂 Repository Structure
+## 📂 Estructura del Repositorio
 ```text
 .
-├── README.md                   # Project overview, team, benchmarks & feasibility
+├── README.md                   # Descripción general, equipo, modelos y factibilidad
 ├── data/
-│   ├── sample_staff.json       # Personnel profiles, specialties, limits and constraints
-│   └── sample_demands.json     # 21 weekly shifts, staffing demands, and hard constraints
+│   ├── sample_staff.json       # Perfiles del personal, especialidades, límites y restricciones
+│   └── sample_demands.json     # 21 turnos semanales, demanda de dotación y restricciones duras
 ├── src/
-│   ├── verifier.py             # Programmatic Ground Truth constraint checker
-│   └── baseline_direct.py      # Baseline direct prompting runner & failure showcase
+│   ├── verifier.py             # Verificador programático de restricciones (Ground Truth)
+│   └── baseline_direct.py      # Script de evaluación de línea base zero-shot y análisis de fallos
 ├── notebooks/
-│   └── Colab_Feasibility.ipynb # End-to-end executable notebook on Colab T4
+│   └── Colab_Feasibility.ipynb # Cuaderno ejecutable de principio a fin en Google Colab T4
 └── deliverable1/
-    ├── deliverable1.tex        # Single-page LaTeX poster / executive summary source
-    └── Deliverable 1.pdf       # Original task assignment specification
+    ├── deliverable1.tex        # Código fuente LaTeX del póster / resumen ejecutivo (1 página)
+    └── Deliverable 1.pdf       # Pauta original del entregable
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
-### 1. Run the Programmatic Verifier:
+### 1. Ejecutar el Verificador Programático:
 ```bash
 python3 src/verifier.py data/sample_staff.json data/sample_demands.json <schedule_output.json>
 ```
 
-### 2. Run the Direct Prompting Baseline:
+### 2. Ejecutar la Línea Base Directa (Zero-Shot):
 ```bash
 python3 src/baseline_direct.py
 ```
 
-### 3. Open in Google Colab:
-Open `notebooks/Colab_Feasibility.ipynb` directly in [Google Colab](https://colab.research.google.com/) with a free T4 GPU runtime.
+### 3. Abrir en Google Colab:
+Abre `notebooks/Colab_Feasibility.ipynb` directamente en [Google Colab](https://colab.research.google.com/) con entorno de ejecución GPU T4 gratuita.
