@@ -1,8 +1,8 @@
-# Asignación Automatizada de Turnos Médicos con LLMs Open-Weight (<8B)
+# Asignación Automatizada de Turnos Médicos con LLMs Open-Weight
 
-**Inteligencia Artificial Generativa (580694) - Primavera 2026**  
+**Inteligencia Artificial Generativa (580694) - **  
 **Universidad de Concepción**  
-**Entrega 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad**
+**Deliverable 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad**
 
 ---
 
