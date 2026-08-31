@@ -46,16 +46,16 @@
 
 % --- Header Banner (Black & White) ---
 \begin{tcolorbox}[colback=boxbg,colframe=boxframe,arc=1.5mm,boxrule=0.8pt,top=3pt,bottom=3pt,left=8pt,right=8pt]
-\begin{minipage}[c]{0.72\textwidth}
-    {\fontsize{12}{13.5}\selectfont \textbf{Asignación de Turnos Médicos con LLMs Open-Weight <8B}}\\[1.5pt]
-    {\fontsize{8.5}{9.8}\selectfont \textbf{Entrega 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad} \textbar\ IA Generativa (580694)}
+\begin{minipage}[c]{0.68\textwidth}
+    {\fontsize{12}{13.5}\selectfont \textbf{Asignación de Turnos Médicos con LLMs Open-Weight}}\\[1.5pt]
+    {\fontsize{8.5}{9.8}\selectfont \textbf{Deliverable 1 \textbar\ Generative Artificial Intelligence (580694)}}
 \end{minipage}
 \hfill
-\begin{minipage}[c]{0.26\textwidth}
+\begin{minipage}[c]{0.30\textwidth}
     \raggedleft
     {\fontsize{8}{9}\selectfont \textbf{Universidad de Concepción}}\\
     {\fontsize{8.5}{9.5}\selectfont \textbf{Grupo 11}}\\
-    {\fontsize{7}{8}\selectfont \textbf{Repo:} \href{https://github.com/matiasrocha/medical-scheduling-llm}{\texttt{github.com/matiasrocha/scheduling}}}
+    {\fontsize{7}{8}\selectfont \textbf{Repo:} \href{https://github.com/matirocha/genai-grupo11}{\texttt{github.com/matirocha/genai-grupo11}}}
 \end{minipage}
 \end{tcolorbox}
 
@@ -96,8 +96,8 @@ El \textit{prompting} directo (zero-shot) en modelos pequeños ($\le 8\text{B}$)
 \textbf{Evidencia Empírica de Línea Base:} En pruebas zero-shot sobre 10 médicos y 21 turnos, los modelos de 3B obtuvieron un \textbf{0\% de horarios válidos}, con un promedio de \textbf{7.4 violaciones duras por intento} (principalmente descanso HC1 y exceso de horas HC5).
 
 % ==================== SECCIÓN 3 ====================
-\section{3. Modelos Propuestos (<8B y Bono)}
-Para maximizar la eficiencia y postular al \textbf{bono (+3 pts)}, proponemos tres modelos de primer nivel en el rango de \textbf{3.0B a 3.8B} (muy por debajo del límite de 8B):
+\section{3. Modelos Candidatos y Justificación}
+Para abordar la tarea con alta eficiencia computacional y rápida iteración, seleccionamos tres modelos compactos de última generación en el rango de \textbf{3.0B a 3.8B} (dentro del límite de 8B):
 
 \begin{center}
 \vspace{-2pt}
@@ -115,19 +115,15 @@ Para maximizar la eficiencia y postular al \textbf{bono (+3 pts)}, proponemos tr
 \vspace{-2pt}
 \end{center}
 
-\textit{Defensa del Bono:} Los modelos de $\approx 3\text{B}$ ofrecen latencia sub-segundo, menor consumo de cómputo para fine-tuning (PEFT/LoRA) y demuestran que marcos de razonamiento (CoT / Tool-calling) superan las limitaciones de escala.
+\textit{Justificación de Escala Compacta:} El rango de $\approx 3\text{B}$ ofrece latencia sub-segundo, mínimo consumo de memoria para fine-tuning (PEFT/LoRA) y permite demostrar que marcos de razonamiento estructurado (CoT / Tool-calling / Verificador) resuelven eficazmente problemas CSP complejos.
 
 % ==================== SECCIÓN 4 ====================
 \section{4. Factibilidad de Ejecución}
-La infraestructura experimental es 100\% viable en entornos gratuitos:
+La infraestructura experimental está 100\% garantizada tanto en entorno local como en la nube:
 \begin{itemize}[label=$\blacktriangleright$]
-    \item \textbf{Google Colab Gratuito (GPU Nvidia T4, 15 GB VRAM):}
-    \begin{itemize}[label=$\circ$]
-        \item \textit{Precisión FP16:} Ocupa $\approx 6.5\text{ GB}$ VRAM (43\% de capacidad).
-        \item \textit{Cuantización 4-bit NF4 (bitsandbytes):} Ocupa $\approx 2.4\text{ GB}$ VRAM (16\% de capacidad), dejando $>12\text{ GB}$ libres para memoria KV.
-    \end{itemize}
-    \item \textbf{Rendimiento y Latencia:} Alcanza $\approx 35\text{--}42\text{ tokens/s}$ en T4, generando el horario completo en menos de 25 segundos.
-    \item \textbf{Viabilidad Local:} Ejecutable en GPUs de gama media ($\ge 6\text{ GB}$) y laptops Apple Silicon (vía MLX/MPS).
+    \item \textbf{Hardware Local Dedicado:} Estación de trabajo equipada con \textbf{AMD Ryzen 7 7700}, GPU \textbf{Nvidia RTX 5060 (8 GB VRAM)} y \textbf{32 GB RAM DDR5}. Soporta inferencia nativa en FP16 ($\approx 6.5\text{ GB}$) y cuantizada en 4-bit NF4 ($\approx 2.4\text{ GB}$), además de fine-tuning LoRA rápido sin límites de sesión.
+    \item \textbf{Google Colab Gratuito (GPU Nvidia T4, 15 GB VRAM):} Entorno en la nube 100\% reproducible; ocupa $\approx 2.4\text{ GB}$ en 4-bit NF4, dejando $>12\text{ GB}$ libres para memoria de contexto KV.
+    \item \textbf{Rendimiento y Latencia:} Alcanza $\approx 35\text{--}45\text{ tokens/s}$, completando la generación del horario semanal en menos de 20 segundos.
 \end{itemize}
 
 % ==================== SECCIÓN 5 ====================

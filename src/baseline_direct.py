@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Baseline Direct Prompting Runner & Experiment Script
----------------------------------------------------
-Constructs the raw direct prompt containing staff and shift demands,
-queries the target open-weight model (or simulated baseline), and feeds
-the structured JSON output directly into the ScheduleVerifier.
+Ejecutor Experimental de Línea Base (Prompting Directo Zero-Shot)
+-----------------------------------------------------------------
+Construye el prompt directo con el personal y la demanda de turnos,
+simula la salida típica de un modelo open-weight y la evalúa
+directamente en el ScheduleVerifier para cuantificar el fallo.
 """
 
 import json
@@ -14,17 +14,17 @@ from verifier import ScheduleVerifier
 
 
 def build_direct_prompt(staff_data: dict, demands_data: dict) -> str:
-    return f"""You are an automated medical scheduling assistant.
-Your task is to assign doctors to hospital shifts for an entire week (Monday through Sunday) under strict operational constraints.
+    return f"""Eres un asistente automatizado para la asignación de turnos médicos hospitalarios.
+Tu tarea es asignar médicos a los turnos de toda la semana (de lunes a domingo) bajo restricciones operativas estrictas.
 
-### Available Staff:
+### Personal Disponible:
 {json.dumps(staff_data["staff"], indent=2)}
 
-### Shift Requirements and Demands:
+### Requerimientos de Turnos y Demandas:
 {json.dumps(demands_data, indent=2)}
 
-### Output Format:
-Return ONLY a valid JSON object matching the weekly schedule without additional markdown explanations:
+### Formato de Salida:
+Retorna ÚNICAMENTE un objeto JSON válido con la planificación semanal sin explicaciones ni texto markdown adicional:
 {{
   "Monday": {{ "Morning": ["DOC_ID", ...], "Afternoon": [...], "Night": [...] }},
   "Tuesday": {{ ... }},
@@ -34,8 +34,8 @@ Return ONLY a valid JSON object matching the weekly schedule without additional 
 """
 
 
-# Simulated direct prompting output from a 3B model (exhibiting classic autoregressive failure modes:
-# overbooking favorite doctors, violating night rest on Tuesday, exceeding weekly hours by Friday).
+# Salida simulada de prompting directo en un modelo de ~3B (mostrando los modos de fallo autorregresivos clásicos:
+# sobreasignación de médicos favoritos, violación de descanso nocturno el martes y exceso de horas semanales el viernes).
 SAMPLE_FAILED_DIRECT_OUTPUT = {
     "Monday": {
         "Morning": ["DOC_03", "DOC_06"],
@@ -86,16 +86,16 @@ def run_baseline_experiment():
         demands_data = json.load(f)
 
     prompt = build_direct_prompt(staff_data, demands_data)
-    print("=== DIRECT PROMPT GENERATED (Length: {} chars) ===".format(len(prompt)))
+    print("=== PROMPT DIRECTO GENERADO (Longitud: {} caracteres) ===".format(len(prompt)))
     
-    print("\nEvaluating Simulated Direct Prompting Baseline Output...")
+    print("\nEvaluando Salida de Línea Base (Prompting Directo)...")
     verifier = ScheduleVerifier(staff_data, demands_data)
     results = verifier.evaluate(SAMPLE_FAILED_DIRECT_OUTPUT)
 
     print("=" * 60)
-    print(f"DIRECT PROMPTING BASELINE RESULT: {'PASSED' if results['is_valid'] else 'FAILED'}")
-    print(f"Total Hard Violations: {results['total_hard_violations']}")
-    print("Violations Identified:")
+    print(f"RESULTADO DE LÍNEA BASE (PROMPTING DIRECTO): {'APROBADO' if results['is_valid'] else 'FALLIDO'}")
+    print(f"Total de Violaciones a Restricciones Duras: {results['total_hard_violations']}")
+    print("Violaciones Identificadas:")
     for v in results["violations"]:
         print(f"  - {v}")
     print("=" * 60)

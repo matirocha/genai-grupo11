@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Medical Staff Scheduling Verifier
-----------------------------------
-Evaluates generated weekly hospital schedules against strict operational and legal constraints.
-Acts as the programmatic Ground Truth evaluator for model benchmark outputs.
+Verificador de Asignación de Turnos Médicos (Schedule Verifier)
+--------------------------------------------------------------
+Evalúa las planificaciones semanales generadas frente a restricciones operativas y legales estrictas.
+Actúa como el oráculo evaluador programático (Ground Truth) para las salidas del modelo.
 """
 
 import json
@@ -21,58 +21,58 @@ class ScheduleVerifier:
 
     def evaluate(self, schedule: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Evaluates a schedule dictionary.
-        Returns:
-            Dict containing validation boolean, total hard violations, violation breakdown, and details.
+        Evalúa un diccionario de horario semanal.
+        Retorna:
+            Dict con booleano de validez, total de violaciones duras, distribución de horas y detalle de fallos.
         """
         violations = []
         assigned_hours = {doc_id: 0 for doc_id in self.staff_dict}
         daily_assignments = {doc_id: set() for doc_id in self.staff_dict}
 
-        # Chronological list of shifts to verify rest times
+        # Lista cronológica de turnos para verificar tiempos de descanso obligatorio
         chronological_shifts: List[Tuple[str, str, List[str]]] = []
 
-        # 1. Structural adherence and basic shift presence
+        # 1. Validación de adherencia estructural y presencia de turnos
         for day in self.days:
             if day not in schedule:
-                violations.append(f"MISSING_DAY: Day {day} is completely missing in schedule.")
+                violations.append(f"FALTA_DIA: El día {day} no está presente en el horario.")
                 continue
 
             for shift in self.shifts:
                 if shift not in schedule[day]:
-                    violations.append(f"MISSING_SHIFT: Shift {shift} on {day} is missing.")
+                    violations.append(f"FALTA_TURNO: El turno {shift} del día {day} no está presente.")
                     continue
 
                 assigned_docs = schedule[day][shift]
                 if not isinstance(assigned_docs, list):
-                    violations.append(f"INVALID_FORMAT: Shift {day} {shift} is not a list of doctor IDs.")
+                    violations.append(f"FORMATO_INVALIDO: El turno {day} {shift} no es una lista de identificadores de médicos.")
                     continue
 
                 chronological_shifts.append((day, shift, assigned_docs))
 
-                # Check unique IDs in same shift
+                # Verificar identificadores duplicados en un mismo turno
                 if len(assigned_docs) != len(set(assigned_docs)):
-                    violations.append(f"DUPLICATE_IN_SHIFT: Duplicate doctor assigned in {day} {shift}: {assigned_docs}")
+                    violations.append(f"DUPLICADO_EN_TURNO: Médico duplicado asignado en {day} {shift}: {assigned_docs}")
 
-                # Verify each doctor existence
+                # Verificar que cada médico exista en la nómina
                 for doc_id in assigned_docs:
                     if doc_id not in self.staff_dict:
-                        violations.append(f"UNKNOWN_STAFF: {doc_id} assigned in {day} {shift} does not exist in staff list.")
+                        violations.append(f"MEDICO_DESCONOCIDO: {doc_id} asignado en {day} {shift} no existe en la nómina de personal.")
                     else:
                         assigned_hours[doc_id] += self.shift_hours
                         daily_assignments[doc_id].add(day)
 
-                        # HC6: Unavailability
+                        # HC6: Indisponibilidad solicitada
                         slot_str = f"{day}_{shift}"
                         if slot_str in self.staff_dict[doc_id].get("unavailable", []):
-                            violations.append(f"HC6_UNAVAILABLE: {doc_id} ({self.staff_dict[doc_id]['name']}) assigned on requested off-slot {slot_str}.")
+                            violations.append(f"HC6_INDISPONIBILIDAD: {doc_id} ({self.staff_dict[doc_id]['name']}) asignado en franja bloqueada {slot_str}.")
 
-                # HC3: Total required staff count
+                # HC3: Demanda total de dotación
                 req_total = self.demands["requirements_per_shift"][shift]["required_total"]
                 if len(assigned_docs) != req_total:
-                    violations.append(f"HC3_STAFFING_DEMAND: {day} {shift} requires {req_total} staff, but has {len(assigned_docs)}.")
+                    violations.append(f"HC3_DEMANDA_DOTACION: {day} {shift} requiere {req_total} médicos, pero tiene {len(assigned_docs)}.")
 
-                # HC4: Specialty coverage
+                # HC4: Cobertura obligatoria por especialidad
                 spec_counts = {}
                 for doc_id in assigned_docs:
                     if doc_id in self.staff_dict:
@@ -82,9 +82,9 @@ class ScheduleVerifier:
                 for req_spec, min_count in self.demands["requirements_per_shift"][shift]["specialty_requirements"].items():
                     actual_count = spec_counts.get(req_spec, 0)
                     if actual_count < min_count:
-                        violations.append(f"HC4_SPECIALTY_COVERAGE: {day} {shift} requires at least {min_count} {req_spec}(s), but got {actual_count}.")
+                        violations.append(f"HC4_COBERTURA_ESPECIALIDAD: {day} {shift} requiere al menos {min_count} {req_spec}(s), pero cuenta con {actual_count}.")
 
-        # HC2: No double shifts on same day
+        # HC2: Turno único diario (máximo 1 turno por médico por día calendario)
         for day in self.days:
             if day not in schedule:
                 continue
@@ -93,11 +93,11 @@ class ScheduleVerifier:
                 if shift in schedule[day] and isinstance(schedule[day][shift], list):
                     for doc_id in schedule[day][shift]:
                         if doc_id in day_docs:
-                            violations.append(f"HC2_NO_DOUBLE_SHIFT: Doctor {doc_id} assigned to multiple shifts on {day}.")
+                            violations.append(f"HC2_TURNO_UNICO_DIARIO: El médico {doc_id} fue asignado a múltiples turnos el {day}.")
                         day_docs.append(doc_id)
 
-        # HC1: Minimum rest periods between consecutive shifts
-        # Consecutive forbidden sequences: Night(day_t) -> Morning(day_t+1) or Afternoon(day_t+1)
+        # HC1: Descanso obligatorio entre turnos consecutivos
+        # Secuencias prohibidas: Noche(día_t) -> Mañana(día_t+1) o Tarde(día_t+1) (< 16 horas de descanso)
         for i in range(len(chronological_shifts) - 1):
             curr_day, curr_shift, curr_docs = chronological_shifts[i]
             next_day, next_shift, next_docs = chronological_shifts[i + 1]
@@ -105,13 +105,13 @@ class ScheduleVerifier:
             if curr_shift == "Night" and next_shift in ["Morning", "Afternoon"]:
                 overlap = set(curr_docs).intersection(set(next_docs))
                 for doc_id in overlap:
-                    violations.append(f"HC1_MIN_REST: Doctor {doc_id} worked Night ({curr_day}) and was assigned immediately to {next_shift} ({next_day}) without required rest.")
+                    violations.append(f"HC1_DESCANSO_OBLIGATORIO: El médico {doc_id} trabajó de Noche ({curr_day}) y fue asignado inmediatamente a {next_shift} ({next_day}) sin el descanso continuo reglamentario (>=16h).")
 
-        # HC5: Maximum weekly legal hours
+        # HC5: Límite legal semanal de horas por contrato
         for doc_id, hours in assigned_hours.items():
             max_h = self.staff_dict[doc_id]["max_weekly_hours"]
             if hours > max_h:
-                violations.append(f"HC5_MAX_HOURS: {doc_id} ({self.staff_dict[doc_id]['name']}) assigned {hours}h, exceeding max {max_h}h by {hours - max_h}h.")
+                violations.append(f"HC5_LIMITE_LEGAL_HORAS: {doc_id} ({self.staff_dict[doc_id]['name']}) tiene {hours}h asignadas, superando el tope de {max_h}h por {hours - max_h}h.")
 
         is_valid = (len(violations) == 0)
         return {
@@ -124,7 +124,7 @@ class ScheduleVerifier:
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python verifier.py <staff.json> <demands.json> <schedule.json>")
+        print("Uso: python verifier.py <personal.json> <demandas.json> <horario.json>")
         sys.exit(1)
 
     with open(sys.argv[1], 'r', encoding='utf-8') as f:
@@ -138,11 +138,11 @@ def main():
     result = verifier.evaluate(schedule_data)
 
     print("=" * 60)
-    print(f"VERIFICATION RESULT: {'PASSED (0 VIOLATIONS)' if result['is_valid'] else 'FAILED'}")
-    print(f"Total Hard Constraint Violations: {result['total_hard_violations']}")
+    print(f"RESULTADO DE VERIFICACIÓN: {'APROBADO (0 VIOLACIONES)' if result['is_valid'] else 'FALLIDO'}")
+    print(f"Total de Violaciones a Restricciones Duras: {result['total_hard_violations']}")
     print("=" * 60)
     if result["violations"]:
-        print("VIOLATION DETAILS:")
+        print("DETALLE DE VIOLACIONES IDENTIFICADAS:")
         for idx, v in enumerate(result["violations"], 1):
             print(f"  [{idx}] {v}")
     print("=" * 60)

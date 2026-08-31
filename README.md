@@ -33,9 +33,9 @@ Al ser consultados directamente (*zero-shot prompting*), los modelos de lenguaje
 
 ---
 
-## 🔬 Modelos Candidatos (<8B y Bono por Tamaño)
+## 🔬 Modelos Candidatos y Justificación (<8B)
 
-Para postular al **bono de puntaje (+3 pts)** por seleccionar modelos significativamente menores al tope de 8B, proponemos tres modelos compactos de alto rendimiento en el rango de **3.0B a 3.8B**:
+Para abordar la tarea con alta eficiencia computacional y rápida iteración, seleccionamos tres modelos compactos de última generación en el rango de **3.0B a 3.8B** (dentro del límite de 8B):
 
 | Modelo Candidato | Parámetros | Contexto | Aspectos Clave de Benchmarks |
 | :--- | :---: | :---: | :--- |
@@ -46,9 +46,8 @@ Para postular al **bono de puntaje (+3 pts)** por seleccionar modelos significat
 ---
 
 ## ⚡ Factibilidad de Ejecución
-- **Perfil de VRAM (Cuantización 4-bit QLoRA/NF4):** $\approx 2.2 - 2.8\text{ GB}$ de VRAM.
-- **Perfil de VRAM (Precisión 16-bit FP16/BF16):** $\approx 6.2 - 7.5\text{ GB}$ de VRAM.
-- **Plataforma Objetivo:** Nivel gratuito de Google Colab (GPU Nvidia T4 con 15 GB de VRAM), ofreciendo un margen de seguridad $> 100\%$ para evaluación con contexto largo e inferencia rápida ($\approx 35\text{ tokens/s}$).
+- **Hardware Local Dedicado:** Estación de trabajo equipada con procesador **AMD Ryzen 7 7700**, tarjeta gráfica **Nvidia RTX 5060 (8 GB VRAM)** y **32 GB RAM DDR5**. Permite inferencia nativa rápida en FP16 ($\approx 6.2 - 7.5\text{ GB}$) y cuantizada en 4-bit NF4 ($\approx 2.2 - 2.8\text{ GB}$), además de posibilitar *fine-tuning* con LoRA/QLoRA localmente sin limitaciones de cuotas de cómputo en la nube.
+- **Entorno en la Nube (Google Colab Gratuito):** GPU Nvidia T4 (15 GB VRAM), proporcionando un entorno 100% reproducible con un margen de seguridad $> 100\%$ de VRAM para evaluación con contexto largo e inferencia veloz ($\approx 35\text{--}45\text{ tokens/s}$).
 
 ---
 
