@@ -6,12 +6,6 @@
 
 ---
 
-## 👥 Grupo 11 - Integrantes
-- **Integrante 1:** Matías Rocha
-- **Integrante 2:** Benjamin Grandon
-
----
-
 ## 📌 Descripción del Proyecto
 El **Problema de Asignación de Turnos Médicos** (*Medical Staff Scheduling Problem*, MSSP) es un problema combinatorio de satisfacción de restricciones (CSP) crítico en la gestión y operaciones hospitalarias. El objetivo es generar una planificación semanal de turnos para el personal médico que satisfaga estrictamente las restricciones duras legales y operativas (periodos de descanso obligatorio, límites de horas semanales por contrato, cobertura mínima de especialidades) y optimice las preferencias blandas.
 
