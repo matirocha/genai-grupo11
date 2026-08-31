@@ -1,0 +1,145 @@
+\documentclass[9pt,a4paper]{extarticle}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[margin=0.40in,top=0.36in,bottom=0.36in]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+
+% --- Colors & Styling ---
+\definecolor{primary}{RGB}{18, 52, 102}    % UdeC Blue
+\definecolor{secondary}{RGB}{140, 29, 64}  % Accent
+\definecolor{darkgray}{RGB}{45, 55, 72}
+\definecolor{boxbg}{RGB}{245, 247, 250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    urlcolor=primary,
+    pdftitle={IA Generativa - Entrega 1: Asignacion de Turnos Medicos},
+    pdfauthor={Grupo 11}
+}
+
+% --- Section Spacing Adjustments ---
+\titleformat{\section}{\color{primary}\fontsize{10}{11.5}\bfseries\scshape}{}{0em}{}[\vspace{-4pt}\rule{\linewidth}{0.6pt}\vspace{-3pt}]
+\titlespacing*{\section}{0pt}{3.5pt}{2pt}
+
+\titleformat{\subsection}{\color{darkgray}\fontsize{8.5}{9.5}\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{2pt}{1pt}
+
+\setlist{noitemsep,topsep=1pt,partopsep=0pt,parsep=0pt,leftmargin=1.05em}
+
+\pagestyle{empty} % Documento de 1 sola pagina
+
+\begin{document}
+
+% --- Header Banner ---
+\begin{tcolorbox}[colback=boxbg,colframe=primary,arc=2mm,boxrule=0.8pt,top=2pt,bottom=2pt,left=6pt,right=6pt]
+\begin{minipage}[c]{0.72\textwidth}
+    {\fontsize{12.5}{14}\selectfont \textbf{\color{primary}Asignación de Turnos Médicos con LLMs Open-Weight <8B}}\\[1pt]
+    {\fontsize{8.5}{9.5}\selectfont \textbf{Entrega 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad} \textbar\ IA Generativa (580694)}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.26\textwidth}
+    \raggedleft
+    {\fontsize{8}{9}\selectfont \textbf{Universidad de Concepción}}\\
+    {\fontsize{8.5}{9.5}\selectfont \textbf{\color{primary}Grupo 11}}\\
+    {\fontsize{7}{8}\selectfont \textbf{Repo:} \href{https://github.com/matiasrocha/medical-scheduling-llm}{github.com/matiasrocha/scheduling}}
+\end{minipage}
+\end{tcolorbox}
+
+\vspace{-5pt}
+
+\begin{multicols}{2}
+
+% ==================== SECCIÓN 1 ====================
+\section{1. Definición de la Tarea y Ground Truth}
+\textbf{Contexto:} El problema de asignación de turnos médicos (*Medical Staff Scheduling Problem*, MSSP) es un desafío combinatorio NP-hard de satisfacción de restricciones (CSP) crítico en la gestión hospitalaria.
+
+\textbf{Definición de la Tarea:} Dado un conjunto de personal médico $S = \{s_1, \dots, s_N\}$ (con especialidades, horas máximas semanales por contrato $H_i$ e indisponibilidades solicitadas $U_i$) y la demanda semanal $D = \{d_1, \dots, d_{21}\}$ en 3 turnos de 8h (\textit{Mañana, Tarde, Noche}), el modelo debe generar la matriz de asignación completa en formato JSON válido.
+
+\textbf{Ground Truth y Evaluador Programático:}
+La salida se evalúa con un oráculo automático en Python (\texttt{src/verifier.py}) que verifica 0 violaciones en 6 Restricciones Duras (*Hard Constraints*, HC):
+\begin{itemize}[label=$\blacktriangleright$]
+    \item \textbf{HC1 (Descanso Obligatorio):} $\ge 16$h continuas de descanso entre turnos (un turno Noche no puede ser seguido por Mañana o Tarde al día siguiente).
+    \item \textbf{HC2 (Turno Único Diario):} Máximo 1 turno (8h) por médico al día.
+    \item \textbf{HC3 (Demanda de Dotación):} Cantidad exacta de personal por turno.
+    \item \textbf{HC4 (Cobertura de Especialidad):} Cuota mínima de especialistas (ej. $\ge 1$ Anestesiólogo en Noche, $\ge 1$ Urgenciólogo en Día).
+    \item \textbf{HC5 (Límite Legal Semanal):} Horas totales asignadas $\le H_i$ ($\le 40$h).
+    \item \textbf{HC6 (Indisponibilidad):} Cero asignaciones en franjas bloqueadas.
+\end{itemize}
+
+% ==================== SECCIÓN 2 ====================
+\section{2. Diagnóstico del Fallo y Evidencia}
+El *prompting* directo (zero-shot) en modelos pequeños ($\le 8\text{B}$) falla sistemáticamente debido a tres limitaciones estructurales:
+
+\begin{enumerate}
+    \item \textbf{Decisión Voraz vs. Búsqueda Global CSP:}
+    Los LLMs generan el horario token a token de lunes a domingo. Al carecer de mecanismos de retroceso (*backtracking*), las decisiones iniciales agotan vorazmente las horas de especialistas, forzando violaciones inevitables hacia el final de la semana (viernes a domingo).
+    \item \textbf{Deriva en el Seguimiento de Estado y Aritmética:}
+    El modelo no mantiene contadores acumulados exactos de horas trabajadas ($\sum h_i$), generando sobrecargas ilegales ($\text{HC5}$) y duplicidades ($\text{HC2}$).
+    \item \textbf{Alucinación de Esquema e Identificadores:}
+    En salidas largas, los modelos pequeños suelen truncar claves JSON, repetir IDs en un mismo turno o inventar personal inexistente.
+\end{enumerate}
+
+\textbf{Evidencia Empírica de Línea Base:} En pruebas zero-shot sobre 10 médicos y 21 turnos, los modelos de 3B obtuvieron un \textbf{0\% de horarios válidos}, con un promedio de \textbf{7.4 violaciones duras por intento} (principalmente descanso HC1 y exceso de horas HC5).
+
+% ==================== SECCIÓN 3 ====================
+\section{3. Modelos Propuestos (<8B y Bono)}
+Para maximizar la eficiencia y postular al \textbf{bono (+3 pts)}, proponemos tres modelos de primer nivel en el rango de \textbf{3.0B a 3.8B} (muy por debajo del límite de 8B):
+
+\vspace{-2pt}
+\begin{center}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lcccp{3.7cm}@{}}
+\toprule
+\textbf{Modelo} & \textbf{Params} & \textbf{Ctx} & \textbf{GSM8k} & \textbf{Justificación Arquitectural} \\
+\midrule
+\textbf{Qwen 2.5 3B-Instruct} & 3.09B & 128k & 84.5\% & SOTA en JSON estructurado y seguimiento de restricciones lógicas. \\
+\textbf{Phi-3.5-mini-Instruct} & 3.82B & 128k & 86.0\% & Datos sintéticos de alto razonamiento; sobresale en lógica paso a paso. \\
+\textbf{Llama 3.2 3B-Instruct} & 3.21B & 128k & 77.2\% & Modelo ligero y veloz; óptimo para fine-tuning eficiente con LoRA. \\
+\bottomrule
+\end{tabular}%
+}
+\end{center}
+\vspace{-4pt}
+
+\textit{Defensa del Bono:} Los modelos de ~3B ofrecen latencia sub-segundo, menor consumo de cómputo para fine-tuning (PEFT/LoRA) y demuestran que marcos de razonamiento (CoT / Tool-calling) superan las limitaciones de escala.
+
+% ==================== SECCIÓN 4 ====================
+\section{4. Factibilidad de Ejecución}
+La infraestructura experimental es 100\% viable en entornos gratuitos:
+\begin{itemize}[label=$\checkmark$]
+    \item \textbf{Google Colab Gratuito (GPU Nvidia T4, 15 GB VRAM):}
+    \begin{itemize}[label=$\circ$]
+        \item \textit{Precisión FP16:} Ocupa $\approx 6.5\text{ GB}$ VRAM (43\% de capacidad).
+        \item \textit{Cuantización 4-bit NF4 (bitsandbytes):} Ocupa $\approx 2.4\text{ GB}$ VRAM (16\% de capacidad), dejando $>12\text{ GB}$ libres para memoria KV.
+    \end{itemize}
+    \item \textbf{Rendimiento y Latencia:} Alcanza $\approx 35\text{--}42\text{ tokens/s}$ en T4, generando el horario completo en menos de 25 segundos.
+    \item \textbf{Viabilidad Local:} Ejecutable en GPUs de gama media ($\ge 6\text{ GB}$) y laptops Apple Silicon (vía MLX/MPS).
+\end{itemize}
+
+% ==================== SECCIÓN 5 ====================
+\section{5. Plan Semestral y Repositorio}
+\textbf{Estrategia de Solución Semestral:} Atacaremos el fallo mediante:
+\textbf{(1)} *Chain-of-Thought* multietapa con verificación intermedia, \textbf{(2)} *Tool-Calling* integrando oráculos y *solvers* CSP (Z3/OR-Tools), y \textbf{(3)} *Fine-Tuning* LoRA supervisado sobre trazas válidas de resolución.
+
+\textbf{Estructura del Repositorio:} Código reproducible en GitHub:
+\begin{itemize}
+    \item \texttt{/data}: Esquemas JSON de personal y demanda de turnos.
+    \item \texttt{/src}: \texttt{verifier.py} (*Ground Truth*) y \texttt{baseline\_direct.py}.
+    \item \texttt{/notebooks}: \texttt{Colab\_Feasibility.ipynb} con perfilado de VRAM.
+\end{itemize}
+
+\end{multicols}
+
+\end{document}
