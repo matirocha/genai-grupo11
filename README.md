@@ -1,6 +1,6 @@
 # Asignación Automatizada de Turnos Médicos con LLMs Open-Weight
 
-**Generative Artificial Intelligence - **  
+**Generative Artificial Intelligence**  
 **Universidad de Concepción**  
 **Deliverable 1: Definición de Tarea, Diagnóstico de Fallo y Factibilidad**
 
