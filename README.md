@@ -1,7 +1,7 @@
 # Asignación Automatizada de Turnos Médicos con LLMs Open-Weight
 
 **Generative Artificial Intelligence (580694) · Universidad de Concepción · Grupo 11**
-**Deliverable 2: Primera solución funcionando** — sobre la tarea y el fallo definidos en Deliverable 1.
+**Deliverable 2** — sobre la tarea y el fallo definidos en Deliverable 1.
 
 - 🎥 **Video (≤3 min):** [youtu.be/B9UK7B3sv48](https://youtu.be/B9UK7B3sv48)
 - 📄 **Documento técnico (1 página, LaTeX):** [`deliverable2/deliverable2.pdf`](deliverable2/deliverable2.pdf) · fuente [`deliverable2/deliverable2.tex`](deliverable2/deliverable2.tex)
@@ -129,7 +129,7 @@ Llama-3.2-3B, decodificación greedy (determinista). "Viol." = violaciones duras
 - **Frente a Qwen2.5-3B:** resuelve 3 instancias más (1 en el principal, 2 en estrés), con solo un 4 % más de parámetros y menos sesgo de posición.
 - **Frente a Phi-3.5-mini:** es un 16 % más pequeño y resuelve una instancia más de estrés.
 
-Con N = 30 las diferencias son pequeñas (el azar también llega a 30/30 con el mismo andamiaje), así que pesó que Llama casi no cuesta tamaño frente al más pequeño. El costo es la licencia de Meta (§2.1). La ablación muestra que el pipeline funciona incluso con Qwen 0.5B, porque el LLM solo elige entre opciones legales; esa reducción de tamaño queda medida para Deliverable 3.
+Con N = 30 las diferencias son pequeñas (el azar también llega a 30/30 con el mismo andamiaje), así que pesó que Llama casi no cuesta tamaño frente al más pequeño. El costo es la licencia de Meta (§2.1). La ablación muestra que el pipeline funciona incluso con Qwen 0.5B, porque el LLM solo elige entre opciones legales.
 
 Revisiones exactas usadas: Llama-3.2-3B `0cb88a4f764b7a12671c53f0838cd831a0843b95`, Qwen2.5-3B `aa8e72537993ba99e69dfaafa59ed015b17504d1`, Phi-3.5-mini `2fe192450127e6a83f7441aef6e3ca586c338b77` (ver `results/*/<modelo>/run_info.json`).
 
@@ -151,7 +151,6 @@ En el conjunto principal Llama no falla (30/30). Bajo estrés falla en 2 de 30: 
 - El modelo elegido requiere aceptar la licencia de Meta para reproducir (§2.1).
 - Se evalúa una semana aislada (sin la transición domingo→lunes), igual que en Deliverable 1.
 - El número de opciones crece como C(n,k)·k! (permutaciones en el trie). Con 30 médicos y 3 por turno serían ~24 000 cadenas por paso.
-- Próximos pasos (Deliverable 3): presentar los candidatos en orden aleatorio o por holgura, retroceso no cronológico (*backjumping*) y fine-tuning LoRA sobre trazas de decisiones válidas (plan de Deliverable 1).
 
 ## 7. Estructura del repositorio
 ```text
@@ -176,7 +175,7 @@ En el conjunto principal Llama no falla (30/30). Bajo estrés falla en 2 de 30: 
 ├── results/                 # salidas crudas por conjunto/modelo/estrategia/instancia + summary.md
 ├── notebooks/               # Colab_Feasibility.ipynb (Deliverable 1), D2_Demo_Colab.ipynb (Deliverable 2)
 ├── deliverable1/            # entrega 1
-└── deliverable2/            # documento técnico (tex + pdf) y guion del video
+└── deliverable2/            # documento técnico (tex + pdf)
 ```
 
 ## 8. Verificador por línea de comandos

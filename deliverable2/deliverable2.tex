@@ -42,7 +42,7 @@
 \begin{tcolorbox}[colback=boxbg,colframe=boxframe,arc=1.5mm,boxrule=0.8pt,top=2pt,bottom=2pt,left=7pt,right=7pt]
 \begin{minipage}[c]{0.64\textwidth}
     {\fontsize{11.5}{13}\selectfont \textbf{Asignación de Turnos Médicos con LLMs Open-Weight}}\\[1pt]
-    {\fontsize{8.3}{9.5}\selectfont \textbf{Deliverable 2 \textbar\ Generative Artificial Intelligence (580694) \textbar\ Primera solución}}
+    {\fontsize{8.3}{9.5}\selectfont \textbf{Deliverable 2 \textbar\ Generative Artificial Intelligence (580694)}}
 \end{minipage}\hfill
 \begin{minipage}[c]{0.35\textwidth}\raggedleft
     {\fontsize{7.8}{9}\selectfont \textbf{Universidad de Concepción \textbar\ Grupo 11}}\\
@@ -116,7 +116,7 @@ Qwen2.5-0.5B$^{b}$ & 0.49B & 0/30 & 29/30 & 27/30 \\
 \textbf{Por qué Llama-3.2-3B sobre los otros dos:} las instrucciones permiten comparar los candidatos, así que corrimos los tres. Llama es el que más horarios resuelve. Frente a Qwen resuelve 3 instancias más (1 principal, 2 estrés), con solo un 4\,\% más de parámetros y menos sesgo de posición (33\,\% vs.\ 47\,\%; azar: 17\,\%). Frente a Phi es un 16\,\% más pequeño y resuelve una instancia más de estrés. Con $N=30$ las diferencias son pequeñas (el azar también llega a 30/30 con el mismo andamiaje), así que pesó que Llama casi no cuesta tamaño frente al más pequeño. \textbf{Costo:} exige aceptar la licencia de Meta en Hugging Face (repositorio \emph{gated}); el README explica el trámite.
 
 \section{3. Intervención y vínculo con el fallo de Deliverable 1}
-El LLM ya no escribe la semana: decide \textbf{un turno por llamada} y el código hace lo que el modelo no sabe hacer (F1--F3 = fallos diagnosticados en Deliverable 1).
+El LLM ya no escribe la semana: decide \textbf{un turno por llamada} y el código hace lo que el modelo no sabe hacer. Deliverable 1 diagnosticó tres fallos, que aquí llamamos \textbf{F1} (decisión voraz, sin retroceso), \textbf{F2} (deriva de estado y aritmética) y \textbf{F3} (alucinación de esquema e IDs). Cada uno tiene un componente que lo ataca:
 \textbf{F2 (deriva de estado)} $\to$ el estado lo lleva el código y llega al modelo como tabla, junto con los candidatos legales.
 \textbf{F3 (esquema/IDs)} $\to$ un \emph{LogitsProcessor} con un trie de tokens solo deja emitir combinaciones válidas (dotación exacta y cuota de especialidad); el JSON lo arma el código.
 \textbf{F1 (voraz, sin retroceso)} $\to$ un chequeo de capacidad restante descarta opciones que dejan la semana sin salida, y un retroceso cronológico (máx.\ 30) deshace las elecciones que llevan a un callejón sin salida.
@@ -167,9 +167,7 @@ En el conjunto principal Llama no falla (30/30); bajo estrés falla en 2 de 30. 
 \section{7. Límites conocidos}
 \begin{itemize}[label=$\blacktriangleright$]
     \item El chequeo hacia adelante es condición necesaria, no suficiente, y el retroceso cronológico no llega a errores lejanos (28/30 en estrés). Reproducir exige aceptar la licencia de Meta.
-    \item Semana aislada (sin domingo$\to$lunes); las opciones crecen como $\binom{n}{k}k!$ ($\sim$24\,000 por paso con 30 médicos y 3 por turno).
-    \item \textbf{Deliverable 3:} candidatos en orden aleatorio o por holgura, retroceso no cronológico (\emph{backjumping}) y LoRA sobre trazas de decisiones válidas.
-\end{itemize}
+    \item Semana aislada (sin domingo$\to$lunes); las opciones crecen como $\binom{n}{k}k!$ ($\sim$24\,000 por paso con 30 médicos y 3 por turno).\end{itemize}
 
 \section{8. Reproducción}
 Video: \texttt{src/demo.py -{}-random} $\cdot$ tabla: \texttt{src/evaluate.py -{}-summary} $\cdot$ falla: \texttt{src/diagnose.py -{}-set stress -{}-instance stress\_04}. Salidas crudas en \texttt{results/}; pasos en el \mbox{README}.
