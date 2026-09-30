@@ -3,7 +3,7 @@
 **Generative Artificial Intelligence (580694) · Universidad de Concepción · Grupo 11**
 **Deliverable 2: Primera solución funcionando** — sobre la tarea y el fallo definidos en Deliverable 1.
 
-- 🎥 **Video (≤3 min):** `VIDEO_LINK`
+- 🎥 **Video (≤3 min):** [youtu.be/B9UK7B3sv48](https://youtu.be/B9UK7B3sv48)
 - 📄 **Documento técnico (1 página, LaTeX):** [`deliverable2/deliverable2.pdf`](deliverable2/deliverable2.pdf) · fuente [`deliverable2/deliverable2.tex`](deliverable2/deliverable2.tex)
 - 📁 Entrega anterior: [`deliverable1/`](deliverable1/)
 
