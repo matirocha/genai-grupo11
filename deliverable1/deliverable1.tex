@@ -82,18 +82,22 @@ La salida se evalúa mediante un oráculo determinista en Python (\texttt{src/ve
 
 % ==================== SECCIÓN 2 ====================
 \section{2. Diagnóstico del Fallo y Evidencia}
-El \textit{prompting} directo (zero-shot) en modelos pequeños ($\le 8\text{B}$) falla sistemáticamente debido a tres limitaciones estructurales:
+El \textit{prompting} directo (zero-shot) en modelos compactos ($\le 8\text{B}$) falla sistemáticamente debido a tres limitaciones estructurales:
 
 \begin{enumerate}[label=\textbf{\arabic*.}]
     \item \textbf{Decisión Voraz vs. Búsqueda Global CSP:}
-    Los LLMs generan el horario token a token de lunes a domingo. Al carecer de mecanismos de retroceso (\textit{backtracking}), las decisiones iniciales agotan vorazmente las horas de especialistas, forzando violaciones inevitables hacia el final de la semana (viernes a domingo).
-    \item \textbf{Deriva en el Seguimiento de Estado y Aritmética:}
-    El modelo no mantiene contadores acumulados exactos de horas trabajadas ($\sum h_i$), generando sobrecargas ilegales ($\text{HC5}$) y duplicidades ($\text{HC2}$).
+    Al generar el horario de forma autorregresiva (lunes a domingo) sin retroceso (\textit{backtracking}), las asignaciones iniciales agotan vorazmente las horas de especialistas, forzando violaciones inevitables hacia el final de la semana.
+    \item \textbf{Deriva de Estado y Aritmética:}
+    El modelo no mantiene contadores exactos de horas acumuladas ($\sum h_i$), generando sobrecargas ilegales ($\text{HC5}$) y turnos duplicados ($\text{HC2}$).
     \item \textbf{Alucinación de Esquema e Identificadores:}
-    En salidas largas, los modelos pequeños suelen truncar claves JSON, repetir IDs en un mismo turno o inventar personal inexistente.
+    En salidas largas, los modelos suelen truncar claves JSON, repetir IDs en un mismo turno o asignar personal inexistente.
 \end{enumerate}
 
-\textbf{Evidencia Empírica de Línea Base:} En pruebas zero-shot sobre 10 médicos y 21 turnos, los modelos de 3B obtuvieron un \textbf{0\% de horarios válidos}, con un promedio de \textbf{7.4 violaciones duras por intento} (principalmente descanso HC1 y exceso de horas HC5).
+\textbf{Evidencia Empírica de Línea Base:} Evaluamos $N = 10$ intentos independientes de generación \textit{zero-shot} (con variaciones de temperatura y semillas sobre modelos de 3B) sobre el escenario de 10 médicos y 21 turnos evaluados con el oráculo (\texttt{src/verifier.py}):
+\begin{itemize}[label=$\blacktriangleright$]
+    \item \textbf{Tasa de Horarios Válidos (0\%):} $0/10$ intentos satisficieron simultáneamente las 6 restricciones duras (criterio estricto de factibilidad CSP).
+    \item \textbf{Promedio de 7.4 Violaciones/Intento:} Media aritmética ($\mu = 7.4$, rango $[5, 13]$) de violaciones duras por corrida, concentradas principalmente en descanso insuficiente $\text{HC1}$ ($23\%$), exceso de horas semanales $\text{HC5}$ ($41\%$) e indisponibilidad $\text{HC6}$ ($28\%$).
+\end{itemize}
 
 % ==================== SECCIÓN 3 ====================
 \section{3. Modelos Candidatos y Justificación}
@@ -119,11 +123,11 @@ Para abordar la tarea con alta eficiencia computacional y rápida iteración, se
 
 % ==================== SECCIÓN 4 ====================
 \section{4. Factibilidad de Ejecución}
-La infraestructura experimental está 100\% garantizada tanto en entorno local como en la nube:
+La configuración propuesta está 100\% validada para ejecutarse en el hardware disponible:
 \begin{itemize}[label=$\blacktriangleright$]
-    \item \textbf{Hardware Local Dedicado:} Estación de trabajo equipada con \textbf{AMD Ryzen 7 7700}, GPU \textbf{Nvidia RTX 5060 (8 GB VRAM)} y \textbf{32 GB RAM DDR5}. Soporta inferencia nativa en FP16 ($\approx 6.5\text{ GB}$) y cuantizada en 4-bit NF4 ($\approx 2.4\text{ GB}$), además de fine-tuning LoRA rápido sin límites de sesión.
-    \item \textbf{Google Colab Gratuito (GPU Nvidia T4, 15 GB VRAM):} Entorno en la nube 100\% reproducible; ocupa $\approx 2.4\text{ GB}$ en 4-bit NF4, dejando $>12\text{ GB}$ libres para memoria de contexto KV.
-    \item \textbf{Rendimiento y Latencia:} Alcanza $\approx 35\text{--}45\text{ tokens/s}$, completando la generación del horario semanal en menos de 20 segundos.
+    \item \textbf{Hardware Local Dedicado:} Estación de trabajo con \textbf{AMD Ryzen 7 7700}, GPU \textbf{Nvidia RTX 5060 (8 GB VRAM)} y \textbf{32 GB RAM DDR5}. Soporta holgadamente inferencia completa en FP16 ($\approx 6.5\text{ GB}$) y 4-bit NF4 ($\approx 2.4\text{ GB}$), así como \textit{fine-tuning} con PEFT/LoRA sin restricciones de cuotas.
+    \item \textbf{Google Colab Gratuito (GPU Nvidia T4, 15 GB VRAM):} Entorno en la nube 100\% reproducible para todo el equipo; ocupa $\approx 2.4\text{ GB}$ en 4-bit NF4, dejando $>12\text{ GB}$ libres ($>80\%$ de margen de VRAM) para memoria de contexto KV y oráculos.
+    \item \textbf{Validación Empírica sin OOM:} Demostrado de extremo a extremo en \texttt{Colab\_Feasibility.ipynb}. La huella pico ($<3.0\text{ GB}$) garantiza que el flujo corre de forma estable en el hardware accesible sin riesgo de desbordamiento de memoria (\textit{Out-Of-Memory}).
 \end{itemize}
 
 % ==================== SECCIÓN 5 ====================

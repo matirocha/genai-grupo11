@@ -1,0 +1,20 @@
+{
+ "instance": "inst_25",
+ "set": "main",
+ "strategy": "direct",
+ "model": "microsoft/Phi-3.5-mini-instruct",
+ "output": {
+  "schedule": null,
+  "raw_output": "{\n  \"Monday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n0\n    \"Night\": []\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_06\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  }\n}\n\nNota: Dado que todos los médicos anestesiólogos están inactivos en algún momento de la semana y cada turno requiere al menos un médico de emergencia, solo Dra. Antonia Flores, un médico de emergencia, está disponible para todos los días. Por lo tanto, se asigna a cada turno de la mañana para cubrir los requisitos de especialidad. Sin embargo, esto no considera el requisito de rest horas ni el límite de horas semanales, lo que requeriría un enfoque más complejo para asegurar que todas las restricciones sean cumplidas. El formato de salida anterior no cumple con todas las restricciones, y se necesitaría un algoritmo más sofisticado para crear una planificación válida.\n```\n\nPara crear una planificación válida, necesitaríamos desarrollar un algoritmo que tenga en cuenta todas las restricciones, lo cual está más allá del alcance de una respuesta simple. El algoritmo tendría que iterar sobre cada día y turno, verificar la disponibilidad de los médicos, asegurar que se cumpla el requisito de rest horas y no exceder los límites de horas semanales, y asegurar que se cumpla el requisito de especialidad para cada turno.\n\nDado el complejo requisito, no puedo proporcionar una planificación completa sin escribir y ejecutar dicho algoritmo. Sin embargo, el formato de salida correcto se vería algo así, con los nombres de los médicos reemplazados por los nombres reales asignados por el algoritmo:\n\n```json\n{\n  \"Monday\": {\n    \"Morning\": [\"DOC_XXXX\"],\n    \"Afternoon\": [\"DOC_XXXX\"],\n    \"Night\": [\"DOC_XXXX\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_XXXX\"],\n    \"Afternoon\": [\"DOC_XXXX\"],\n    \"Night\": [\"DOC_XXXX\"]\n  },\n  // ... resto de los días con los nombres de los médicos asignados\n}\n```\n\nPara obtener la planificación correcta, necesitarías utilizar un sistema de planificación de turnos que pueda manejar las restricciones complejas.",
+  "parse_error": "JSON inválido: Expecting property name enclosed in double quotes: line 10 column 1 (char 148)",
+  "llm_calls": 1,
+  "generated_tokens": 837,
+  "seconds": 33.7
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": null,
+  "violations_by_type": null,
+  "violations": []
+ }
+}

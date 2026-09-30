@@ -1,0 +1,172 @@
+{
+  "instance_id": "inst_00",
+  "source": "Escenario original de Deliverable 1",
+  "seed": null,
+  "staff": [
+    {
+      "id": "DOC_01",
+      "name": "Dr. Carlos Silva",
+      "specialty": "Anesthesiology",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Monday_Night",
+        "Friday_Night"
+      ]
+    },
+    {
+      "id": "DOC_02",
+      "name": "Dra. Andrea Morales",
+      "specialty": "Anesthesiology",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Tuesday_Morning"
+      ]
+    },
+    {
+      "id": "DOC_03",
+      "name": "Dr. Felipe Soto",
+      "specialty": "Emergency",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Wednesday_Afternoon"
+      ]
+    },
+    {
+      "id": "DOC_04",
+      "name": "Dra. Valentina Castro",
+      "specialty": "Emergency",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Saturday_Night",
+        "Sunday_Night"
+      ]
+    },
+    {
+      "id": "DOC_05",
+      "name": "Dr. Matias Rocha",
+      "specialty": "Emergency",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Thursday_Night"
+      ]
+    },
+    {
+      "id": "DOC_06",
+      "name": "Dra. Camila Fernandez",
+      "specialty": "General",
+      "max_weekly_hours": 32,
+      "unavailable": [
+        "Monday_Morning"
+      ]
+    },
+    {
+      "id": "DOC_07",
+      "name": "Dr. Ignacio Vega",
+      "specialty": "General",
+      "max_weekly_hours": 32,
+      "unavailable": [
+        "Sunday_Morning",
+        "Sunday_Afternoon"
+      ]
+    },
+    {
+      "id": "DOC_08",
+      "name": "Dra. Paula Rivas",
+      "specialty": "General",
+      "max_weekly_hours": 40,
+      "unavailable": []
+    },
+    {
+      "id": "DOC_09",
+      "name": "Dr. Javier Mena",
+      "specialty": "General",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Tuesday_Night"
+      ]
+    },
+    {
+      "id": "DOC_10",
+      "name": "Dra. Sofia Araya",
+      "specialty": "General",
+      "max_weekly_hours": 40,
+      "unavailable": [
+        "Saturday_Morning"
+      ]
+    }
+  ],
+  "demands": {
+    "shift_hours": 8,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "shifts": [
+      "Morning",
+      "Afternoon",
+      "Night"
+    ],
+    "shift_times": {
+      "Morning": [
+        6,
+        14
+      ],
+      "Afternoon": [
+        14,
+        22
+      ],
+      "Night": [
+        22,
+        30
+      ]
+    },
+    "min_rest_hours": 16,
+    "requirements_per_shift": {
+      "Morning": {
+        "required_total": 2,
+        "specialty_requirements": {
+          "Emergency": 1,
+          "General": 0,
+          "Anesthesiology": 0
+        }
+      },
+      "Afternoon": {
+        "required_total": 2,
+        "specialty_requirements": {
+          "Emergency": 1,
+          "General": 0,
+          "Anesthesiology": 0
+        }
+      },
+      "Night": {
+        "required_total": 2,
+        "specialty_requirements": {
+          "Anesthesiology": 1,
+          "Emergency": 0,
+          "General": 0
+        }
+      }
+    },
+    "hard_constraints": [
+      "HC1_MIN_REST: Minimum 16 hours of rest between shifts (Morning 06-14, Afternoon 14-22, Night 22-06). A Night shift cannot be followed by a Morning or Afternoon shift on the next day, and an Afternoon shift cannot be followed by a Morning shift on the next day.",
+      "HC2_NO_DOUBLE_SHIFT: A staff member can only work at most 1 shift (8 hours) per calendar day.",
+      "HC3_STAFFING_DEMAND: Each shift must have exactly the required total staff count.",
+      "HC4_SPECIALTY_COVERAGE: Each shift must meet the minimum number of required specialists.",
+      "HC5_MAX_HOURS: Total assigned hours per staff member in the week must not exceed their max_weekly_hours.",
+      "HC6_UNAVAILABLE_SLOTS: No staff member can be assigned to a shift listed in their unavailable array."
+    ]
+  },
+  "certified_feasible": true,
+  "tightness": {
+    "demand_shifts": 42,
+    "capacity_shifts": 48,
+    "global_ratio": 0.875,
+    "Anesthesiology_ratio": 0.7,
+    "Emergency_ratio": 0.933
+  }
+}

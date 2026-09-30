@@ -1,0 +1,150 @@
+{
+ "instance": "inst_19",
+ "set": "main",
+ "strategy": "direct",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   }
+  },
+  "raw_output": "```json\n{\n  \"Monday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_08\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_06\", \"DOC_10\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_08\"]\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_08\"]\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_07\"]\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_06\", \"DOC_10\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_07\"]\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_08\"]\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_04\"],\n    \"Night\": [\"DOC_02\", \"DOC_08\"]\n  }\n}\n```",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 357,
+  "seconds": 13.1
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 10,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 2,
+   "HC5": 4,
+   "HC6": 4,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 56,
+   "DOC_02": 56,
+   "DOC_03": 40,
+   "DOC_04": 56,
+   "DOC_05": 0,
+   "DOC_06": 56,
+   "DOC_07": 16,
+   "DOC_08": 40,
+   "DOC_09": 0,
+   "DOC_10": 16
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_08 (Dr. Ignacio Soto) asignado en franja bloqueada Tuesday_Night.",
+   "HC6_INDISPONIBILIDAD: DOC_02 (Dr. Javier Morales) asignado en franja bloqueada Thursday_Night.",
+   "HC6_INDISPONIBILIDAD: DOC_07 (Dra. Florencia Castro) asignado en franja bloqueada Thursday_Night.",
+   "HC6_INDISPONIBILIDAD: DOC_06 (Dra. Valentina Silva) asignado en franja bloqueada Friday_Morning.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dr. Ignacio Torres) tiene 56h asignadas, superando el tope de 32h por 24h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dr. Javier Morales) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Catalina Valenzuela) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_06 (Dra. Valentina Silva) tiene 56h asignadas, superando el tope de 32h por 24h."
+  ]
+ }
+}

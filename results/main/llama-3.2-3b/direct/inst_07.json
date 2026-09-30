@@ -1,0 +1,152 @@
+{
+ "instance": "inst_07",
+ "set": "main",
+ "strategy": "direct",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   }
+  },
+  "raw_output": "```json\n{\n  \"Monday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_07\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_04\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_09\"],\n    \"Night\": [\"DOC_02\", \"DOC_10\"]\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_07\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_04\"]\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_09\"],\n    \"Night\": [\"DOC_02\", \"DOC_10\"]\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_07\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_04\"]\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_09\"],\n    \"Night\": [\"DOC_02\", \"DOC_10\"]\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_07\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_01\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_04\"]\n  }\n}\n```",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 357,
+  "seconds": 13.8
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 12,
+  "violations_by_type": {
+   "HC1": 1,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 6,
+   "HC5": 2,
+   "HC6": 3,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 56,
+   "DOC_02": 56,
+   "DOC_03": 32,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 24,
+   "DOC_07": 32,
+   "DOC_08": 24,
+   "DOC_09": 24,
+   "DOC_10": 24
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_02 (Dra. Valentina Rivas) asignado en franja bloqueada Tuesday_Night.",
+   "HC4_COBERTURA_ESPECIALIDAD: Wednesday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_09 (Dra. Josefa Flores) asignado en franja bloqueada Thursday_Afternoon.",
+   "HC4_COBERTURA_ESPECIALIDAD: Thursday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Saturday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_10 (Dra. Valentina Espinoza) asignado en franja bloqueada Saturday_Night.",
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_01 trabajó Afternoon (Monday) y Morning (Tuesday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dr. Joaquin Valenzuela) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dra. Valentina Rivas) tiene 56h asignadas, superando el tope de 40h por 16h."
+  ]
+ }
+}

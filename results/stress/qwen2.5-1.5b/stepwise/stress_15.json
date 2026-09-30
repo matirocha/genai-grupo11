@@ -1,0 +1,142 @@
+{
+ "instance": "stress_15",
+ "set": "stress",
+ "strategy": "stepwise",
+ "model": "Qwen/Qwen2.5-1.5B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_03"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_10"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_10"
+    ]
+   }
+  },
+  "certified": true,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 0,
+  "relaxed_steps": 0,
+  "first_dead_end": null,
+  "seconds": 23.3,
+  "llm_calls": 21
+ },
+ "verification": {
+  "is_valid": true,
+  "total_hard_violations": 0,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 32,
+   "DOC_02": 32,
+   "DOC_03": 32,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 40,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 40,
+   "DOC_10": 32
+  },
+  "violations": []
+ }
+}

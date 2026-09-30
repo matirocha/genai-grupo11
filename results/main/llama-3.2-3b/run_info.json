@@ -1,0 +1,12 @@
+{
+  "model_id": "meta-llama/Llama-3.2-3B-Instruct",
+  "revision": "0cb88a4f764b7a12671c53f0838cd831a0843b95",
+  "quant": "nf4",
+  "params_B": 3.21,
+  "vram_gb_after_load": 2.37,
+  "gpu": "NVIDIA GeForce RTX 5060",
+  "torch": "2.13.0+cu130",
+  "transformers": "5.16.1",
+  "python": "3.12.10",
+  "date": "2026-09-30 20:02"
+}

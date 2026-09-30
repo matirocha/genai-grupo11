@@ -1,0 +1,149 @@
+{
+ "instance": "stress_01",
+ "set": "stress",
+ "strategy": "stepwise",
+ "model": "microsoft/Phi-3.5-mini-instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 51,
+  "backtracks": 30,
+  "dead_ends": 31,
+  "relaxed_steps": 9,
+  "first_dead_end": "Friday Morning",
+  "seconds": 25.5,
+  "llm_calls": 51
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 6,
+  "violations_by_type": {
+   "HC1": 3,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 3,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 32,
+   "DOC_02": 24,
+   "DOC_03": 48,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 40,
+   "DOC_07": 48,
+   "DOC_08": 48,
+   "DOC_09": 24,
+   "DOC_10": 8
+  },
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_05 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_06 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_08 trabajó Night (Saturday) y Afternoon (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dr. Nicolas Valenzuela) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dr. Cristobal Sepulveda) tiene 48h asignadas, superando el tope de 32h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_08 (Dra. Fernanda Vega) tiene 48h asignadas, superando el tope de 40h por 8h."
+  ]
+ }
+}

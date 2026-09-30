@@ -1,0 +1,178 @@
+\documentclass[9pt,a4paper]{extarticle}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[a4paper,margin=0.34in,top=0.26in,bottom=0.24in]{geometry}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+
+\definecolor{boxbg}{gray}{0.96}
+\definecolor{boxframe}{gray}{0.15}
+\definecolor{soft}{gray}{0.88}
+
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,
+    pdftitle={IA Generativa - Entrega 2: Asignacion de Turnos Medicos},pdfauthor={Grupo 11}}
+
+\titleformat{\section}{\fontsize{9}{10.2}\bfseries\scshape}{}{0em}{}[\vspace{-3.5pt}\rule{\linewidth}{0.6pt}\vspace{-3pt}]
+\titlespacing*{\section}{0pt}{2.6pt}{1.8pt}
+
+\setlength{\columnsep}{12pt}
+\setlength{\parskip}{1.2pt}
+\setlength{\parindent}{0pt}
+\setlist{noitemsep,topsep=0.8pt,partopsep=0pt,parsep=0.2pt,leftmargin=1em}
+\pagestyle{empty}
+\newcommand{\tabfont}{\fontsize{7.2}{8.3}\selectfont\setlength{\tabcolsep}{3.2pt}}
+\newcommand{\notefont}{\fontsize{6.6}{7.6}\selectfont}
+
+\begin{document}
+\fontsize{7.9}{9.1}\selectfont
+
+% ============================ HEADER ============================
+\begin{tcolorbox}[colback=boxbg,colframe=boxframe,arc=1.5mm,boxrule=0.8pt,top=2pt,bottom=2pt,left=7pt,right=7pt]
+\begin{minipage}[c]{0.64\textwidth}
+    {\fontsize{11.5}{13}\selectfont \textbf{Asignación de Turnos Médicos con LLMs Open-Weight}}\\[1pt]
+    {\fontsize{8.3}{9.5}\selectfont \textbf{Deliverable 2 \textbar\ Generative Artificial Intelligence (580694) \textbar\ Primera solución}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.35\textwidth}\raggedleft
+    {\fontsize{7.8}{9}\selectfont \textbf{Universidad de Concepción \textbar\ Grupo 11}}\\
+    {\fontsize{6.8}{8}\selectfont \textbf{Repo:} \href{https://github.com/matirocha/genai-grupo11}{\texttt{github.com/matirocha/genai-grupo11}}}\\
+    {\fontsize{6.8}{8}\selectfont \textbf{Video:} \href{https://VIDEO_LINK}{\texttt{VIDEO\_LINK}}}
+\end{minipage}
+\end{tcolorbox}
+
+\vspace{-4pt}
+% ============================ PIPELINE ============================
+\begin{center}
+\begin{tikzpicture}[
+    font=\fontsize{6.6}{7.7}\selectfont,
+    box/.style={draw=boxframe,rounded corners=1.5pt,fill=boxbg,align=center,inner sep=2pt,minimum height=10mm,
+                execute at begin node={\hyphenpenalty 10000\relax}},
+    llm/.style={box,fill=soft,line width=0.9pt},
+    tag/.style={font=\fontsize{6.2}{7}\selectfont\itshape,align=center,text=black!70},
+    lbl/.style={font=\fontsize{6.1}{7}\selectfont},
+    arr/.style={-{Latex[length=1.6mm]},line width=0.55pt}]
+  \node[box,text width=15mm] (in) {Instancia JSON\\personal y\\demanda};
+  \node[box,text width=24.5mm,right=3.4mm of in] (st) {\textbf{1. Estado externo}\\horas usadas, turno\\de ayer, bloqueos};
+  \node[box,text width=27mm,right=3.4mm of st] (flt) {\textbf{2. Opciones legales}\\candidatos (HC1,2,5,6) y\\combinaciones (HC3,4)};
+  \node[box,text width=27mm,right=3.4mm of flt] (la) {\textbf{3. Factibilidad futura}\\capacidad restante por\\turno y especialidad};
+  \node[llm,text width=30.5mm,right=3.4mm of la] (llm) {\textbf{4. LLM Llama-3.2-3B}\\elige 1 opción; salida\\restringida por un trie};
+  \node[box,text width=15mm,right=4.6mm of llm] (out) {Horario\\JSON\\(21 turnos)};
+  \node[box,text width=16mm,right=3.4mm of out] (ver) {Verificador\\independiente\\(HC1--HC6)};
+  \node[box,text width=62mm,anchor=north,minimum height=5mm] (bt) at ($(flt.south)!0.5!(la.south)+(0,-4.2mm)$)
+       {\textbf{5. Retroceso}: volver al turno $k{-}1$ y prohibir su elección (máx. 30)};
+  \draw[arr] (in) -- (st); \draw[arr] (st) -- (flt); \draw[arr] (flt) -- (la); \draw[arr] (la) -- (llm);
+  \draw[arr] (llm) -- (out); \draw[arr] (out) -- (ver);
+  \draw[arr] (llm.north) -- ++(0,2.4mm) -| node[pos=0.25,above,lbl]{aplicar la elección y pasar al turno $k{+}1$ (21 turnos, lunes a domingo)} (st.north);
+  \draw[arr] (la.south) -- node[right,lbl,pos=0.45]{0 opciones} (la.south |- bt.north);
+  \draw[arr] (bt.west) -| (st.south);
+  \node[tag,anchor=north west] at ($(st.south)+(1mm,-0.4mm)$) {F2 (estado)};
+  \node[tag,below=0.5mm of llm] {F3 (esquema e IDs)};
+  \node[tag,right=1.2mm of bt] {3 + 5: F1 (decisión voraz)};
+\end{tikzpicture}
+\end{center}
+\vspace{-7pt}
+
+\raggedcolumns
+\begin{multicols}{2}
+
+\section{1. Continuidad con Deliverable 1 y desviaciones declaradas}
+\textbf{Se mantiene:} la tarea (horario semanal de 10 médicos en 21 turnos, salida JSON), la entrada de Deliverable 1 (\texttt{inst\_00}), el criterio de corrección (\textbf{0 violaciones} de HC1--HC6 según \texttt{src/verifier.py}) y el prompt directo como línea base.
+\textbf{Desviaciones declaradas (la evaluación queda más exigente, no más fácil):}
+\begin{itemize}[label=$\blacktriangleright$]
+    \item \textbf{HC1:} el código de Deliverable 1 solo revisaba Noche$\to$Mañana. Ahora el descanso se calcula con los horarios reales (06--14, 14--22, 22--06) y se exige $\ge$16\,h, así que también quedan prohibidos Noche$\to$Tarde (ya prohibido en el texto de Deliverable 1) y Tarde$\to$Mañana.
+    \item \textbf{La evidencia de Deliverable 1 era simulada:} \texttt{baseline\_direct.py} evaluaba una salida escrita a mano (7.4 viol./intento). Con el modelo real y el mismo prompt: \textbf{0/30 válidos, 23.4 viol./horario} (rango 10--49). El modelo llena casi todas las plazas (40 de 42), pero rompe las reglas: especialidad (HC4, 39\,\%), bloqueos (HC6, 18\,\%), descanso (HC1, 15\,\%), horas (HC5, 11\,\%).
+    \item \textbf{De 1 a 30+30 instancias:} 30 a la escala de Deliverable 1 (\texttt{inst\_00} es su escenario) y 30 de \emph{estrés} (+1--3 franjas bloqueadas por médico). Todas se certificaron factibles con CP-SAT \emph{solo al construir el dataset}.
+\end{itemize}
+
+\section{2. Modelo seleccionado}
+\textbf{meta-llama/Llama-3.2-3B-Instruct}, revisión \texttt{0cb88a4}, 4-bit NF4 (bitsandbytes 0.50.2, transformers 5.16.1, torch 2.13+cu130), decodificación greedy, en la \textbf{RTX 5060 8\,GB} declarada en Deliverable 1 (2.4\,GB de VRAM). Mismo pipeline, instancias y verificador para los tres candidatos de Deliverable 1:
+
+\smallskip
+{\centering\tabfont
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Modelo} & \textbf{Parám.} & \textbf{Directo} & \textbf{Solución} & \textbf{Sol.\ estrés} \\
+\midrule
+\textbf{Llama-3.2-3B (elegido)} & 3.21B & 0/30 & \textbf{30/30} & \textbf{28/30} \\
+Qwen2.5-3B (comparación) & 3.09B & 0/30 & 29/30 & 26/30 \\
+Phi-3.5-mini (comparación) & 3.82B & 0/30 & 30/30 & 27/30 \\
+\midrule
+Qwen2.5-1.5B$^{b}$ & 1.54B & 0/30 & 25/30 & 27/30 \\
+Qwen2.5-0.5B$^{b}$ & 0.49B & 0/30 & 29/30 & 27/30 \\
+\bottomrule
+\end{tabular}\par}
+{\notefont $^{b}$Ablación de tamaño, fuera de la lista de Deliverable 1; no forma parte del sistema.\par}
+\textbf{Por qué Llama-3.2-3B sobre los otros dos:} las instrucciones permiten comparar los candidatos, así que corrimos los tres. Llama es el que más horarios resuelve. Frente a Qwen resuelve 3 instancias más (1 principal, 2 estrés), con solo un 4\,\% más de parámetros y menos sesgo de posición (33\,\% vs.\ 47\,\%; azar: 17\,\%). Frente a Phi es un 16\,\% más pequeño y resuelve una instancia más de estrés. Con $N=30$ las diferencias son pequeñas (el azar también llega a 30/30 con el mismo andamiaje), así que pesó que Llama casi no cuesta tamaño frente al más pequeño. \textbf{Costo:} exige aceptar la licencia de Meta en Hugging Face (repositorio \emph{gated}); el README explica el trámite.
+
+\section{3. Intervención y vínculo con el fallo de Deliverable 1}
+El LLM ya no escribe la semana: decide \textbf{un turno por llamada} y el código hace lo que el modelo no sabe hacer (F1--F3 = fallos diagnosticados en Deliverable 1).
+\textbf{F2 (deriva de estado)} $\to$ el estado lo lleva el código y llega al modelo como tabla, junto con los candidatos legales.
+\textbf{F3 (esquema/IDs)} $\to$ un \emph{LogitsProcessor} con un trie de tokens solo deja emitir combinaciones válidas (dotación exacta y cuota de especialidad); el JSON lo arma el código.
+\textbf{F1 (voraz, sin retroceso)} $\to$ un chequeo de capacidad restante descarta opciones que dejan la semana sin salida, y un retroceso cronológico (máx.\ 30) deshace las elecciones que llevan a un callejón sin salida.
+Si se agota el presupuesto, el horario se completa relajando restricciones y se marca \textbf{no certificado}. Ningún horario inválido salió certificado.
+
+\section{4. Resultados contra la línea base}
+$N=30$ instancias por conjunto; el mismo verificador y el mismo criterio (válido $=$ 0 violaciones) en todas las filas. Llama-3.2-3B, decodificación greedy (determinista).
+
+\smallskip
+{\centering\tabfont
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Estrategia} & \textbf{Válidos} & \textbf{Viol.} & \textbf{Llam.} \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{Conjunto principal} (\texttt{inst\_00} = escenario de Deliverable 1)} \\
+Directo (línea base) & 0/30 & 23.4 & 1 \\
+Reparación con verificador & 0/30 & 26.6 & 4 \\
+Paso a paso \emph{sin} pasos 3 y 5 & 3/30 & 3.3 & 21 \\
+\textbf{Solución (pasos 1--5)} & \textbf{30/30} & \textbf{0} & 21.9 \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{Conjunto de estrés} (+ franjas bloqueadas)} \\
+Directo (línea base) & 0/30 & 26.0 & 1 \\
+\textbf{Solución (pasos 1--5)} & \textbf{28/30} & 0.20 & 25.2 \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{Ablación sin LLM (pasos 1--5 eligiendo al azar)}} \\
+Principal / estrés & 30/30 / 26/30 & 0 / 0.27 & 0 \\
+\bottomrule
+\end{tabular}\par}
+{\notefont Viol.\ = violaciones duras medias por horario; Llam.\ = llamadas al LLM por horario. Tiempo por horario en la RTX 5060: directo 12.8\,s, solución 11.9\,s.\par}
+
+\section{5. Estrategias alternativas evaluadas}
+\begin{itemize}[label=$\blacktriangleright$]
+    \item \textbf{Reparación con feedback del verificador} (la opción ``CoT con verificación'' del plan de Deliverable 1): no mejora, e incluso empeora (26.6 viol./horario vs.\ 23.4 del directo). En 80 de 90 rondas (89\,\%) las violaciones no cambian: el modelo reescribe casi el mismo horario aunque recibe la lista exacta de errores.
+    \item \textbf{Paso a paso sin pasos 3 y 5:} F2 y F3 desaparecen (0 errores de HC2, HC3, HC4 o de formato), pero solo 3/30 son válidos. El 82\,\% de las violaciones son HC5 y el 16\,\% HC1: sin retroceso, el LLM pone más especialistas de los exigidos en el 24\,\% de los turnos con cuota, agota sus horas y el fin de semana queda sin opciones legales. Es el fallo F1 tal como lo describió Deliverable 1.
+    \item \textbf{Eligiendo al azar} (fila ``Ablación''): 30/30 y 26/30; la corrección viene sobre todo del andamiaje.
+\end{itemize}
+
+\section{6. Caso de falla: \texttt{stress\_04} (conjunto de estrés)}
+En el conjunto principal Llama no falla (30/30); bajo estrés falla en 2 de 30. En \texttt{stress\_04} la solución agota sus 30 retrocesos, completa la semana relajando reglas y marca el horario como \textbf{no certificado} (4 violaciones HC5). \textbf{Por qué falla, en cadena:}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=1.1em]
+    \item \textbf{Instancia al límite.} Los 14 turnos de día exigen un urgenciólogo, y los 3 urgenciólogos suman exactamente 14 turnos de capacidad (5+4+5). Cada turno de Urgencia tiene que caer en el lugar justo.
+    \item \textbf{El modelo repite al mismo especialista.} Asigna a DOC\_04 todas las mañanas de lunes a viernes. Según CP-SAT (\texttt{diagnose.py}), la semana deja de tener solución en la tercera, el \emph{miércoles Mañana}. A DOC\_04 y DOC\_05 les quedan 4 turnos para 9 plazas, así que DOC\_06 debe trabajar los 5 días restantes desde el miércoles en la tarde, y la regla Tarde$\to$Mañana lo encadena a las tardes hasta el domingo, cuando está bloqueado.
+    \item \textbf{El chequeo hacia adelante no lo ve.} Compara totales (9 $=$ 9 cuadra) y no si cada médico puede tomar cada turno concreto. Ese miércoles admitió 6 opciones y solo 3 permitían terminar la semana.
+    \item \textbf{El retroceso no alcanza.} El choque aparece 10 turnos después (sábado Tarde). Para volver al miércoles, el retroceso cronológico tendría que agotar $\sim$390\,000 combinaciones intermedias, y su presupuesto es de 30.
+\end{enumerate}
+\textbf{Evidencia:} con el mismo andamiaje, la elección al azar reparte a los urgenciólogos y resuelve \texttt{stress\_04} sin retroceder; los 5 LLMs probados fallan. La otra falla, \texttt{stress\_25}, ocurre también con el azar: ahí el límite es solo del andamiaje. Qwen-3B (sesgo de 47\,\%) falla además en \texttt{inst\_28} por el mismo mecanismo. Es F1 de Deliverable 1 reapareciendo \emph{dentro} de la elección.
+
+\section{7. Límites conocidos}
+\begin{itemize}[label=$\blacktriangleright$]
+    \item El chequeo hacia adelante es condición necesaria, no suficiente, y el retroceso cronológico no llega a errores lejanos (28/30 en estrés). Reproducir exige aceptar la licencia de Meta.
+    \item Semana aislada (sin domingo$\to$lunes); las opciones crecen como $\binom{n}{k}k!$ ($\sim$24\,000 por paso con 30 médicos y 3 por turno).
+    \item \textbf{Deliverable 3:} candidatos en orden aleatorio o por holgura, retroceso no cronológico (\emph{backjumping}) y LoRA sobre trazas de decisiones válidas.
+\end{itemize}
+
+\section{8. Reproducción}
+Video: \texttt{src/demo.py -{}-random} $\cdot$ tabla: \texttt{src/evaluate.py -{}-summary} $\cdot$ falla: \texttt{src/diagnose.py -{}-set stress -{}-instance stress\_04}. Salidas crudas en \texttt{results/}; pasos en el \mbox{README}.
+
+\end{multicols}
+\end{document}

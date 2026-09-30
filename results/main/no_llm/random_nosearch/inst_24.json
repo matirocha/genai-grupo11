@@ -1,0 +1,146 @@
+{
+ "instance": "inst_24",
+ "strategy": "random_nosearch",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_06"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_05"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_10"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_09"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_08"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_10"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 1,
+  "relaxed_steps": 18,
+  "first_dead_end": "Tuesday Morning",
+  "seconds": 0.0,
+  "llm_calls": 0
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 4,
+  "violations_by_type": {
+   "HC1": 3,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 1,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 24,
+   "DOC_03": 40,
+   "DOC_04": 40,
+   "DOC_05": 32,
+   "DOC_06": 40,
+   "DOC_07": 48,
+   "DOC_08": 32,
+   "DOC_09": 16,
+   "DOC_10": 24
+  },
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Monday) y Morning (Tuesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_02 trabajó Night (Monday) y Morning (Tuesday) con solo 0h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_08 trabajó Night (Saturday) y Afternoon (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dr. Matias Perez) tiene 48h asignadas, superando el tope de 40h por 8h."
+  ]
+ }
+}

@@ -1,0 +1,130 @@
+{
+ "instance": "inst_00",
+ "set": "main",
+ "strategy": "direct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "output": {
+  "schedule": {
+   "shifts": [
+    {
+     "id": "Shift_1",
+     "start_time": 6,
+     "end_time": 14,
+     "speciality": "Anesthesiology",
+     "hours": 4
+    },
+    {
+     "id": "Shift_2",
+     "start_time": 14,
+     "end_time": 22,
+     "speciality": "Anesthesiology",
+     "hours": 4
+    },
+    {
+     "id": "Shift_3",
+     "start_time": 22,
+     "end_time": 30,
+     "speciality": "Anesthesiology",
+     "hours": 4
+    }
+   ],
+   "staff_count": 4,
+   "total_hours": 28,
+   "rest_hours": 16,
+   "requirements": {
+    "Morning": {
+     "required_specialties": {
+      "Anesthesiology": 1,
+      "Emergency": 1,
+      "General": 0
+     }
+    },
+    "Afternoon": {
+     "required_specialties": {
+      "Anesthesiology": 1,
+      "Emergency": 1,
+      "General": 0
+     }
+    },
+    "Night": {
+     "required_specialties": {
+      "Anesthesiology": 1,
+      "Emergency": 1,
+      "General": 1
+     }
+    }
+   },
+   "constraints": [
+    {
+     "constraint_id": "HC1_MIN_REST",
+     "description": "Minimum 16 hours of rest between shifts (Morning 06-14, Afternoon 14-22, Night 22-06). A Night shift cannot be followed by a Morning or Afternoon shift on the next day, and an Afternoon shift cannot be followed by a Morning shift on the next day.",
+     "value": true
+    },
+    {
+     "constraint_id": "HC2_NO_DOUBLE_SHIFT",
+     "description": "A staff member can only work at most 1 shift (8 hours) per calendar day.",
+     "value": false
+    },
+    {
+     "constraint_id": "HC3_STAFFING_DEMAND",
+     "description": "Each shift must have exactly the required total staff count.",
+     "value": true
+    },
+    {
+     "constraint_id": "HC4_SPECIALTY_COVERAGE",
+     "description": "Each shift must meet the minimum number of required specialists.",
+     "value": true
+    },
+    {
+     "constraint_id": "HC5_MAX_HOURS",
+     "description": "Total assigned hours per staff member in the week must not exceed their max_weekly_hours.",
+     "value": true
+    },
+    {
+     "constraint_id": "HC6_UNAVAILABLE_SLOTS",
+     "description": "No staff member can be assigned to a shift listed in their unavailable array.",
+     "value": true
+    }
+   ]
+  },
+  "raw_output": "Aquí tienes una representación del sistema de turnos y las restricciones que se han establecido:\n\n```json\n{\n  \"shifts\": [\n    {\n      \"id\": \"Shift_1\",\n      \"start_time\": 6,\n      \"end_time\": 14,\n      \"speciality\": \"Anesthesiology\",\n      \"hours\": 4\n    },\n    {\n      \"id\": \"Shift_2\",\n      \"start_time\": 14,\n      \"end_time\": 22,\n      \"speciality\": \"Anesthesiology\",\n      \"hours\": 4\n    },\n    {\n      \"id\": \"Shift_3\",\n      \"start_time\": 22,\n      \"end_time\": 30,\n      \"speciality\": \"Anesthesiology\",\n      \"hours\": 4\n    }\n  ],\n  \"staff_count\": 4,\n  \"total_hours\": 28,\n  \"rest_hours\": 16,\n  \"requirements\": {\n    \"Morning\": {\n      \"required_specialties\": {\n        \"Anesthesiology\": 1,\n        \"Emergency\": 1,\n        \"General\": 0\n      }\n    },\n    \"Afternoon\": {\n      \"required_specialties\": {\n        \"Anesthesiology\": 1,\n        \"Emergency\": 1,\n        \"General\": 0\n      }\n    },\n    \"Night\": {\n      \"required_specialties\": {\n        \"Anesthesiology\": 1,\n        \"Emergency\": 1,\n        \"General\": 1\n      }\n    }\n  },\n  \"constraints\": [\n    {\n      \"constraint_id\": \"HC1_MIN_REST\",\n      \"description\": \"Minimum 16 hours of rest between shifts (Morning 06-14, Afternoon 14-22, Night 22-06). A Night shift cannot be followed by a Morning or Afternoon shift on the next day, and an Afternoon shift cannot be followed by a Morning shift on the next day.\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC2_NO_DOUBLE_SHIFT\",\n      \"description\": \"A staff member can only work at most 1 shift (8 hours) per calendar day.\",\n      \"value\": false\n    },\n    {\n      \"constraint_id\": \"HC3_STAFFING_DEMAND\",\n      \"description\": \"Each shift must have exactly the required total staff count.\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC4_SPECIALTY_COVERAGE\",\n      \"description\": \"Each shift must meet the minimum number of required specialists.\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC5_MAX_HOURS\",\n      \"description\": \"Total assigned hours per staff member in the week must not exceed their max_weekly_hours.\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC6_UNAVAILABLE_SLOTS\",\n      \"description\": \"No staff member can be assigned to a shift listed in their unavailable array.\",\n      \"value\": true\n    }\n  ]\n}\n```\n\nEste JSON representa el sistema de turnos y las restricciones establecidas en la semana. La información está organizada por días, horas, especialidades y departamentos, así como las restricciones específicas.",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 694,
+  "seconds": 30.1
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 7,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 7
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 0,
+   "DOC_02": 0,
+   "DOC_03": 0,
+   "DOC_04": 0,
+   "DOC_05": 0,
+   "DOC_06": 0,
+   "DOC_07": 0,
+   "DOC_08": 0,
+   "DOC_09": 0,
+   "DOC_10": 0
+  },
+  "violations": [
+   "FALTA_DIA: El día Monday no está presente en el horario.",
+   "FALTA_DIA: El día Tuesday no está presente en el horario.",
+   "FALTA_DIA: El día Wednesday no está presente en el horario.",
+   "FALTA_DIA: El día Thursday no está presente en el horario.",
+   "FALTA_DIA: El día Friday no está presente en el horario.",
+   "FALTA_DIA: El día Saturday no está presente en el horario.",
+   "FALTA_DIA: El día Sunday no está presente en el horario."
+  ]
+ }
+}

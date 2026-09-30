@@ -1,0 +1,155 @@
+{
+ "instance": "stress_04",
+ "set": "stress",
+ "model": {
+  "model_id": "meta-llama/Llama-3.2-3B-Instruct",
+  "revision": "0cb88a4f764b7a12671c53f0838cd831a0843b95",
+  "quant": "nf4",
+  "params_B": 3.21,
+  "vram_gb_after_load": 2.37,
+  "gpu": "NVIDIA GeForce RTX 5060"
+ },
+ "baseline": null,
+ "solution": {
+  "output": {
+   "schedule": {
+    "Monday": {
+     "Morning": [
+      "DOC_04",
+      "DOC_07"
+     ],
+     "Afternoon": [
+      "DOC_05",
+      "DOC_08"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_10"
+     ]
+    },
+    "Tuesday": {
+     "Morning": [
+      "DOC_04",
+      "DOC_07"
+     ],
+     "Afternoon": [
+      "DOC_05",
+      "DOC_08"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_09"
+     ]
+    },
+    "Wednesday": {
+     "Morning": [
+      "DOC_04",
+      "DOC_07"
+     ],
+     "Afternoon": [
+      "DOC_06",
+      "DOC_08"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_02"
+     ]
+    },
+    "Thursday": {
+     "Morning": [
+      "DOC_04",
+      "DOC_09"
+     ],
+     "Afternoon": [
+      "DOC_06",
+      "DOC_07"
+     ],
+     "Night": [
+      "DOC_02",
+      "DOC_03"
+     ]
+    },
+    "Friday": {
+     "Morning": [
+      "DOC_04",
+      "DOC_08"
+     ],
+     "Afternoon": [
+      "DOC_06",
+      "DOC_07"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_02"
+     ]
+    },
+    "Saturday": {
+     "Morning": [
+      "DOC_05",
+      "DOC_08"
+     ],
+     "Afternoon": [
+      "DOC_06",
+      "DOC_09"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_02"
+     ]
+    },
+    "Sunday": {
+     "Morning": [
+      "DOC_05",
+      "DOC_10"
+     ],
+     "Afternoon": [
+      "DOC_04",
+      "DOC_07"
+     ],
+     "Night": [
+      "DOC_01",
+      "DOC_08"
+     ]
+    }
+   },
+   "certified": false,
+   "decisions": 51,
+   "backtracks": 30,
+   "dead_ends": 31,
+   "relaxed_steps": 5,
+   "first_dead_end": "Saturday Afternoon",
+   "seconds": 74.2
+  },
+  "verification": {
+   "is_valid": false,
+   "total_hard_violations": 4,
+   "violations_by_type": {
+    "HC1": 0,
+    "HC2": 0,
+    "HC3": 0,
+    "HC4": 0,
+    "HC5": 4,
+    "HC6": 0,
+    "ESTRUCTURA": 0
+   },
+   "assigned_hours_distribution": {
+    "DOC_01": 48,
+    "DOC_02": 32,
+    "DOC_03": 8,
+    "DOC_04": 48,
+    "DOC_05": 32,
+    "DOC_06": 32,
+    "DOC_07": 48,
+    "DOC_08": 48,
+    "DOC_09": 24,
+    "DOC_10": 16
+   },
+   "violations": [
+    "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dr. Tomas Vega) tiene 48h asignadas, superando el tope de 40h por 8h.",
+    "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Isidora Fernandez) tiene 48h asignadas, superando el tope de 40h por 8h.",
+    "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dra. Isidora Rocha) tiene 48h asignadas, superando el tope de 40h por 8h.",
+    "HC5_LIMITE_LEGAL_HORAS: DOC_08 (Dr. Matias Morales) tiene 48h asignadas, superando el tope de 40h por 8h."
+   ]
+  }
+ }
+}

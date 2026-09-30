@@ -1,0 +1,143 @@
+{
+ "instance": "inst_29",
+ "strategy": "random_nosearch",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_06"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_04"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 1,
+  "relaxed_steps": 4,
+  "first_dead_end": "Saturday Night",
+  "seconds": 0.0,
+  "llm_calls": 0
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 1,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 1,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 40,
+   "DOC_03": 32,
+   "DOC_04": 40,
+   "DOC_05": 40,
+   "DOC_06": 24,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 24,
+   "DOC_10": 32
+  },
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dra. Martina Tapia) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ]
+ }
+}

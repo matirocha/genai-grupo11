@@ -1,0 +1,146 @@
+{
+ "instance": "inst_26",
+ "set": "main",
+ "strategy": "stepwise_nosearch",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_09"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 1,
+  "relaxed_steps": 5,
+  "first_dead_end": "Saturday Afternoon",
+  "seconds": 10.4,
+  "llm_calls": 21
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 3,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 3,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 24,
+   "DOC_03": 48,
+   "DOC_04": 56,
+   "DOC_05": 32,
+   "DOC_06": 48,
+   "DOC_07": 32,
+   "DOC_08": 40,
+   "DOC_09": 8,
+   "DOC_10": 8
+  },
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Andrea Sepulveda) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dr. Javier Pizarro) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_06 (Dra. Camila Espinoza) tiene 48h asignadas, superando el tope de 40h por 8h."
+  ]
+ }
+}

@@ -1,0 +1,8 @@
+# Versiones usadas para los resultados de results/ (Windows 11, Python 3.12, RTX 5060 8 GB)
+# torch con CUDA: pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cu130
+torch==2.13.0
+transformers==5.16.1
+accelerate==1.14.0
+bitsandbytes==0.50.2
+huggingface_hub==1.29.0
+ortools==9.15.6755   # solo para construir/certificar el dataset y para src/diagnose.py

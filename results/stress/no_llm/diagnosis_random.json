@@ -1,0 +1,101 @@
+[
+ {
+  "instance": "stress_07",
+  "backtracks": 30,
+  "first_dead_end": "Friday Afternoon",
+  "deepest_step": 13,
+  "deepest_slot": "Friday Afternoon",
+  "violations_final": 2,
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_05 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_10 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h)."
+  ],
+  "culprit_step": 7,
+  "culprit_slot": "Wednesday Afternoon",
+  "culprit_choice": [
+   "DOC_02",
+   "DOC_03"
+  ],
+  "gap_steps": 6,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_13",
+  "backtracks": 30,
+  "first_dead_end": "Saturday Afternoon",
+  "deepest_step": 16,
+  "deepest_slot": "Saturday Afternoon",
+  "violations_final": 3,
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Night (Saturday) y Morning (Sunday) con solo 0h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Martina Diaz) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dra. Antonia Rojas) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 9,
+  "culprit_slot": "Thursday Morning",
+  "culprit_choice": [
+   "DOC_06",
+   "DOC_09"
+  ],
+  "gap_steps": 7,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_18",
+  "backtracks": 30,
+  "first_dead_end": "Thursday Afternoon",
+  "deepest_step": 10,
+  "deepest_slot": "Thursday Afternoon",
+  "violations_final": 2,
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dr. Tomas Diaz) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_06 (Dr. Felipe Reyes) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 4,
+  "culprit_slot": "Tuesday Afternoon",
+  "culprit_choice": [
+   "DOC_03",
+   "DOC_06"
+  ],
+  "gap_steps": 6,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_25",
+  "backtracks": 30,
+  "first_dead_end": "Saturday Night",
+  "deepest_step": 17,
+  "deepest_slot": "Saturday Night",
+  "violations_final": 1,
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Fernanda Sepulveda) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 13,
+  "culprit_slot": "Friday Afternoon",
+  "culprit_choice": [
+   "DOC_06",
+   "DOC_10"
+  ],
+  "gap_steps": 4,
+  "conflict_families": [
+   "HC1",
+   "HC5",
+   "HC6"
+  ]
+ }
+]

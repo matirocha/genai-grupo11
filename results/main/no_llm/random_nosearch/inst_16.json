@@ -1,0 +1,149 @@
+{
+ "instance": "inst_16",
+ "strategy": "random_nosearch",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_02",
+     "DOC_03"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_06"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_06"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_03"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 1,
+  "relaxed_steps": 13,
+  "first_dead_end": "Wednesday Night",
+  "seconds": 0.0,
+  "llm_calls": 0
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 7,
+  "violations_by_type": {
+   "HC1": 2,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 3,
+   "HC6": 2,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 48,
+   "DOC_02": 32,
+   "DOC_03": 48,
+   "DOC_04": 48,
+   "DOC_05": 24,
+   "DOC_06": 40,
+   "DOC_07": 16,
+   "DOC_08": 32,
+   "DOC_09": 32,
+   "DOC_10": 16
+  },
+  "violations": [
+   "HC6_INDISPONIBILIDAD: DOC_01 (Dra. Valentina Diaz) asignado en franja bloqueada Wednesday_Night.",
+   "HC6_INDISPONIBILIDAD: DOC_03 (Dr. Joaquin Pizarro) asignado en franja bloqueada Sunday_Afternoon.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_05 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_01 trabajó Night (Saturday) y Afternoon (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dra. Valentina Diaz) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dr. Joaquin Pizarro) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Sofia Mena) tiene 48h asignadas, superando el tope de 40h por 8h."
+  ]
+ }
+}

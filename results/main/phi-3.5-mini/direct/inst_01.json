@@ -1,0 +1,151 @@
+{
+ "instance": "inst_01",
+ "set": "main",
+ "strategy": "direct",
+ "model": "microsoft/Phi-3.5-mini-instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_09"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_06"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_06"
+    ]
+   }
+  },
+  "raw_output": "{\n  \"Monday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_07\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_08\"],\n    \"Night\": [\"DOC_02\", \"DOC_09\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_10\"],\n    \"Night\": [\"DOC_02\", \"DOC_05\"]\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_04\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_09\"],\n    \"Night\": [\"DOC_02\", \"DOC_07\"]\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_05\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_08\"],\n    \"Night\": [\"DOC_02\", \"DOC_06\"]\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_09\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_10\"],\n    \"Night\": [\"DOC_02\", \"DOC_04\"]\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_07\"]\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_04\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_08\"],\n    \"Night\": [\"DOC_02\", \"DOC_06\"]\n  }\n}\n\nNota: Este es un ejemplo de planificación basado en las restricciones proporcionadas. En la práctica, se necesitaría un algoritmo más sofisticado para asegurar que todas las restricciones se cumplan, especialmente las de restricciones de especialidad y horas máximas por semana. El ejemplo anterior no garantiza que todas las restricciones se cumplan, especialmente las de restricciones de especialidad y horas máximas por semana. Se requeriría un algoritmo más sofisticado para asegurar que todas las restricciones se cumplan.",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 610,
+  "seconds": 26.6
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 11,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 2,
+   "HC5": 3,
+   "HC6": 6,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 56,
+   "DOC_02": 56,
+   "DOC_03": 56,
+   "DOC_04": 24,
+   "DOC_05": 24,
+   "DOC_06": 32,
+   "DOC_07": 24,
+   "DOC_08": 24,
+   "DOC_09": 24,
+   "DOC_10": 16
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Monday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_06 (Dra. Paula Morales) asignado en franja bloqueada Tuesday_Morning.",
+   "HC6_INDISPONIBILIDAD: DOC_03 (Dra. Isidora Morales) asignado en franja bloqueada Tuesday_Afternoon.",
+   "HC6_INDISPONIBILIDAD: DOC_04 (Dr. Felipe Torres) asignado en franja bloqueada Wednesday_Morning.",
+   "HC6_INDISPONIBILIDAD: DOC_02 (Dr. Vicente Valenzuela) asignado en franja bloqueada Thursday_Night.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_02 (Dr. Vicente Valenzuela) asignado en franja bloqueada Friday_Night.",
+   "HC6_INDISPONIBILIDAD: DOC_01 (Dr. Matias Fernandez) asignado en franja bloqueada Saturday_Morning.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dr. Matias Fernandez) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dr. Vicente Valenzuela) tiene 56h asignadas, superando el tope de 32h por 24h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Isidora Morales) tiene 56h asignadas, superando el tope de 40h por 16h."
+  ]
+ }
+}

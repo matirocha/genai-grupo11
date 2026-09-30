@@ -1,0 +1,178 @@
+{
+ "instance": "inst_00",
+ "set": "main",
+ "strategy": "repair",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_05"
+    ]
+   }
+  },
+  "raw_output": "No puedo proporcionar una respuesta que contenga violaciones de restricciones. ¿Hay algo más en lo que pueda ayudarte?",
+  "parse_error": null,
+  "llm_calls": 4,
+  "violations_per_round": [
+   14,
+   17,
+   32,
+   32
+  ],
+  "generated_tokens": 983,
+  "seconds": 41.6
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 32,
+  "violations_by_type": {
+   "HC1": 12,
+   "HC2": 14,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 4,
+   "HC6": 2,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 0,
+   "DOC_02": 56,
+   "DOC_03": 112,
+   "DOC_04": 112,
+   "DOC_05": 56,
+   "DOC_06": 0,
+   "DOC_07": 0,
+   "DOC_08": 0,
+   "DOC_09": 0,
+   "DOC_10": 0
+  },
+  "violations": [
+   "HC6_INDISPONIBILIDAD: DOC_03 (Dr. Felipe Soto) asignado en franja bloqueada Wednesday_Afternoon.",
+   "HC6_INDISPONIBILIDAD: DOC_05 (Dr. Matias Rocha) asignado en franja bloqueada Thursday_Night.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Monday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Monday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Tuesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Tuesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Wednesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Wednesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Thursday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Thursday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Friday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Friday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Saturday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Saturday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Sunday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Sunday.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Monday) y Morning (Tuesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Monday) y Morning (Tuesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Tuesday) y Morning (Wednesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Tuesday) y Morning (Wednesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Wednesday) y Morning (Thursday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Wednesday) y Morning (Thursday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Thursday) y Morning (Friday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Thursday) y Morning (Friday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_03 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dra. Andrea Morales) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dr. Felipe Soto) tiene 112h asignadas, superando el tope de 40h por 72h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Valentina Castro) tiene 112h asignadas, superando el tope de 40h por 72h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dr. Matias Rocha) tiene 56h asignadas, superando el tope de 40h por 16h."
+  ]
+ }
+}

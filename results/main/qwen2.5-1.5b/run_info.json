@@ -1,0 +1,12 @@
+{
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "quant": "nf4",
+  "params_B": 1.54,
+  "vram_gb_after_load": 1.21,
+  "gpu": "NVIDIA GeForce RTX 5060",
+  "torch": "2.13.0+cu130",
+  "transformers": "5.16.1",
+  "python": "3.12.10",
+  "date": "2026-09-29 09:54"
+}

@@ -1,0 +1,20 @@
+{
+ "instance": "inst_26",
+ "set": "main",
+ "strategy": "direct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "output": {
+  "schedule": null,
+  "raw_output": "Aquí tienes una representación del sistema de turnos y las restricciones que se han establecido:\n\n```json\n{\n  \"shifts\": [\n    {\n      \"id\": \"Shift_1\",\n      \"time\": \"Morning\",\n      \"speciality\": \"General\",\n      \"hours\": 8\n    },\n    {\n      \"id\": \"Shift_2\",\n      \"time\": \"Afternoon\",\n      \"speciality\": \"General\",\n      \"hours\": 8\n    },\n    {\n      \"id\": \"Shift_3\",\n      \"time\": \"Night\",\n      \"speciality\": \"General\",\n      \"hours\": 8\n    }\n  ],\n  \"staff\": [\n    {\n      \"id\": \"Staff_1\",\n      \"specialty\": \"General\",\n      \"hours\": 40\n    },\n    {\n      \"id\": \"Staff_2\",\n      \"specialty\": \"General\",\n      \"hours\": 40\n    },\n    // Agrega más empleados según sea necesario\n  ],\n  \"constraints\": [\n    {\n      \"id\": \"Constraint_1\",\n      \"type\": \"MaxHours\",\n      \"value\": 40\n    },\n    {\n      \"id\": \"Constraint_2\",\n      \"type\": \"Unavailability\",\n      \"values\": [\n        \"Monday_Afternoon\",\n        \"Friday_Afternoon\",\n        \"Saturday_Night\",\n        \"Sunday_Night\"\n      ]\n    },\n    {\n      \"id\": \"Constraint_3\",\n      \"type\": \"MinRestHours\",\n      \"value\": 16\n    },\n    {\n      \"id\": \"Constraint_4\",\n      \"type\": \"SpecialtyCoverage\",\n      \"values\": [\n        \"General\",\n        \"Anesthesiology\",\n        \"Emergency\"\n      ]\n    },\n    {\n      \"id\": \"Constraint_5\",\n      \"type\": \"MaxHours\",\n      \"value\": 40\n    },\n    {\n      \"id\": \"Constraint_6\",\n      \"type\": \"UnavailableSlots\",\n      \"values\": [\n        \"Monday\",\n        \"Tuesday\",\n        \"Wednesday\",\n        \"Thursday\",\n        \"Friday\",\n        \"Saturday\",\n        \"Sunday\"\n      ]\n    }\n  ]\n}\n```\n\nEste JSON representa el sistema de turnos y las restricciones establecidas en la semana. Aquí hay detalles adicionales sobre cada turno, horas disponibles, especialidades requeridas, disponibilidad de slots, y restricciones de capacidad.",
+  "parse_error": "JSON inválido: Expecting value: line 33 column 5 (char 532)",
+  "llm_calls": 1,
+  "generated_tokens": 518,
+  "seconds": 39.1
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": null,
+  "violations_by_type": null,
+  "violations": []
+ }
+}

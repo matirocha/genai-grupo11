@@ -1,0 +1,149 @@
+[
+ {
+  "instance": "stress_01",
+  "backtracks": 30,
+  "first_dead_end": "Friday Morning",
+  "deepest_step": 16,
+  "deepest_slot": "Saturday Afternoon",
+  "violations_final": 4,
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_08 trabajó Night (Saturday) y Afternoon (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dr. Nicolas Valenzuela) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dr. Vicente Soto) tiene 40h asignadas, superando el tope de 32h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dr. Cristobal Sepulveda) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 10,
+  "culprit_slot": "Thursday Afternoon",
+  "culprit_choice": [
+   "DOC_01",
+   "DOC_05"
+  ],
+  "gap_steps": 6,
+  "branching_between": [
+   3,
+   6,
+   3,
+   1,
+   1
+  ],
+  "subtree_estimate": 54,
+  "culprit_viable_options": 9,
+  "culprit_completable_options": 3,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_04",
+  "backtracks": 30,
+  "first_dead_end": "Saturday Afternoon",
+  "deepest_step": 16,
+  "deepest_slot": "Saturday Afternoon",
+  "violations_final": 3,
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dr. Tomas Vega) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Isidora Fernandez) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dra. Isidora Rocha) tiene 48h asignadas, superando el tope de 40h por 8h."
+  ],
+  "culprit_step": 6,
+  "culprit_slot": "Wednesday Morning",
+  "culprit_choice": [
+   "DOC_04",
+   "DOC_08"
+  ],
+  "gap_steps": 10,
+  "branching_between": [
+   3,
+   6,
+   4,
+   4,
+   5,
+   8,
+   4,
+   5,
+   3
+  ],
+  "subtree_estimate": 691200,
+  "culprit_viable_options": 6,
+  "culprit_completable_options": 3,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_15",
+  "backtracks": 30,
+  "first_dead_end": "Saturday Night",
+  "deepest_step": 17,
+  "deepest_slot": "Saturday Night",
+  "violations_final": 2,
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_01 (Dra. Paula Tapia) tiene 40h asignadas, superando el tope de 32h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Catalina Contreras) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 11,
+  "culprit_slot": "Thursday Night",
+  "culprit_choice": [
+   "DOC_01",
+   "DOC_10"
+  ],
+  "gap_steps": 6,
+  "branching_between": [
+   2,
+   2,
+   2,
+   1,
+   1
+  ],
+  "subtree_estimate": 8,
+  "culprit_viable_options": 3,
+  "culprit_completable_options": 1,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ },
+ {
+  "instance": "stress_25",
+  "backtracks": 30,
+  "first_dead_end": "Saturday Afternoon",
+  "deepest_step": 16,
+  "deepest_slot": "Saturday Afternoon",
+  "violations_final": 2,
+  "violations": [
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dr. Javier Torres) tiene 40h asignadas, superando el tope de 32h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_09 (Dra. Martina Fernandez) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ],
+  "culprit_step": 10,
+  "culprit_slot": "Thursday Afternoon",
+  "culprit_choice": [
+   "DOC_05",
+   "DOC_09"
+  ],
+  "gap_steps": 6,
+  "branching_between": [
+   1,
+   2,
+   3,
+   6,
+   3
+  ],
+  "subtree_estimate": 108,
+  "culprit_viable_options": 4,
+  "culprit_completable_options": 2,
+  "conflict_families": [
+   "HC1",
+   "HC4",
+   "HC5",
+   "HC6"
+  ]
+ }
+]

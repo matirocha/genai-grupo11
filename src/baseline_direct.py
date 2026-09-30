@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 """
-Ejecutor Experimental de Línea Base (Prompting Directo Zero-Shot)
------------------------------------------------------------------
-Construye el prompt directo con el personal y la demanda de turnos,
-simula la salida típica de un modelo open-weight y la evalúa
-directamente en el ScheduleVerifier para cuantificar el fallo.
+Línea Base: Prompting Directo Zero-Shot (mismo prompt de Deliverable 1)
+----------------------------------------------------------------------
+Envía al modelo el personal y la demanda completos y le pide el horario semanal en un solo JSON.
+La salida cruda del modelo se parsea y se evalúa con ScheduleVerifier.
+
+En D1 este script evaluaba una salida de ejemplo escrita a mano; en D2 ejecuta el modelo real.
+
+Uso:
+    python src/baseline_direct.py --instance data/instances/inst_00.json
 """
 
+import argparse
 import json
 import os
-import sys
+import re
+import time
+from typing import Any, Dict, Optional, Tuple
+
+from instances import BASE_DIR, load_instance
 from verifier import ScheduleVerifier
 
 
@@ -18,10 +27,10 @@ def build_direct_prompt(staff_data: dict, demands_data: dict) -> str:
 Tu tarea es asignar médicos a los turnos de toda la semana (de lunes a domingo) bajo restricciones operativas estrictas.
 
 ### Personal Disponible:
-{json.dumps(staff_data["staff"], indent=2)}
+{json.dumps(staff_data["staff"], indent=2, ensure_ascii=False)}
 
 ### Requerimientos de Turnos y Demandas:
-{json.dumps(demands_data, indent=2)}
+{json.dumps(demands_data, indent=2, ensure_ascii=False)}
 
 ### Formato de Salida:
 Retorna ÚNICAMENTE un objeto JSON válido con la planificación semanal sin explicaciones ni texto markdown adicional:
@@ -34,72 +43,66 @@ Retorna ÚNICAMENTE un objeto JSON válido con la planificación semanal sin exp
 """
 
 
-# Salida simulada de prompting directo en un modelo de ~3B (mostrando los modos de fallo autorregresivos clásicos:
-# sobreasignación de médicos favoritos, violación de descanso nocturno el martes y exceso de horas semanales el viernes).
-SAMPLE_FAILED_DIRECT_OUTPUT = {
-    "Monday": {
-        "Morning": ["DOC_03", "DOC_06"],
-        "Afternoon": ["DOC_04", "DOC_08"],
-        "Night": ["DOC_01", "DOC_05"]
-    },
-    "Tuesday": {
-        "Morning": ["DOC_01", "DOC_03"],
-        "Afternoon": ["DOC_04", "DOC_08"],
-        "Night": ["DOC_02", "DOC_09"]
-    },
-    "Wednesday": {
-        "Morning": ["DOC_03", "DOC_06"],
-        "Afternoon": ["DOC_03", "DOC_10"],
-        "Night": ["DOC_01", "DOC_05"]
-    },
-    "Thursday": {
-        "Morning": ["DOC_04", "DOC_07"],
-        "Afternoon": ["DOC_03", "DOC_08"],
-        "Night": ["DOC_05", "DOC_02"]
-    },
-    "Friday": {
-        "Morning": ["DOC_03", "DOC_06"],
-        "Afternoon": ["DOC_04", "DOC_08"],
-        "Night": ["DOC_01", "DOC_10"]
-    },
-    "Saturday": {
-        "Morning": ["DOC_03", "DOC_07"],
-        "Afternoon": ["DOC_05", "DOC_08"],
-        "Night": ["DOC_04", "DOC_02"]
-    },
-    "Sunday": {
-        "Morning": ["DOC_03", "DOC_07"],
-        "Afternoon": ["DOC_04", "DOC_08"],
-        "Night": ["DOC_01", "DOC_05"]
-    }
-}
+def extract_json(text: str) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
+    """Extrae el primer objeto JSON de la respuesta (tolera ```json ... ``` y texto alrededor)."""
+    text = re.sub(r"```(?:json)?", "", text)
+    start = text.find("{")
+    if start < 0:
+        return None, "sin objeto JSON en la respuesta"
+    depth, in_str, esc = 0, False, False
+    for i in range(start, len(text)):
+        c = text[i]
+        if in_str:
+            esc = (c == "\\") and not esc
+            if c == '"' and not esc:
+                in_str = False
+            continue
+        if c == '"':
+            in_str = True
+        elif c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                try:
+                    return json.loads(text[start:i + 1]), None
+                except json.JSONDecodeError as e:
+                    return None, f"JSON inválido: {e}"
+    return None, "JSON truncado (llaves sin cerrar)"
 
 
-def run_baseline_experiment():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    staff_path = os.path.join(base_dir, "data", "sample_staff.json")
-    demands_path = os.path.join(base_dir, "data", "sample_demands.json")
+def run_direct(llm, staff_data: dict, demands_data: dict, stream: bool = False) -> Dict[str, Any]:
+    t0 = time.time()
+    tokens0 = llm.generated_tokens
+    raw = llm.generate([{"role": "user", "content": build_direct_prompt(staff_data, demands_data)}],
+                       max_new_tokens=1500, stream=stream)
+    schedule, parse_error = extract_json(raw)
+    return {"schedule": schedule, "raw_output": raw, "parse_error": parse_error, "llm_calls": 1,
+            "generated_tokens": llm.generated_tokens - tokens0, "seconds": round(time.time() - t0, 1)}
 
-    with open(staff_path, 'r', encoding='utf-8') as f:
-        staff_data = json.load(f)
-    with open(demands_path, 'r', encoding='utf-8') as f:
-        demands_data = json.load(f)
 
-    prompt = build_direct_prompt(staff_data, demands_data)
-    print("=== PROMPT DIRECTO GENERADO (Longitud: {} caracteres) ===".format(len(prompt)))
-    
-    print("\nEvaluando Salida de Línea Base (Prompting Directo)...")
-    verifier = ScheduleVerifier(staff_data, demands_data)
-    results = verifier.evaluate(SAMPLE_FAILED_DIRECT_OUTPUT)
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--instance", default=os.path.join(BASE_DIR, "data", "instances", "inst_00.json"))
+    ap.add_argument("--model", default=None)
+    args = ap.parse_args()
 
+    from llm import LLM, DEFAULT_MODEL
+    llm = LLM(args.model or DEFAULT_MODEL)
+    staff_data, demands_data = load_instance(args.instance)
+    print(f"=== LÍNEA BASE (prompting directo) | {llm.model_id} | {os.path.basename(args.instance)} ===")
+    out = run_direct(llm, staff_data, demands_data, stream=True)
+    if out["schedule"] is None:
+        print(f"\nRESULTADO: FALLIDO — {out['parse_error']}")
+        return
+    res = ScheduleVerifier(staff_data, demands_data).evaluate(out["schedule"])
     print("=" * 60)
-    print(f"RESULTADO DE LÍNEA BASE (PROMPTING DIRECTO): {'APROBADO' if results['is_valid'] else 'FALLIDO'}")
-    print(f"Total de Violaciones a Restricciones Duras: {results['total_hard_violations']}")
-    print("Violaciones Identificadas:")
-    for v in results["violations"]:
+    print(f"RESULTADO DE LÍNEA BASE: {'APROBADO' if res['is_valid'] else 'FALLIDO'}")
+    print(f"Total de Violaciones a Restricciones Duras: {res['total_hard_violations']}")
+    for v in res["violations"]:
         print(f"  - {v}")
     print("=" * 60)
 
 
 if __name__ == "__main__":
-    run_baseline_experiment()
+    main()

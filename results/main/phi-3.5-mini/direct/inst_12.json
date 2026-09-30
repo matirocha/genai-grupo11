@@ -1,0 +1,160 @@
+{
+ "instance": "inst_12",
+ "set": "main",
+ "strategy": "direct",
+ "model": "microsoft/Phi-3.5-mini-instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Night": []
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": []
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Night": []
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_01"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_01"
+    ],
+    "Night": []
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_02"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_02"
+    ],
+    "Night": []
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_02"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_02"
+    ],
+    "Night": []
+   }
+  },
+  "raw_output": "{\n  \"Monday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_06\"],\n    \"Night\": [\"DOC_07\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_08\"],\n    \"Night\": []\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_09\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_09\"],\n    \"Night\": []\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_10\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_10\"],\n    \"Night\": []\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_01\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_01\"],\n    \"Night\": []\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_02\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_02\"],\n    \"Night\": []\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_02\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_02\"],\n    \"Night\": []\n  }\n}\n\nNota: Este es un ejemplo de planificación que cumple con los requisitos dados. Sin embargo, no tiene en cuenta la distribución de horas para asegurar que cada personal no exceda su máximo de horas semanales, ni asegura que se cumpla el mínimo de horas de descanso entre turnos. Para una planificación real, se necesitaría un algoritmo más sofisticado que tome en cuenta todos los requisitos, especialmente los de horas de descanso y horas máximas semanales. Este ejemplo asume que cada personal está disponible para dos turnos por día y no excede su máximo de horas semanales, lo cual puede no ser factible.",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 565,
+  "seconds": 23.3
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 39,
+  "violations_by_type": {
+   "HC1": 7,
+   "HC2": 14,
+   "HC3": 7,
+   "HC4": 7,
+   "HC5": 1,
+   "HC6": 3,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 16,
+   "DOC_02": 32,
+   "DOC_03": 0,
+   "DOC_04": 112,
+   "DOC_05": 0,
+   "DOC_06": 16,
+   "DOC_07": 8,
+   "DOC_08": 16,
+   "DOC_09": 16,
+   "DOC_10": 16
+  },
+  "violations": [
+   "HC3_DEMANDA_DOTACION: Monday Night requiere 2 médicos, pero tiene 1.",
+   "HC4_COBERTURA_ESPECIALIDAD: Monday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_08 (Dra. Josefa Contreras) asignado en franja bloqueada Tuesday_Afternoon.",
+   "HC3_DEMANDA_DOTACION: Tuesday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Wednesday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Wednesday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_10 (Dr. Diego Castro) asignado en franja bloqueada Thursday_Morning.",
+   "HC3_DEMANDA_DOTACION: Thursday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Thursday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_01 (Dr. Cristobal Fernandez) asignado en franja bloqueada Friday_Afternoon.",
+   "HC3_DEMANDA_DOTACION: Friday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Saturday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Saturday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Sunday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Monday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_06 fue asignado a 2 turnos el Monday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Tuesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_08 fue asignado a 2 turnos el Tuesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Wednesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_09 fue asignado a 2 turnos el Wednesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Thursday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_10 fue asignado a 2 turnos el Thursday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Friday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_01 fue asignado a 2 turnos el Friday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Saturday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_02 fue asignado a 2 turnos el Saturday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Sunday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_02 fue asignado a 2 turnos el Sunday.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Monday) y Morning (Tuesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Tuesday) y Morning (Wednesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Wednesday) y Morning (Thursday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Thursday) y Morning (Friday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Friday) y Morning (Saturday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_02 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Afternoon (Saturday) y Morning (Sunday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Isidora Morales) tiene 112h asignadas, superando el tope de 40h por 72h."
+  ]
+ }
+}

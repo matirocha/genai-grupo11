@@ -1,7 +1,34 @@
 {
   "shift_hours": 8,
-  "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-  "shifts": ["Morning", "Afternoon", "Night"],
+  "days": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ],
+  "shifts": [
+    "Morning",
+    "Afternoon",
+    "Night"
+  ],
+  "shift_times": {
+    "Morning": [
+      6,
+      14
+    ],
+    "Afternoon": [
+      14,
+      22
+    ],
+    "Night": [
+      22,
+      30
+    ]
+  },
+  "min_rest_hours": 16,
   "requirements_per_shift": {
     "Morning": {
       "required_total": 2,
@@ -29,10 +56,10 @@
     }
   },
   "hard_constraints": [
-    "HC1_MIN_REST: Minimum 16 hours of rest between shifts (e.g., Night shift cannot be followed by Morning or Afternoon on the next day).",
+    "HC1_MIN_REST: Minimum 16 hours of rest between shifts (Morning 06-14, Afternoon 14-22, Night 22-06). A Night shift cannot be followed by a Morning or Afternoon shift on the next day, and an Afternoon shift cannot be followed by a Morning shift on the next day.",
     "HC2_NO_DOUBLE_SHIFT: A staff member can only work at most 1 shift (8 hours) per calendar day.",
     "HC3_STAFFING_DEMAND: Each shift must have exactly the required total staff count.",
-    "HC4_SPECIALTY_COVERAGE: Each shift must meet minimum required specialists (e.g., at least 1 Anesthesiologist on Night shift).",
+    "HC4_SPECIALTY_COVERAGE: Each shift must meet the minimum number of required specialists.",
     "HC5_MAX_HOURS: Total assigned hours per staff member in the week must not exceed their max_weekly_hours.",
     "HC6_UNAVAILABLE_SLOTS: No staff member can be assigned to a shift listed in their unavailable array."
   ]

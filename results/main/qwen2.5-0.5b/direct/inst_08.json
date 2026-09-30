@@ -1,0 +1,94 @@
+{
+ "instance": "inst_08",
+ "set": "main",
+ "strategy": "direct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_02"
+    ],
+    "Afternoon": [],
+    "Night": []
+   },
+   "Tuesday": {},
+   "Wednesday": {},
+   "Thursday": {},
+   "Friday": {
+    "Morning": [],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04",
+     "DOC_05",
+     "DOC_06",
+     "DOC_07",
+     "DOC_08",
+     "DOC_09",
+     "DOC_10"
+    ],
+    "Night": []
+   },
+   "Saturday": {},
+   "Sunday": {}
+  },
+  "raw_output": "Aquí tienes el plan de atención semanal basado en las restricciones proporcionadas:\n\n```json\n{\n  \"Monday\": {\n    \"Morning\": [\"DOC_01\", \"DOC_02\"],\n    \"Afternoon\": [],\n    \"Night\": []\n  },\n  \"Tuesday\": {},\n  \"Wednesday\": {},\n  \"Thursday\": {},\n  \"Friday\": {\n    \"Morning\": [],\n    \"Afternoon\": [\"DOC_03\", \"DOC_04\", \"DOC_05\", \"DOC_06\", \"DOC_07\", \"DOC_08\", \"DOC_09\", \"DOC_10\"],\n    \"Night\": []\n  },\n  \"Saturday\": {},\n  \"Sunday\": {}\n}\n```\n\nEste plan asegura que cada día tiene al menos 8 horas de trabajo, no se permiten dos días consecutivos de trabajadores simultáneos, y todas las horas de trabajo están dentro del horario establecido por cada turno.",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 206,
+  "seconds": 8.3
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 25,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 5,
+   "HC4": 5,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 15
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 8,
+   "DOC_02": 8,
+   "DOC_03": 8,
+   "DOC_04": 8,
+   "DOC_05": 8,
+   "DOC_06": 8,
+   "DOC_07": 8,
+   "DOC_08": 8,
+   "DOC_09": 8,
+   "DOC_10": 8
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Monday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Monday Afternoon requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Monday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Monday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Monday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "FALTA_TURNO: El turno Morning del día Tuesday no está presente.",
+   "FALTA_TURNO: El turno Afternoon del día Tuesday no está presente.",
+   "FALTA_TURNO: El turno Night del día Tuesday no está presente.",
+   "FALTA_TURNO: El turno Morning del día Wednesday no está presente.",
+   "FALTA_TURNO: El turno Afternoon del día Wednesday no está presente.",
+   "FALTA_TURNO: El turno Night del día Wednesday no está presente.",
+   "FALTA_TURNO: El turno Morning del día Thursday no está presente.",
+   "FALTA_TURNO: El turno Afternoon del día Thursday no está presente.",
+   "FALTA_TURNO: El turno Night del día Thursday no está presente.",
+   "HC3_DEMANDA_DOTACION: Friday Morning requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC3_DEMANDA_DOTACION: Friday Afternoon requiere 2 médicos, pero tiene 8.",
+   "HC3_DEMANDA_DOTACION: Friday Night requiere 2 médicos, pero tiene 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Friday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "FALTA_TURNO: El turno Morning del día Saturday no está presente.",
+   "FALTA_TURNO: El turno Afternoon del día Saturday no está presente.",
+   "FALTA_TURNO: El turno Night del día Saturday no está presente.",
+   "FALTA_TURNO: El turno Morning del día Sunday no está presente.",
+   "FALTA_TURNO: El turno Afternoon del día Sunday no está presente.",
+   "FALTA_TURNO: El turno Night del día Sunday no está presente."
+  ]
+ }
+}

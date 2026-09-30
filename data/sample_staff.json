@@ -5,49 +5,66 @@
       "name": "Dr. Carlos Silva",
       "specialty": "Anesthesiology",
       "max_weekly_hours": 40,
-      "unavailable": ["Monday_Night", "Friday_Night"]
+      "unavailable": [
+        "Monday_Night",
+        "Friday_Night"
+      ]
     },
     {
       "id": "DOC_02",
       "name": "Dra. Andrea Morales",
       "specialty": "Anesthesiology",
       "max_weekly_hours": 40,
-      "unavailable": ["Tuesday_Morning"]
+      "unavailable": [
+        "Tuesday_Morning"
+      ]
     },
     {
       "id": "DOC_03",
       "name": "Dr. Felipe Soto",
       "specialty": "Emergency",
       "max_weekly_hours": 40,
-      "unavailable": ["Wednesday_Afternoon"]
+      "unavailable": [
+        "Wednesday_Afternoon"
+      ]
     },
     {
       "id": "DOC_04",
       "name": "Dra. Valentina Castro",
       "specialty": "Emergency",
       "max_weekly_hours": 40,
-      "unavailable": ["Saturday_Night", "Sunday_Night"]
+      "unavailable": [
+        "Saturday_Night",
+        "Sunday_Night"
+      ]
     },
     {
       "id": "DOC_05",
       "name": "Dr. Matias Rocha",
       "specialty": "Emergency",
       "max_weekly_hours": 40,
-      "unavailable": ["Thursday_Night"]
+      "unavailable": [
+        "Thursday_Night"
+      ]
     },
     {
       "id": "DOC_06",
       "name": "Dra. Camila Fernandez",
       "specialty": "General",
       "max_weekly_hours": 32,
-      "unavailable": ["Monday_Morning"]
+      "unavailable": [
+        "Monday_Morning"
+      ]
     },
     {
       "id": "DOC_07",
       "name": "Dr. Ignacio Vega",
       "specialty": "General",
       "max_weekly_hours": 32,
-      "unavailable": ["Sunday_Morning", "Sunday_Afternoon"]
+      "unavailable": [
+        "Sunday_Morning",
+        "Sunday_Afternoon"
+      ]
     },
     {
       "id": "DOC_08",
@@ -61,14 +78,18 @@
       "name": "Dr. Javier Mena",
       "specialty": "General",
       "max_weekly_hours": 40,
-      "unavailable": ["Tuesday_Night"]
+      "unavailable": [
+        "Tuesday_Night"
+      ]
     },
     {
       "id": "DOC_10",
       "name": "Dra. Sofia Araya",
       "specialty": "General",
       "max_weekly_hours": 40,
-      "unavailable": ["Saturday_Morning"]
+      "unavailable": [
+        "Saturday_Morning"
+      ]
     }
   ]
 }

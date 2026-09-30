@@ -1,0 +1,20 @@
+{
+ "instance": "inst_29",
+ "set": "main",
+ "strategy": "direct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "output": {
+  "schedule": null,
+  "raw_output": "Aquí tienes una representación del sistema de turnos y las restricciones que se han establecido:\n\n```json\n{\n  \"shifts\": [\n    {\n      \"id\": \"Shift_1\",\n      \"time\": \"Morning\",\n      \"hours\": 8,\n      \"specialities\": [\n        \"Anesthesiology\",\n        \"Emergency\"\n      ]\n    },\n    {\n      \"id\": \"Shift_2\",\n      \"time\": \"Afternoon\",\n      \"hours\": 8,\n      \"specialities\": [\n        \"Anesthesiology\",\n        \"Emergency\"\n      ]\n    },\n    {\n      \"id\": \"Shift_3\",\n      \"time\": \"Night\",\n      \"hours\": 8,\n      \"specialities\": [\n        \"Anesthesiology\",\n        \"Emergency\"\n      ]\n    }\n  ],\n  \"staff\": [\n    {\n      \"id\": \"Staff_1\",\n      \"speciality\": \"General\",\n      \"availability\": [\n        \"Monday\",\n        \"Tuesday\",\n        \"Wednesday\",\n        \"Thursday\",\n        \"Friday\",\n        \"Saturday\",\n        \"Sunday\"\n      ]\n    },\n    {\n      \"id\": \"Staff_2\",\n      \"speciality\": \"General\",\n      \"availability\": [\n        \"Monday\",\n        \"Tuesday\",\n        \"Wednesday\",\n        \"Thursday\",\n        \"Friday\",\n        \"Saturday\",\n        \"Sunday\"\n      ]\n    },\n    // Agrega más empleados según sea necesario\n  ],\n  \"constraints\": [\n    {\n      \"constraint_id\": \"HC1_MIN_REST\",\n      \"value\": 16\n    },\n    {\n      \"constraint_id\": \"HC2_NO_DOUBLE_SHIFT\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC3_STAFFING_DEMAND\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC4_SPECIALTY_COVERAGE\",\n      \"value\": true\n    },\n    {\n      \"constraint_id\": \"HC5_MAX_HOURS\",\n      \"value\": 8\n    },\n    {\n      \"constraint_id\": \"HC6_UNAVAILABLE_SLOTS\",\n      \"value\": false\n    }\n  ]\n}\n```\n\nEste JSON representa el sistema de turnos y las restricciones establecidas en la semana. La información está incluida en formato JSON para facilitar su interpretación por parte de otros sistemas de control de tiempo.",
+  "parse_error": "JSON inválido: Expecting value: line 58 column 5 (char 972)",
+  "llm_calls": 1,
+  "generated_tokens": 493,
+  "seconds": 35.2
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": null,
+  "violations_by_type": null,
+  "violations": []
+ }
+}

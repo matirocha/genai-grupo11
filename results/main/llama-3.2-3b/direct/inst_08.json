@@ -1,0 +1,169 @@
+{
+ "instance": "inst_08",
+ "set": "main",
+ "strategy": "direct",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_02",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_05",
+     "DOC_10"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_05",
+     "DOC_03"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_06"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_05",
+     "DOC_03"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_02",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_05",
+     "DOC_07"
+    ]
+   }
+  },
+  "raw_output": "```json\n{\n  \"Monday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_04\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_07\"]\n  },\n  \"Tuesday\": {\n    \"Morning\": [\"DOC_02\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_02\", \"DOC_09\"],\n    \"Night\": [\"DOC_05\", \"DOC_10\"]\n  },\n  \"Wednesday\": {\n    \"Morning\": [\"DOC_07\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_07\", \"DOC_10\"],\n    \"Night\": [\"DOC_05\", \"DOC_03\"]\n  },\n  \"Thursday\": {\n    \"Morning\": [\"DOC_07\", \"DOC_04\"],\n    \"Afternoon\": [\"DOC_07\", \"DOC_09\"],\n    \"Night\": [\"DOC_02\", \"DOC_06\"]\n  },\n  \"Friday\": {\n    \"Morning\": [\"DOC_03\", \"DOC_08\"],\n    \"Afternoon\": [\"DOC_03\", \"DOC_05\"],\n    \"Night\": [\"DOC_02\", \"DOC_10\"]\n  },\n  \"Saturday\": {\n    \"Morning\": [\"DOC_04\", \"DOC_09\"],\n    \"Afternoon\": [\"DOC_04\", \"DOC_07\"],\n    \"Night\": [\"DOC_05\", \"DOC_03\"]\n  },\n  \"Sunday\": {\n    \"Morning\": [\"DOC_02\", \"DOC_06\"],\n    \"Afternoon\": [\"DOC_02\", \"DOC_10\"],\n    \"Night\": [\"DOC_05\", \"DOC_07\"]\n  }\n}\n```",
+  "parse_error": null,
+  "llm_calls": 1,
+  "generated_tokens": 357,
+  "seconds": 12.9
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 29,
+  "violations_by_type": {
+   "HC1": 4,
+   "HC2": 7,
+   "HC3": 0,
+   "HC4": 11,
+   "HC5": 4,
+   "HC6": 3,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 0,
+   "DOC_02": 56,
+   "DOC_03": 48,
+   "DOC_04": 32,
+   "DOC_05": 48,
+   "DOC_06": 24,
+   "DOC_07": 56,
+   "DOC_08": 16,
+   "DOC_09": 24,
+   "DOC_10": 32
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Tuesday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Wednesday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_10 (Dr. Ignacio Diaz) asignado en franja bloqueada Wednesday_Afternoon.",
+   "HC4_COBERTURA_ESPECIALIDAD: Wednesday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Wednesday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Thursday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC6_INDISPONIBILIDAD: DOC_03 (Dr. Javier Reyes) asignado en franja bloqueada Friday_Morning.",
+   "HC6_INDISPONIBILIDAD: DOC_05 (Dr. Benjamin Torres) asignado en franja bloqueada Saturday_Night.",
+   "HC4_COBERTURA_ESPECIALIDAD: Saturday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Morning requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Afternoon requiere al menos 1 Emergency(s), pero cuenta con 0.",
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Monday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_02 fue asignado a 2 turnos el Tuesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_07 fue asignado a 2 turnos el Wednesday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_07 fue asignado a 2 turnos el Thursday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_03 fue asignado a 2 turnos el Friday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_04 fue asignado a 2 turnos el Saturday.",
+   "HC2_TURNO_UNICO_DIARIO: El médico DOC_02 fue asignado a 2 turnos el Sunday.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_02 trabajó Night (Monday) y Morning (Tuesday) con solo 0h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_02 trabajó Night (Monday) y Afternoon (Tuesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_10 trabajó Night (Tuesday) y Afternoon (Wednesday) con solo 8h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_07 trabajó Afternoon (Wednesday) y Morning (Thursday) con solo 8h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dra. Martina Fernandez) tiene 56h asignadas, superando el tope de 40h por 16h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dr. Javier Reyes) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dr. Benjamin Torres) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_07 (Dr. Cristobal Munoz) tiene 56h asignadas, superando el tope de 40h por 16h."
+  ]
+ }
+}

@@ -1,0 +1,146 @@
+{
+ "instance": "stress_13",
+ "set": "stress",
+ "strategy": "random",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_02",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_02",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_03",
+     "DOC_10"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_06"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 51,
+  "backtracks": 30,
+  "dead_ends": 31,
+  "relaxed_steps": 5,
+  "first_dead_end": "Saturday Afternoon",
+  "seconds": 0.0,
+  "llm_calls": 0
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 3,
+  "violations_by_type": {
+   "HC1": 1,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 2,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 32,
+   "DOC_02": 40,
+   "DOC_03": 48,
+   "DOC_04": 40,
+   "DOC_05": 40,
+   "DOC_06": 40,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 16,
+   "DOC_10": 16
+  },
+  "violations": [
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Night (Saturday) y Morning (Sunday) con solo 0h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_03 (Dra. Martina Diaz) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dra. Antonia Rojas) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ]
+ }
+}

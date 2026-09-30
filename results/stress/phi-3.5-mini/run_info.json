@@ -1,0 +1,12 @@
+{
+  "model_id": "microsoft/Phi-3.5-mini-instruct",
+  "revision": "2fe192450127e6a83f7441aef6e3ca586c338b77",
+  "quant": "nf4",
+  "params_B": 3.82,
+  "vram_gb_after_load": 2.44,
+  "gpu": "NVIDIA GeForce RTX 5060",
+  "torch": "2.13.0+cu130",
+  "transformers": "5.16.1",
+  "python": "3.12.10",
+  "date": "2026-09-29 10:27"
+}

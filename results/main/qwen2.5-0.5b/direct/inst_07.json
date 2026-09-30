@@ -1,0 +1,20 @@
+{
+ "instance": "inst_07",
+ "set": "main",
+ "strategy": "direct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "output": {
+  "schedule": null,
+  "raw_output": "Aquí tienes una representación del sistema de turnos y las restricciones que se han establecido:\n\n```json\n{\n  \"shifts\": [\n    {\n      \"id\": \"Shift_1\",\n      \"start_time\": 6,\n      \"end_time\": 14,\n      \"speciality\": \"Anesthesiology\",\n      \"hours\": 40\n    },\n    {\n      \"id\": \"Shift_2\",\n      \"start_time\": 14,\n      \"end_time\": 22,\n      \"speciality\": \"Anesthesia\",\n      \"hours\": 40\n    },\n    {\n      \"id\": \"Shift_3\",\n      \"start_time\": 22,\n      \"end_time\": 30,\n      \"speciality\": \"Anesthesia\",\n      \"hours\": 40\n    }\n  ],\n  \"shift_times\": {\n    \"Morning\": [6, 14],\n    \"Afternoon\": [14, 22],\n    \"Night\": [22, 30]\n  },\n  \"staff_count\": 10,\n  \"total_hours\": 40 * 7,\n  \"rest_hours\": 16,\n  \"requirements\": {\n    \"Morning\": {\n      \"anesthesiology\": 1,\n      \"emergency\": 0,\n      \"general\": 0\n    },\n    \"Afternoon\": {\n      \"anesthesiology\": 1,\n      \"emergency\": 0,\n      \"general\": 0\n    },\n    \"Night\": {\n      \"anesthesiology\": 1,\n      \"emergency\": 0,\n      \"general\": 0\n    }\n  },\n  \"hard_constraints\": [\n    {\n      \"constraint_id\": \"HC1_MIN_REST\",\n      \"description\": \"Minimum 16 hours of rest between shifts (Morning 06-14, Afternoon 14-22, Night 22-06). A Night shift cannot be followed by a Morning or Afternoon shift on the next day, and an Afternoon shift cannot be followed by a Morning shift on the next day.\",\n      \"value\": 16\n    },\n    {\n      \"constraint_id\": \"HC2_NO_DOUBLE_SHIFT\",\n      \"description\": \"A staff member can only work at most 1 shift (8 hours) per calendar day.\",\n      \"value\": 1\n    },\n    {\n      \"constraint_id\": \"HC3_STAFFING_DEMAND\",\n      \"description\": \"Each shift must have exactly the required total staff count.\",\n      \"value\": 10\n    },\n    {\n      \"constraint_id\": \"HC4_SPECIALTY_COVERAGE\",\n      \"description\": \"Each shift must meet the minimum number of required specialists.\",\n      \"value\": 1\n    },\n    {\n      \"constraint_id\": \"HC5_MAX_HOURS\",\n      \"description\": \"Total assigned hours per staff member in the week must not exceed their max_weekly_hours.\",\n      \"value\": 40\n    },\n    {\n      \"constraint_id\": \"HC6_UNAVAILABLE_SLOTS\",\n      \"description\": \"No staff member can be assigned to a shift listed in their unavailable array.\",\n      \"value\": 0\n    }\n  ]\n}\n```\n\nEste JSON representa el sistema de turnos y las restricciones establecidas en la semana. Puedes usarlo como base para realizar la asignación de turnos según tus necesidades específicas.",
+  "parse_error": "JSON inválido: Expecting ',' delimiter: line 31 column 21 (char 563)",
+  "llm_calls": 1,
+  "generated_tokens": 723,
+  "seconds": 29.5
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": null,
+  "violations_by_type": null,
+  "violations": []
+ }
+}
