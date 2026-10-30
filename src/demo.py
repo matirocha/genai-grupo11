@@ -71,7 +71,7 @@ def show_grid(schedule: dict, days, shifts):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--set", default="main", choices=["main", "stress"])
+    ap.add_argument("--set", default="main", choices=["main", "stress", "hard", "calib"])
     ap.add_argument("--instance", default=None)
     ap.add_argument("--random", action="store_true", help="elige la instancia al azar (no escogida a mano)")
     ap.add_argument("--model", default="meta-llama/Llama-3.2-3B-Instruct")

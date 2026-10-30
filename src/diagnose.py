@@ -157,7 +157,7 @@ def position_bias(rdir: str, inst_set: str):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--set", default="stress", choices=["main", "stress"])
+    ap.add_argument("--set", default="stress", choices=["main", "stress", "hard"])
     ap.add_argument("--model", default="llama-3.2-3b", help="carpeta en results/<set>/ (ej. llama-3.2-3b o no_llm)")
     ap.add_argument("--strategy", default=None, help="por defecto stepwise (o random si --model no_llm)")
     ap.add_argument("--instance", default=None, help="si se omite, diagnostica todas las instancias fallidas")

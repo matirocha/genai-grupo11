@@ -26,23 +26,31 @@ import argparse
 import json
 import os
 import platform
+import sys
+import re
 import time
 from typing import Any, Dict, List
 
 from instances import BASE_DIR, instance_dir, list_instances, load_instance
 from verifier import ScheduleVerifier, VIOLATION_TYPES
 
+from orchestrator import ABLATIONS
+
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
-LLM_STRATEGIES = ["direct", "repair", "stepwise", "stepwise_nosearch"]
-NOLLM_STRATEGIES = ["random", "random_nosearch"]
-ORDER = ["direct", "repair", "stepwise_nosearch", "stepwise", "random_nosearch", "random"]
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+AGENT_LLM = [s for s, c in ABLATIONS.items() if c.get("policy", "llm") == "llm"]
+AGENT_NOLLM = [s for s, c in ABLATIONS.items() if c.get("policy", "llm") != "llm"]
+LLM_STRATEGIES = ["direct", "repair", "stepwise", "stepwise_nosearch"] + AGENT_LLM
+NOLLM_STRATEGIES = ["random", "random_nosearch", "random_b300"] + AGENT_NOLLM
+ORDER = ["direct", "repair", "stepwise_nosearch", "stepwise", "random_nosearch", "random", "random_b300"] + list(ABLATIONS)
 
 
 def model_tag(model_id: str) -> str:
     return model_id.split("/")[-1].lower().replace("-instruct", "")
 
 
-def run_strategy(strategy: str, llm, staff_data, demands, inst_id: str, run_dir: str) -> Dict[str, Any]:
+def run_strategy(strategy: str, llm, staff_data, demands, inst_id: str, run_dir: str, seed: int = 0) -> Dict[str, Any]:
     from baseline_direct import run_direct
     from repair_loop import run_repair
     from stepwise_solver import llm_policy, random_policy, solve
@@ -57,27 +65,38 @@ def run_strategy(strategy: str, llm, staff_data, demands, inst_id: str, run_dir:
         else:
             first = run_direct(llm, staff_data, demands)
         return run_repair(llm, staff_data, demands, first)
+    if strategy in ABLATIONS:
+        from agent_core import Trace
+        from agents import Config
+        from orchestrator import run_agents
+        trace = Trace()
+        # el modo D2 usa la semilla de la política al azar de D2 (índice de la instancia), como `random`
+        d2_seed = int(inst_id.split("_")[-1]) + 1000 * seed
+        cfg = Config(**ABLATIONS[strategy], seed=d2_seed if strategy == "agents_d2random" else seed)
+        out = run_agents(staff_data, demands, llm if cfg.policy == "llm" else None, cfg, inst_id, trace)
+        out["trace_events"] = trace.events
+        return out
     search = not strategy.endswith("nosearch")
+    budget = 300 if strategy == "random_b300" else (30 if search else 0)   # random_b300: control de presupuesto
     if strategy.startswith("stepwise"):
         choose = llm_policy(llm)
     else:
-        choose = random_policy(int(inst_id.split("_")[-1]))
+        choose = random_policy(int(inst_id.split("_")[-1]) + 1000 * seed)
     calls0 = llm.calls if llm else 0
-    out = solve(staff_data, demands, choose, lookahead=search, max_backtracks=30 if search else 0)
+    out = solve(staff_data, demands, choose, lookahead=search, max_backtracks=budget)
     out["llm_calls"] = (llm.calls - calls0) if llm else 0
     return out
 
 
 def evaluate(strategies: List[str], model_id: str = None, instances: List[str] = None, quant: str = "nf4",
-             inst_set: str = "main"):
-    llm, tag = None, "no_llm"
+             inst_set: str = "main", seed: int = 0):
+    llm = None
     if any(s in LLM_STRATEGIES for s in strategies):
         from llm import LLM
         llm = LLM(model_id, quant=quant)
-        tag = model_tag(model_id)
-    run_dir = os.path.join(RESULTS_DIR, inst_set, tag)
-    os.makedirs(run_dir, exist_ok=True)
     if llm:
+        run_dir = os.path.join(RESULTS_DIR, inst_set, model_tag(model_id))
+        os.makedirs(run_dir, exist_ok=True)
         import torch, transformers
         info = {**llm.info(), "torch": torch.__version__, "transformers": transformers.__version__,
                 "python": platform.python_version(), "date": time.strftime("%Y-%m-%d %H:%M")}
@@ -86,7 +105,12 @@ def evaluate(strategies: List[str], model_id: str = None, instances: List[str] =
         print(json.dumps(info))
     paths = instances or list_instances(inst_set)
     for strategy in strategies:
-        out_dir = os.path.join(run_dir, strategy)
+        uses_llm = strategy in LLM_STRATEGIES   # los controles sin LLM van siempre a results/<conjunto>/no_llm/
+        tag = model_tag(model_id) if uses_llm else "no_llm"
+        run_dir = os.path.join(RESULTS_DIR, inst_set, tag)
+        os.makedirs(run_dir, exist_ok=True)
+        name = strategy if seed == 0 else f"{strategy}_s{seed}"
+        out_dir = os.path.join(run_dir, name)
         os.makedirs(out_dir, exist_ok=True)
         for path in paths:
             inst_id = os.path.splitext(os.path.basename(path))[0]
@@ -94,16 +118,22 @@ def evaluate(strategies: List[str], model_id: str = None, instances: List[str] =
             if os.path.exists(out_path):
                 continue
             staff_data, demands = load_instance(path)
-            out = run_strategy(strategy, llm, staff_data, demands, inst_id, run_dir)
+            out = run_strategy(strategy, llm if uses_llm else None, staff_data, demands, inst_id, run_dir, seed)
+            events = out.pop("trace_events", None)
+            if events is not None:
+                from agent_core import Trace
+                tr = Trace()
+                tr.events = events
+                tr.save(os.path.join(RESULTS_DIR, "traces", inst_set, tag, name, f"{inst_id}.jsonl"))
             if out.get("schedule") is not None:
                 res = ScheduleVerifier(staff_data, demands).evaluate(out["schedule"])
             else:
                 res = {"is_valid": False, "total_hard_violations": None, "violations_by_type": None, "violations": []}
-            record = {"instance": inst_id, "set": inst_set, "strategy": strategy, "model": model_id if llm else None,
+            record = {"instance": inst_id, "set": inst_set, "strategy": name, "model": model_id if uses_llm else None,
                       "output": out, "verification": res}
             with open(out_path, "w", encoding="utf-8") as f:
                 json.dump(record, f, indent=1, ensure_ascii=False)
-            print(f"[{inst_set}/{tag}/{strategy}] {inst_id}: valid={res['is_valid']} violations={res['total_hard_violations']} "
+            print(f"[{inst_set}/{tag}/{name}] {inst_id}: valid={res['is_valid']} violations={res['total_hard_violations']} "
                   f"t={out.get('seconds')}s calls={out.get('llm_calls')}", flush=True)
 
 
@@ -124,16 +154,16 @@ def specialist_overuse(record: dict, inst_set: str):
 
 def summarize() -> str:
     rows = []
-    runs = [(st, tag) for st in ("main", "stress") if os.path.isdir(os.path.join(RESULTS_DIR, st))
+    runs = [(st, tag) for st in ("main", "stress", "hard") if os.path.isdir(os.path.join(RESULTS_DIR, st))
             for tag in sorted(os.listdir(os.path.join(RESULTS_DIR, st)))]
     for inst_set, tag in runs:
         tdir = os.path.join(RESULTS_DIR, inst_set, tag)
         if not os.path.isdir(tdir):
             continue
-        for strategy in ORDER:
+        names = [d for d in os.listdir(tdir) if os.path.isdir(os.path.join(tdir, d))]
+        base = lambda d: d if d in ORDER else re.sub(r"_s\d+$", "", d)
+        for strategy in sorted((d for d in names if base(d) in ORDER), key=lambda d: (ORDER.index(base(d)), d)):
             sdir = os.path.join(tdir, strategy)
-            if not os.path.isdir(sdir):
-                continue
             recs = []
             for fn in sorted(os.listdir(sdir)):
                 with open(os.path.join(sdir, fn), encoding="utf-8") as f:
@@ -185,11 +215,13 @@ def summarize() -> str:
 
 
 def compact(rows, models) -> str:
-    """Vista corta para pantalla (la usa el video): solo los modelos pedidos."""
+    """Vista corta para pantalla (la usa el video de D2): solo los modelos pedidos y las estrategias de D2 (la vista
+    de Deliverable 3 es src/report.py)."""
     out = [f"{'conjunto':<9}{'modelo':<14}{'estrategia':<19}{'válidos':<9}{'viol.':<8}{'llamadas':<10}retrocesos",
            "-" * 78]
     for r in rows:
-        if r["model"] in models:
+        if r["model"] in models and r["set"] in ("main", "stress") and not r["strategy"].startswith("agents") \
+                and not re.search(r"_s\d+$", r["strategy"]):
             bt = r["mean_backtracks"] if r["mean_backtracks"] is not None else "-"
             out.append(f"{r['set']:<9}{r['model']:<14}{r['strategy']:<19}{str(r['valid']) + '/' + str(r['N']):<9}"
                        f"{str(r['mean_violations']):<8}{str(r['mean_llm_calls']):<10}{bt}")
@@ -201,16 +233,17 @@ def main():
     ap.add_argument("--model", default="meta-llama/Llama-3.2-3B-Instruct")
     ap.add_argument("--quant", default="nf4", choices=["nf4", "bf16"])
     ap.add_argument("--strategies", default="direct,repair,stepwise,stepwise_nosearch")
-    ap.add_argument("--set", default="main", choices=["main", "stress"])
+    ap.add_argument("--set", default="main", choices=["main", "stress", "hard", "calib"])
     ap.add_argument("--instances", default=None, help="lista separada por comas, ej. inst_00,inst_07")
     ap.add_argument("--summary", action="store_true")
     ap.add_argument("--only", default=None, help="vista corta solo de estos modelos, ej. llama-3.2-3b,no_llm")
+    ap.add_argument("--seed", type=int, default=0, help="semilla de las políticas al azar (0 = la de los resultados base)")
     args = ap.parse_args()
     if not args.summary:
         paths = None
         if args.instances:
             paths = [os.path.join(instance_dir(args.set), f"{i}.json") for i in args.instances.split(",")]
-        evaluate(args.strategies.split(","), args.model, paths, args.quant, args.set)
+        evaluate(args.strategies.split(","), args.model, paths, args.quant, args.set, args.seed)
     table, rows = summarize()
     print(compact(rows, args.only.split(",")) if args.only else table)
 

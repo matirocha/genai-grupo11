@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents_sin_diagnosticador",
+  "instancias": 90,
+  "a1_decisiones": 1681,
+  "a1_discriminantes": 70,
+  "a1_fatal": 0.557,
+  "a1a2_fatal": 0.186,
+  "a1_fatal_azar": 0.436,
+  "a2_decisiones": 707,
+  "a2_vp": 38,
+  "a2_fp": 263,
+  "a2_fn": 5,
+  "a2_vn": 401,
+  "a2_tasa_rechazo": 0.426,
+  "a2_fatales": 43,
+  "a2_recall": 0.884,
+  "a2_precision": 0.126,
+  "a3_callejones": 259,
+  "a3_util": 0.019,
+  "a3_util_azar": 0.526,
+  "a3_util_anterior": 0.019,
+  "a3_cobertura": 1.0
+ }
+]

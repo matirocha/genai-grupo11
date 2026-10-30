@@ -8,6 +8,14 @@ Conjunto principal (data/instances/, N=30):
   variando especialidades, contratos (32/40h), indisponibilidades y cuotas de especialidad.
 Conjunto de estrés (data/instances_stress/, N=30): mismo generador + 1 a 3 franjas bloqueadas extra por médico
   (semillas 5000+). Se usa para estudiar dónde se quiebra la solución.
+Conjunto difícil (data/instances_hard/, N=30, agregado en Deliverable 3): mismo generador con capacidad ajustada a la
+  falla diagnosticada (semillas 9000+): capacidad total = demanda + 0..2 turnos; capacidad de Urgencia = su cuota
+  + 0..1 turnos con 3 urgenciólogos y + 2 con 4 (a cada uno solo se le baja un turno, de 40 h a 32 h); y se sortean
+  1 a 2 franjas bloqueadas extra por médico (pueden coincidir con las que ya tenía). En data/instances_hard la holgura
+  de Urgencia es 0 en 8 instancias, 1 en 8 y 2 en 14. El criterio es estructural (contratos y bloqueos): ninguna
+  instancia se elige ni se descarta según el resultado de un método, solo por ser infactible.
+Conjunto de calibración (data/instances_calib/, N=20, Deliverable 3): 10 con el perfil difícil (semillas 7000+) y 10
+  con el de estrés (semillas 7500+). Solo se usa para ajustar los prompts de los agentes; NO entra en la evaluación.
 
 Cada instancia se certifica como FACTIBLE con OR-Tools CP-SAT antes de aceptarse, para que un fallo
 del sistema sea atribuible al método y no a una instancia imposible. CP-SAT se usa SOLO aquí
@@ -16,6 +24,7 @@ del sistema sea atribuible al método y no a una instancia imposible. CP-SAT se 
 Uso:
     python src/instances.py                     # regenera data/instances/inst_00..inst_29.json
     python src/instances.py --profile stress    # regenera data/instances_stress/stress_00..stress_29.json
+    python src/instances.py --profile hard      # regenera data/instances_hard/hard_00..hard_29.json
 """
 
 import argparse
@@ -73,8 +82,11 @@ def load_instance(path: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     return {"staff": inst["staff"]}, inst["demands"]
 
 
+SET_DIRS = {"main": "instances", "stress": "instances_stress", "hard": "instances_hard", "calib": "instances_calib"}
+
+
 def instance_dir(name: str = "main") -> str:
-    return os.path.join(BASE_DIR, "data", "instances" if name == "main" else "instances_stress")
+    return os.path.join(BASE_DIR, "data", SET_DIRS[name])
 
 
 def list_instances(name: str = "main") -> List[str]:
@@ -181,14 +193,53 @@ def random_instance(seed: int, n_staff: int = 10, stress: bool = False) -> Dict[
     return {"instance_id": None, "source": source, "seed": seed, "staff": staff, "demands": make_demands(req)}
 
 
+def hard_instance(seed: int) -> Dict[str, Any]:
+    """Perfil difícil: misma escala y esquema de cuotas, con contratos ajustados para que la capacidad quede justa."""
+    inst = random_instance(seed)
+    rng = random.Random(seed * 13 + 7)
+    staff = inst["staff"]
+    all_slots = [f"{d}_{t}" for d in DAYS for t in SHIFTS]
+    req = inst["demands"]["requirements_per_shift"]
+    for s in staff:
+        s["max_weekly_hours"] = 40
+    # Urgencia (la especialidad de la falla de Deliverable 2): se acerca la capacidad a cuota + 0..1 bajando contratos
+    # a 32 h; con 4 urgenciólogos el mínimo alcanzable es cuota + 2
+    emer = [s for s in staff if s["specialty"] == "Emergency"]
+    cap_e = sum(s["max_weekly_hours"] // 8 for s in emer)
+    target_e = sum(r["specialty_requirements"].get("Emergency", 0) for r in req.values()) * len(DAYS) + rng.choice([0, 1])
+    for s in rng.sample(emer, len(emer)):
+        if cap_e > target_e:
+            s["max_weekly_hours"] = 32
+            cap_e -= 1
+    # Capacidad total = demanda + 0..2 turnos (se bajan contratos de 40h a 32h en el resto del personal)
+    cap = sum(s["max_weekly_hours"] // 8 for s in staff)
+    target = sum(r["required_total"] for r in req.values()) * len(DAYS) + rng.choice([0, 1, 2])
+    others = [s for s in staff if s["specialty"] != "Emergency"]
+    for s in rng.sample(others, len(others)):
+        if cap > target:
+            s["max_weekly_hours"] = 32
+            cap -= 1
+    for s in staff:
+        extra = rng.sample(all_slots, rng.choice([1, 2]))
+        s["unavailable"] = sorted(set(s["unavailable"]) | set(extra), key=all_slots.index)
+    inst["source"] = "Generada, perfil difícil (capacidad total y de Urgencia ajustadas, +1..2 franjas bloqueadas)"
+    return inst
+
+
 def build_dataset(n: int, out_dir: str, profile: str = "main"):
     os.makedirs(out_dir, exist_ok=True)
     stress = profile == "stress"
-    instances = [] if stress else [d1_instance()]
-    prefix = "stress" if stress else "inst"
-    seed, rejected = (5000 if stress else 1000), 0
+    instances = [d1_instance()] if profile == "main" else []
+    prefix = {"main": "inst", "stress": "stress", "hard": "hard", "calib": "calib"}[profile]
+    seed, rejected = {"main": 1000, "stress": 5000, "hard": 9000, "calib": 7000}[profile], 0
     while len(instances) < n:
-        inst = random_instance(seed, stress=stress)
+        if profile == "calib":
+            half = len(instances) >= n // 2
+            if half and seed < 7500:
+                seed = 7500
+            inst = random_instance(seed, stress=True) if half else hard_instance(seed)
+        else:
+            inst = hard_instance(seed) if profile == "hard" else random_instance(seed, stress=stress)
         seed += 1
         if certify_feasible(inst["staff"], inst["demands"]):
             inst["instance_id"] = f"{prefix}_{len(instances):02d}"
@@ -206,8 +257,7 @@ def build_dataset(n: int, out_dir: str, profile: str = "main"):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--n", type=int, default=30)
-    ap.add_argument("--profile", choices=["main", "stress"], default="main")
+    ap.add_argument("--n", type=int, default=None, help="por defecto 30 (20 en calib)")
+    ap.add_argument("--profile", choices=["main", "stress", "hard", "calib"], default="main")
     args = ap.parse_args()
-    out = os.path.join(BASE_DIR, "data", "instances" if args.profile == "main" else "instances_stress")
-    build_dataset(args.n, out, args.profile)
+    build_dataset(args.n or (20 if args.profile == "calib" else 30), instance_dir(args.profile), args.profile)

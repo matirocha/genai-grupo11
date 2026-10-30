@@ -1,0 +1,187 @@
+{
+ "instance": "hard_13",
+ "set": "hard",
+ "strategy": "agents_random_s3",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_03"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_09"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   }
+  },
+  "certified": true,
+  "decisions": 33,
+  "backtracks": 2,
+  "dead_ends": 2,
+  "relaxed_steps": 0,
+  "first_dead_end": "Saturday Night",
+  "skipped_single": 8,
+  "alerts": 8,
+  "rejections": 3,
+  "probes": 3,
+  "keeps": 3,
+  "forced": 0,
+  "jumps": [
+   {
+    "desde": 17,
+    "hasta": 12,
+    "medico": null,
+    "politica": "azar"
+   },
+   {
+    "desde": 17,
+    "hasta": 10,
+    "medico": "DOC_07",
+    "politica": "azar"
+   }
+  ],
+  "nogood_relaxed": 1,
+  "undone": 12,
+  "stop": null,
+  "seconds": 0.2,
+  "llm_calls": 0,
+  "agent_calls": {
+   "Asignador": 0,
+   "Crítico": 0,
+   "Diagnosticador": 0
+  },
+  "prompts": {
+   "Asignador": {
+    "file": "prompts/asignador.md",
+    "version": "2",
+    "sha": "2ef49a9726"
+   },
+   "Crítico": {
+    "file": "prompts/critico.md",
+    "version": "3",
+    "sha": "3798c56346"
+   },
+   "Diagnosticador": {
+    "file": "prompts/diagnosticador.md",
+    "version": "4",
+    "sha": "f006aff8d2"
+   }
+  }
+ },
+ "verification": {
+  "is_valid": true,
+  "total_hard_violations": 0,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 32,
+   "DOC_03": 32,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 32,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 40,
+   "DOC_10": 32
+  },
+  "violations": []
+ }
+}

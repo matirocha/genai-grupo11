@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/no_llm/agents_random",
+  "instancias": 90,
+  "a1_decisiones": 2049,
+  "a1_discriminantes": 142,
+  "a1_fatal": 0.423,
+  "a1a2_fatal": 0.373,
+  "a1_fatal_azar": 0.442,
+  "a2_decisiones": 736,
+  "a2_vp": 21,
+  "a2_fp": 339,
+  "a2_fn": 24,
+  "a2_vn": 352,
+  "a2_tasa_rechazo": 0.489,
+  "a2_fatales": 45,
+  "a2_recall": 0.467,
+  "a2_precision": 0.058,
+  "a3_callejones": 70,
+  "a3_util": 0.729,
+  "a3_util_azar": 0.716,
+  "a3_util_anterior": 0.271,
+  "a3_cobertura": 1.0
+ }
+]

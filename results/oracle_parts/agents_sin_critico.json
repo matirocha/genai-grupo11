@@ -1,0 +1,16 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents_sin_critico",
+  "instancias": 90,
+  "a1_decisiones": 2614,
+  "a1_discriminantes": 178,
+  "a1_fatal": 0.579,
+  "a1a2_fatal": 0.579,
+  "a1_fatal_azar": 0.482,
+  "a3_callejones": 103,
+  "a3_util": 0.981,
+  "a3_util_azar": 0.831,
+  "a3_util_anterior": 0.456,
+  "a3_cobertura": 1.0
+ }
+]

@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents",
+  "instancias": 90,
+  "a1_decisiones": 1947,
+  "a1_discriminantes": 101,
+  "a1_fatal": 0.485,
+  "a1a2_fatal": 0.267,
+  "a1_fatal_azar": 0.447,
+  "a2_decisiones": 897,
+  "a2_vp": 47,
+  "a2_fp": 441,
+  "a2_fn": 5,
+  "a2_vn": 404,
+  "a2_tasa_rechazo": 0.544,
+  "a2_fatales": 52,
+  "a2_recall": 0.904,
+  "a2_precision": 0.096,
+  "a3_callejones": 27,
+  "a3_util": 1.0,
+  "a3_util_azar": 0.691,
+  "a3_util_anterior": 0.185,
+  "a3_cobertura": 1.0
+ }
+]

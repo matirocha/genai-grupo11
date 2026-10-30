@@ -1,0 +1,172 @@
+{
+ "instance": "calib_01",
+ "set": "calib",
+ "strategy": "agents",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_04"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_06"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_08"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_07",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_10"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_05"
+    ],
+    "Afternoon": [
+     "DOC_07",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_09"
+    ]
+   }
+  },
+  "certified": true,
+  "decisions": 21,
+  "backtracks": 0,
+  "dead_ends": 0,
+  "relaxed_steps": 0,
+  "first_dead_end": null,
+  "skipped_single": 2,
+  "alerts": 20,
+  "rejections": 16,
+  "probes": 20,
+  "keeps": 0,
+  "forced": 6,
+  "jumps": [],
+  "nogood_relaxed": 0,
+  "seconds": 48.7,
+  "llm_calls": 109,
+  "agent_calls": {
+   "Asignador": 69,
+   "Crítico": 40,
+   "Diagnosticador": 0
+  },
+  "prompts": {
+   "Asignador": {
+    "file": "prompts/asignador.md",
+    "version": "1",
+    "sha": "f03d8becf0"
+   },
+   "Crítico": {
+    "file": "prompts/critico.md",
+    "version": "1",
+    "sha": "50cafbfe44"
+   },
+   "Diagnosticador": {
+    "file": "prompts/diagnosticador.md",
+    "version": "1",
+    "sha": "490ea4265f"
+   }
+  }
+ },
+ "verification": {
+  "is_valid": true,
+  "total_hard_violations": 0,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 32,
+   "DOC_03": 32,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 32,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 40,
+   "DOC_10": 32
+  },
+  "violations": []
+ }
+}

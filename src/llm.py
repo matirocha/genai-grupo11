@@ -7,6 +7,8 @@ Carga del modelo y generación (Hugging Face transformers)
 - Decodificación greedy (determinista) en todas las estrategias.
 - Decodificación restringida: `generate(..., allowed=[...])` limita la salida a una de las cadenas
   permitidas mediante un trie de tokens aplicado como LogitsProcessor (los demás logits -> -inf).
+- `score(messages, labels)` (Deliverable 3): una pasada del modelo y la log-probabilidad de cada etiqueta de 1 token;
+  la elige el agente con argmax, que es lo mismo que el trie greedy cuando todas las respuestas son de 1 token.
 """
 
 import time
@@ -82,6 +84,7 @@ class LLM:
         self.vram_gb = round(torch.cuda.memory_allocated() / 1e9, 2)
         self.calls = 0
         self.generated_tokens = 0
+        self.prompt_tokens = 0
 
     def info(self) -> Dict:
         n = 0
@@ -113,3 +116,48 @@ class LLM:
         self.calls += 1
         self.generated_tokens += int(new_tokens.shape[0])
         return self.tok.decode(new_tokens, skip_special_tokens=True)
+
+    @torch.no_grad()
+    def score(self, messages: List[Dict[str, str]], labels: List[str]) -> List[float]:
+        """Log-probabilidad del primer token de la respuesta para cada etiqueta (todas de 1 token), normalizada
+        sobre las etiquetas. Equivale a la decodificación restringida greedy de 1 token (Deliverable 3)."""
+        ids = []
+        for lab in labels:
+            tok = self.tok(lab, add_special_tokens=False).input_ids
+            if len(tok) != 1:
+                raise ValueError(f"la etiqueta {lab!r} no es un solo token")
+            ids.append(tok[0])
+        inputs = self.tok.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt",
+                                              return_dict=True, date_string="26 Jul 2024").to(self.model.device)
+        full = inputs["input_ids"]
+        logits = self._forward_with_prefix_cache(full)
+        sub = torch.log_softmax(logits[ids], dim=-1)
+        self.calls += 1
+        self.generated_tokens += 1
+        self.prompt_tokens += int(full.shape[1])
+        return sub.tolist()
+
+    def _forward_with_prefix_cache(self, full: torch.LongTensor) -> torch.FloatTensor:
+        """Reutiliza el KV del prefijo de sistema (todo hasta el primer <|eot_id|>), que se repite en cada llamada
+        del mismo agente. Solo ahorra tiempo de prefill; el resultado es el mismo cálculo."""
+        from transformers import DynamicCache
+        eot = self.tok.convert_tokens_to_ids("<|eot_id|>")
+        hits = (full[0] == eot).nonzero()
+        if eot is None or len(hits) == 0:
+            return self.model(input_ids=full, logits_to_keep=1).logits[0, -1].float()
+        cut = int(hits[0]) + 1
+        prefix = full[:, :cut]
+        cache_key = tuple(prefix[0].tolist())
+        caches = getattr(self, "_prefix_caches", None)
+        if caches is None:
+            caches = self._prefix_caches = {}
+        if cache_key not in caches:
+            if len(caches) >= 8:
+                caches.pop(next(iter(caches)))
+            cache = DynamicCache()
+            self.model(input_ids=prefix, past_key_values=cache, use_cache=True)
+            caches[cache_key] = cache
+        cache = caches[cache_key]
+        out = self.model(input_ids=full[:, cut:], past_key_values=cache, use_cache=True, logits_to_keep=1)
+        cache.crop(-int(full.shape[1] - cut))
+        return out.logits[0, -1].float()

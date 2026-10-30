@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/no_llm/agents_rules",
+  "instancias": 90,
+  "a1_decisiones": 1613,
+  "a1_discriminantes": 191,
+  "a1_fatal": 0.298,
+  "a1a2_fatal": 0.262,
+  "a1_fatal_azar": 0.438,
+  "a2_decisiones": 75,
+  "a2_vp": 18,
+  "a2_fp": 35,
+  "a2_fn": 5,
+  "a2_vn": 17,
+  "a2_tasa_rechazo": 0.707,
+  "a2_fatales": 23,
+  "a2_recall": 0.783,
+  "a2_precision": 0.34,
+  "a3_callejones": 596,
+  "a3_util": 0.057,
+  "a3_util_azar": 0.636,
+  "a3_util_anterior": 0.029,
+  "a3_cobertura": 1.0
+ }
+]

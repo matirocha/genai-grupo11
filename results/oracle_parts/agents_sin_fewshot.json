@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents_sin_fewshot",
+  "instancias": 90,
+  "a1_decisiones": 1895,
+  "a1_discriminantes": 183,
+  "a1_fatal": 0.53,
+  "a1a2_fatal": 0.35,
+  "a1_fatal_azar": 0.471,
+  "a2_decisiones": 1292,
+  "a2_vp": 120,
+  "a2_fp": 1075,
+  "a2_fn": 4,
+  "a2_vn": 93,
+  "a2_tasa_rechazo": 0.925,
+  "a2_fatales": 124,
+  "a2_recall": 0.968,
+  "a2_precision": 0.1,
+  "a3_callejones": 160,
+  "a3_util": 0.381,
+  "a3_util_azar": 0.68,
+  "a3_util_anterior": 0.119,
+  "a3_cobertura": 1.0
+ }
+]

@@ -1,0 +1,150 @@
+{
+ "instance": "hard_08",
+ "set": "hard",
+ "strategy": "random_s4",
+ "model": null,
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_06"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_05"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_03"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_08"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_09"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_07"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_09"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_04"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_02",
+     "DOC_04"
+    ],
+    "Afternoon": [
+     "DOC_01",
+     "DOC_03"
+    ],
+    "Night": [
+     "DOC_05",
+     "DOC_06"
+    ]
+   }
+  },
+  "certified": false,
+  "decisions": 47,
+  "backtracks": 30,
+  "dead_ends": 31,
+  "relaxed_steps": 4,
+  "first_dead_end": "Saturday Night",
+  "seconds": 0.0,
+  "llm_calls": 0
+ },
+ "verification": {
+  "is_valid": false,
+  "total_hard_violations": 7,
+  "violations_by_type": {
+   "HC1": 2,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 1,
+   "HC5": 4,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 32,
+   "DOC_02": 48,
+   "DOC_03": 32,
+   "DOC_04": 40,
+   "DOC_05": 40,
+   "DOC_06": 40,
+   "DOC_07": 32,
+   "DOC_08": 24,
+   "DOC_09": 16,
+   "DOC_10": 32
+  },
+  "violations": [
+   "HC4_COBERTURA_ESPECIALIDAD: Sunday Night requiere al menos 1 Anesthesiology(s), pero cuenta con 0.",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_02 trabajó Night (Saturday) y Morning (Sunday) con solo 0h de descanso (<16h).",
+   "HC1_DESCANSO_OBLIGATORIO: El médico DOC_04 trabajó Night (Saturday) y Morning (Sunday) con solo 0h de descanso (<16h).",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_02 (Dra. Josefa Perez) tiene 48h asignadas, superando el tope de 40h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_04 (Dra. Camila Rojas) tiene 40h asignadas, superando el tope de 32h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_05 (Dra. Martina Fernandez) tiene 40h asignadas, superando el tope de 32h por 8h.",
+   "HC5_LIMITE_LEGAL_HORAS: DOC_06 (Dra. Josefa Fernandez) tiene 40h asignadas, superando el tope de 32h por 8h."
+  ]
+ }
+}

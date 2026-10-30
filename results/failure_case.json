@@ -1,0 +1,9 @@
+{
+ "instance": "hard_22",
+ "set": "hard",
+ "model": "llama-3.2-3b",
+ "strategy": "agents_sin_diagnosticador",
+ "culpable": "Tuesday Afternoon",
+ "por_que": "decisión culpable Tuesday Afternoon (DOC_04 + DOC_10); el horario más profundo llega a Friday Night, 10 turnos después; eslabón: punto ciego: perfilar no alertó",
+ "max_lineas": 14
+}

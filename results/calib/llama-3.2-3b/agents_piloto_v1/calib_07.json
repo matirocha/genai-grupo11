@@ -1,0 +1,221 @@
+{
+ "instance": "calib_07",
+ "set": "calib",
+ "strategy": "agents",
+ "model": "meta-llama/Llama-3.2-3B-Instruct",
+ "output": {
+  "schedule": {
+   "Monday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_06",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_04"
+    ]
+   },
+   "Tuesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_07"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_06"
+    ]
+   },
+   "Wednesday": {
+    "Morning": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_02",
+     "DOC_07"
+    ]
+   },
+   "Thursday": {
+    "Morning": [
+     "DOC_05",
+     "DOC_10"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_08"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Friday": {
+    "Morning": [
+     "DOC_04",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_03",
+     "DOC_10"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Saturday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_08"
+    ],
+    "Afternoon": [
+     "DOC_04",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_02"
+    ]
+   },
+   "Sunday": {
+    "Morning": [
+     "DOC_06",
+     "DOC_09"
+    ],
+    "Afternoon": [
+     "DOC_05",
+     "DOC_07"
+    ],
+    "Night": [
+     "DOC_01",
+     "DOC_10"
+    ]
+   }
+  },
+  "certified": true,
+  "decisions": 54,
+  "backtracks": 8,
+  "dead_ends": 8,
+  "relaxed_steps": 0,
+  "first_dead_end": "Saturday Afternoon",
+  "skipped_single": 4,
+  "alerts": 21,
+  "rejections": 16,
+  "probes": 21,
+  "keeps": 0,
+  "forced": 5,
+  "jumps": [
+   {
+    "desde": 16,
+    "hasta": 0,
+    "medico": "DOC_04",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_09",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_10",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_05",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_06",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_09",
+    "politica": "llm"
+   },
+   {
+    "desde": 17,
+    "hasta": 16,
+    "medico": "DOC_10",
+    "politica": "llm"
+   },
+   {
+    "desde": 16,
+    "hasta": 5,
+    "medico": "DOC_04",
+    "politica": "llm"
+   }
+  ],
+  "nogood_relaxed": 2,
+  "seconds": 89.7,
+  "llm_calls": 180,
+  "agent_calls": {
+   "Asignador": 130,
+   "Crítico": 42,
+   "Diagnosticador": 8
+  },
+  "prompts": {
+   "Asignador": {
+    "file": "prompts/asignador.md",
+    "version": "1",
+    "sha": "f03d8becf0"
+   },
+   "Crítico": {
+    "file": "prompts/critico.md",
+    "version": "1",
+    "sha": "50cafbfe44"
+   },
+   "Diagnosticador": {
+    "file": "prompts/diagnosticador.md",
+    "version": "1",
+    "sha": "490ea4265f"
+   }
+  }
+ },
+ "verification": {
+  "is_valid": true,
+  "total_hard_violations": 0,
+  "violations_by_type": {
+   "HC1": 0,
+   "HC2": 0,
+   "HC3": 0,
+   "HC4": 0,
+   "HC5": 0,
+   "HC6": 0,
+   "ESTRUCTURA": 0
+  },
+  "assigned_hours_distribution": {
+   "DOC_01": 40,
+   "DOC_02": 40,
+   "DOC_03": 32,
+   "DOC_04": 32,
+   "DOC_05": 32,
+   "DOC_06": 32,
+   "DOC_07": 32,
+   "DOC_08": 32,
+   "DOC_09": 24,
+   "DOC_10": 40
+  },
+  "violations": []
+ }
+}

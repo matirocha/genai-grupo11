@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents_sin_memoria",
+  "instancias": 90,
+  "a1_decisiones": 1935,
+  "a1_discriminantes": 126,
+  "a1_fatal": 0.484,
+  "a1a2_fatal": 0.254,
+  "a1_fatal_azar": 0.445,
+  "a2_decisiones": 1036,
+  "a2_vp": 49,
+  "a2_fp": 573,
+  "a2_fn": 10,
+  "a2_vn": 404,
+  "a2_tasa_rechazo": 0.6,
+  "a2_fatales": 59,
+  "a2_recall": 0.831,
+  "a2_precision": 0.079,
+  "a3_callejones": 46,
+  "a3_util": 0.696,
+  "a3_util_azar": 0.647,
+  "a3_util_anterior": 0.022,
+  "a3_cobertura": 1.0
+ }
+]

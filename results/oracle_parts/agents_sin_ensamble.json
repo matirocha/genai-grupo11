@@ -1,0 +1,25 @@
+[
+ {
+  "run": "*/llama-3.2-3b/agents_sin_ensamble",
+  "instancias": 90,
+  "a1_decisiones": 1980,
+  "a1_discriminantes": 95,
+  "a1_fatal": 0.432,
+  "a1a2_fatal": 0.274,
+  "a1_fatal_azar": 0.433,
+  "a2_decisiones": 859,
+  "a2_vp": 42,
+  "a2_fp": 433,
+  "a2_fn": 5,
+  "a2_vn": 379,
+  "a2_tasa_rechazo": 0.553,
+  "a2_fatales": 47,
+  "a2_recall": 0.894,
+  "a2_precision": 0.088,
+  "a3_callejones": 28,
+  "a3_util": 0.929,
+  "a3_util_azar": 0.717,
+  "a3_util_anterior": 0.214,
+  "a3_cobertura": 1.0
+ }
+]
