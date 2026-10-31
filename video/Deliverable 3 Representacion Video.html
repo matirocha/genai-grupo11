@@ -10,7 +10,7 @@
 <!--
   Presentación del video de Deliverable 3. Ábrela con el servidor local, que es el que ejecuta los scripts:
       python video/servidor_video.py        (o doble clic en video/0_presentacion.bat)
-  Teclas: ← → avanzar/retroceder · R ejecutar el paso de la diapositiva · T terminal (pasos 1 y 2) · F pantalla completa
+  Teclas: ← → avanzar/retroceder · R ejecutar el paso de la diapositiva · T terminal · F pantalla completa
 -->
 <style>
 /* =====================================================================
@@ -173,68 +173,14 @@ b,strong{font-weight:600}
 .rg span b{color:var(--ink)}
 .rg .rb{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--paper)}
 .rg .rb i{display:block;height:100%;width:0;background:var(--rc);transition:width .25s}
-#w3{margin-top:10px}
 .sc.prop{background:var(--card);border:1.5px dashed var(--cy1);color:var(--cy1)}
 .sc.rej{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
 .sc.ok{background:var(--green-soft);border-color:transparent;color:var(--green)}
 .sc.alr::before{content:"";position:absolute;top:-5px;right:-5px;width:9px;height:9px;border-radius:50%;background:var(--amber);border:2px solid var(--paper);z-index:2}
 .sc.crit::after{content:"";position:absolute;left:4px;right:4px;bottom:2px;height:2.5px;border-radius:2px;background:var(--cy2)}
 .sc.jmp::before{content:"";position:absolute;left:4px;right:4px;top:2px;height:2.5px;border-radius:2px;background:var(--cy3)}
-.d3r{position:relative}
-.bars{position:absolute;inset:0 0 auto 0;display:grid;gap:9px;opacity:0;pointer-events:none;transition:opacity .4s}
-#d3 .strip,#d3 .lg{transition:opacity .35s}
-#d3.at8 .rings,#d3.at8 .strip,#d3.at8 .lg{opacity:0}
-#d3.at8 .bars{opacity:1}
-.br{display:grid;grid-template-columns:150px 1fr 58px;gap:12px;align-items:center}
-.br .l{font-size:13.5px;line-height:1.25;color:var(--ink-2)}
-.br .l small{display:block;font-size:11.5px;color:var(--slate)}
-.br .t{height:26px;background:var(--card);border-radius:5px;overflow:hidden}
-.br .t i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
-.br.win .t i{background:var(--green)}
-.br .v{font:600 16px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
-.br.zero .v{color:var(--crimson)}
-.br.win .v{color:var(--green)}
 
 /* ================= agentes y roles ================= */
-.anat{display:flex;align-items:stretch;gap:8px;margin-top:16px}
-.an{background:var(--card);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;gap:1px}
-.an .n{font:600 10.5px var(--mono);color:var(--crimson);white-space:nowrap}
-.an b{font-size:14px;line-height:1.25}
-.an span{font-size:12px;line-height:1.3;color:var(--slate)}
-.an.llm{background:var(--ink);color:#fff;border-radius:18px}
-.an.llm .n{color:var(--crimson-on-dark)} .an.llm span{color:#C6CBD8}
-.an.io{background:transparent;border:1.5px dashed var(--slate-2)}
-.an .who{color:var(--crimson-deep);font-family:var(--mono);font-weight:600}
-.an.llm .who{color:var(--crimson-on-dark)}
-.plus,.to{align-self:center;font:600 18px var(--mono);color:var(--slate-2)}
-.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
-.ag{background:var(--card);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .3s}
-.ag.cur{box-shadow:0 0 0 2.5px var(--crimson)}
-.ag header{background:var(--ink);color:#fff;padding:9px 14px 10px;border-radius:12px 12px 0 0}
-.ag header .n{font:600 11px var(--mono);color:var(--crimson-on-dark)}
-.ag header b{font-size:18px;margin-right:8px}
-.ag header span{font-size:12.5px;color:#C6CBD8}
-.ag dl{display:grid;grid-template-columns:74px 1fr;gap:6px 10px;padding:9px 14px 11px;margin:0}
-.ag dt{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding-top:1px}
-.ag dd{margin:0;font-size:12.8px;line-height:1.42;color:var(--ink-2)}
-.ag dd ul{list-style:none;display:grid;gap:2px}
-.ag dd li{position:relative;padding-left:11px}
-.ag dd li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:1px;background:var(--crimson)}
-.ag code{font:600 12px var(--mono);background:var(--paper);border-radius:4px;padding:0 5px;color:var(--ink)}
-.ag .tl{font:600 11.5px var(--mono);border-radius:999px;padding:0 7px;white-space:nowrap;background:var(--c1-b);color:var(--c1-f)}
-.ag .tl.ask{background:var(--crimson-soft);color:var(--crimson-deep)}
-.ag .tl.wr{background:var(--amber-soft);color:var(--amber)}
-.ag dd .alr{display:grid;gap:2px;margin:3px 0 1px}
-.ag dd .alr>span{display:flex;align-items:baseline;gap:6px;font-size:12.3px;line-height:1.35}
-.tools{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
-.tool{background:var(--card);border-radius:8px;padding:5px 10px;transition:opacity .3s,box-shadow .3s}
-.tool b{display:block;font:600 11.5px var(--mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tool em{display:block;font:600 10.5px var(--mono);font-style:normal;color:var(--crimson);margin-top:2px}
-.tool.on{opacity:1;box-shadow:0 0 0 2px var(--crimson)}
-#ag .tool.dim{opacity:.38}
-.an.flash{animation:fadeUp .4s both}
-#ag .foot{margin-top:10px;font-size:13px;color:var(--ink-2)}
-#ag .foot b{color:var(--crimson-deep)}
 
 /* ================= ejecución de los scripts del video ================= */
 .runbar{display:flex;align-items:center;gap:10px;margin-top:14px;flex:none}
@@ -384,12 +330,6 @@ body.offline .nosrv{display:block}
 .pv.on{opacity:1;pointer-events:auto}
 .pv .rz{opacity:0;transform:translateY(10px)}
 .pv.on .rz{animation:rise .5s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d,0s)}
-.ov{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ovc{background:var(--card);border-radius:12px;padding:14px 16px 15px;display:grid;grid-template-columns:34px 1fr;column-gap:10px;align-items:start}
-.ovc i{grid-row:1/3;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font:600 14px/30px var(--mono);font-style:normal;text-align:center}
-.ovc b{font-size:16px}
-.ovc span{font-size:13px;line-height:1.4;color:var(--slate)}
-.ovc code{font:600 12px var(--mono);color:var(--ink)}
 .sets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .set{background:var(--card);border-radius:12px;padding:11px 14px 12px;display:flex;flex-direction:column;gap:3px}
 .set b{font-size:15px;color:var(--cf)}
@@ -400,38 +340,6 @@ body.offline .nosrv{display:block}
 .dots i{aspect-ratio:1;border-radius:50%;background:var(--cb);border:1.5px solid var(--cf);opacity:0;transform:scale(.3)}
 .dots i.on{animation:dot .4s cubic-bezier(.2,.7,.3,1.5) forwards}
 @keyframes dot{to{opacity:1;transform:none}}
-.strs{display:grid;gap:7px}
-.sr{display:grid;grid-template-columns:262px 1fr 86px;gap:12px;align-items:center;background:var(--card);border-radius:9px;padding:7px 12px}
-.sr b{font-size:13.5px;line-height:1.25}
-.sr.sub b{font-size:12px;font-weight:500;color:var(--ink-2)}
-.sr em{font:600 12.5px var(--mono);font-style:normal;color:var(--slate);text-align:right;white-space:nowrap}
-.sr .pb{display:block;height:10px;background:var(--paper);border-radius:5px;overflow:hidden}
-.sr .pb i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px}
-.sr.win .pb i{background:var(--green)}
-.pv.on .sr .pb i{animation:fill 1.1s cubic-bezier(.3,.6,.3,1) forwards;animation-delay:var(--d,0s)}
-@keyframes fill{to{width:100%}}
-.pv[data-v="3"] .strip{margin-top:0}
-#m1{margin-top:12px;height:auto}
-.jdg{display:block}
-.jdg .strip{margin-top:0}
-.rules{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}
-.rules li{display:grid;grid-template-columns:70px 1fr 18px;align-items:center;gap:6px;background:var(--card);border-radius:7px;padding:4px 10px;font-size:12px;color:var(--slate);transition:color .3s,box-shadow .3s}
-.rules li b{font:600 11.5px var(--mono);color:var(--ink)}
-.rules li::after{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);transition:all .3s}
-.rules li.ok{color:var(--ink-2)}
-.rules li.ok::after{content:"✓";border-color:var(--green);background:var(--green);color:#fff;font:700 10px/14px var(--sans);text-align:center}
-.rules li.cur{box-shadow:0 0 0 2px var(--green)}
-.crx{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.cx{background:var(--card);border-radius:12px;padding:10px 12px 12px;text-align:center}
-.cx .strip{margin-top:0;gap:4px;justify-content:center}
-.cx .day{grid-template-columns:repeat(3,10px);gap:2px}
-.cx .day .dl{font-size:8.5px;line-height:11px}
-.cx .sc{height:14px;font-size:0;border-radius:3px}
-.cx .sc.bad::before{top:-4px;right:-4px;width:7px;height:7px}
-.cv{font:700 22px var(--sans);margin-top:10px;opacity:0;transform:scale(.8);transition:opacity .4s,transform .4s cubic-bezier(.2,.7,.3,1.4)}
-.cx.on .cv{opacity:1;transform:none}
-.cx.ok .cv{color:var(--green)} .cx.bad .cv{color:var(--crimson)}
-.cx span{font-size:12.5px;color:var(--slate)}
 .mets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .mt{background:var(--card);border-radius:12px;padding:12px 14px 13px;min-height:86px}
 .mt b{display:block;font:600 21px var(--mono);color:var(--crimson);letter-spacing:-.01em}
@@ -444,73 +352,6 @@ body.offline .nosrv{display:block}
 .dr em{font-style:normal;font-weight:600;color:var(--crimson-deep)}
 .dr span:last-child{color:var(--slate)}
 /* resultados de la evaluación por decisión */
-.sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px;background:var(--paper);border:1px solid var(--line)}
-.sw.f{background:var(--crimson);border-color:transparent}.sw.ok{background:var(--green);border-color:transparent}.sw.am{background:var(--amber);border-color:transparent}
-.waf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.wf{background:var(--card);border-radius:12px;padding:10px 12px 11px;text-align:center}
-.wf>b{font-size:13.5px}
-.wf .g{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:150px;margin:8px auto 6px}
-.wf .g i{aspect-ratio:1;border-radius:2px;background:var(--paper);transition:background .15s}
-.wf .g i.f{background:var(--crimson)}
-.wf .pc{font:600 24px var(--mono);color:var(--crimson);line-height:1.1}
-.wf.good .pc{color:var(--green)}
-.wf>span{font-size:12px;color:var(--slate)}
-.wcap{margin-top:9px}
-.crt{display:grid;gap:10px}
-.cr{background:var(--card);border-radius:12px;padding:9px 14px 10px}
-.cr h4{margin-bottom:6px}
-.bul{display:flex;flex-wrap:wrap;gap:3px}
-.bul i{width:14px;height:14px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line);transition:background .2s,border-color .2s}
-.bul i.ok{background:var(--green);border-color:var(--green)}
-.bul i.f{background:var(--crimson);border-color:var(--crimson)}
-.lgd{display:flex;gap:16px;margin-top:6px;font-size:12px;color:var(--ink-2)}
-.stk{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--paper)}
-.stk .sk{display:block;height:100%;width:0;transition:width .9s cubic-bezier(.2,.7,.3,1)}
-.stk .sk.ok{background:var(--green)}.stk .sk.am{background:var(--amber);opacity:.75}
-.crt .facts{margin-top:0}
-.hbs{display:grid;gap:8px;margin-bottom:12px}
-.hb{display:grid;grid-template-columns:230px 1fr 78px;gap:12px;align-items:center;font-size:13px;color:var(--ink-2)}
-.hb>i{display:block;height:22px;background:var(--card);border-radius:5px;overflow:hidden}
-.hb>i>i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
-.hb.good>i>i{background:var(--green)}.hb.bad>i>i{background:var(--crimson)}
-.hb>b{font:600 15px var(--mono);text-align:right;white-space:nowrap}
-.hb.good>b{color:var(--green)}.hb.bad>b{color:var(--crimson)}
-.hb>b em{font-style:normal;font-size:12px;color:var(--crimson);margin-left:3px}
-#w1e{margin-top:0}
-#dgcap{margin-top:5px;min-height:18px}
-#dgcap b{color:var(--ink)}
-.cps{display:grid;gap:9px}
-.cpr h4{margin-bottom:5px;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--ink-2)}
-.cpr .strip{margin-top:0}
-.cpbox{background:var(--ink);color:#fff;border-radius:14px;padding:10px 16px;display:grid;grid-template-columns:190px 1fr;gap:14px;align-items:center}
-.cpbox b{display:block;font:600 22px var(--mono);color:var(--crimson-on-dark)}
-.cpbox span{font-size:12px;color:#C6CBD8}
-.cpbox ul{list-style:none;display:grid;gap:2px;font-size:12.5px;color:#E3E6EE}
-.cpbox li::before{content:"▸ ";color:var(--crimson-on-dark)}
-.ans{display:flex;gap:10px}
-.ans>span{border-radius:999px;padding:4px 14px;font-size:13px;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
-.ans>span.on{opacity:1;transform:none}
-.ans .an1{background:var(--green-soft);color:var(--green)} .ans .an2{background:var(--crimson-soft);color:var(--crimson-deep)}
-.cps .facts{margin-top:0}
-.cal{display:grid;grid-template-columns:230px 1fr;gap:16px;align-items:start}
-.menu{background:var(--card);border-radius:12px;padding:10px 14px 10px}
-.menu ol{list-style:none;display:grid;gap:4px;counter-reset:m}
-.menu li{counter-increment:m;display:grid;grid-template-columns:20px 1fr 22px;align-items:center;gap:6px;font:500 12.5px var(--mono);color:var(--ink-2);border-radius:6px;padding:3px 6px;transition:background .3s,box-shadow .3s}
-.menu li::before{content:counter(m) ".";color:var(--slate-2)}
-.menu li i{font-style:normal;font-weight:700;text-align:center;opacity:0;transition:opacity .3s}
-.menu li.ok i{opacity:1;color:var(--green)} .menu li.f i{opacity:1;color:var(--crimson)}
-.menu li.f{background:var(--crimson-soft)}
-.menu li.pick{box-shadow:0 0 0 2px var(--crimson)}
-.menu .tiny{margin-top:6px;min-height:36px}
-.rls{display:grid;gap:7px}
-.rl{background:var(--card);border-radius:9px;padding:8px 12px;display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:12.8px;line-height:1.38;color:var(--ink-2)}
-.rl b{font-size:13.5px;color:var(--ink)}
-.rl em{font-style:normal;font-weight:600;color:var(--crimson-deep)}
-.tks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tk{background:var(--card);border-radius:12px;padding:11px 15px 12px;min-height:110px}
-.tk>b{display:block;font:600 22px var(--mono);color:var(--crimson);letter-spacing:-.01em;margin-bottom:3px}
-.tk span{font-size:13px;line-height:1.4;color:var(--ink-2)}
-.tk span b{color:var(--ink)}
 
 
 @media (prefers-reduced-motion: reduce){
@@ -522,7 +363,7 @@ body.offline .nosrv{display:block}
 <div id="stage">
 
 <!-- ======================= 1 · PASO 1: PROTOCOLO ======================= -->
-<section class="slide" id="p1" data-sec="Paso 1 · Protocolo" data-paso="1" data-steps="12">
+<section class="slide" id="p1" data-sec="Paso 1 · Protocolo" data-paso="1" data-steps="2">
   <div class="kicker">Deliverable 3 · Paso 1 del video</div>
   <h2>Cómo se evalúa: el mismo protocolo para todas las estrategias</h2>
   <div class="runbar">
@@ -536,15 +377,8 @@ body.offline .nosrv{display:block}
   <div class="bottom">
     <div class="exp" id="x1"></div>
     <div class="pvs">
-      <!-- 0 · resumen -->
-      <div class="pv" data-v="0"><div class="ov">
-        <div class="ovc"><i>1</i><b>Entradas</b><span>90 instancias fijas y factibles, las mismas para todos</span></div>
-        <div class="ovc"><i>2</i><b>Juez</b><span><code>src/verifier.py</code>, independiente de las soluciones</span></div>
-        <div class="ovc"><i>3</i><b>Criterio</b><span>correcto si y solo si hay 0 violaciones</span></div>
-        <div class="ovc"><i>4</i><b>Evaluación por decisión</b><span>cada agente contra el azar, desde las trazas</span></div>
-      </div></div>
-      <!-- 1 · entradas -->
-      <div class="pv" data-v="1">
+      <!-- 0 · entradas -->
+      <div class="pv" data-v="0">
         <div class="sets">
           <div class="set" data-c="1"><b>Principal</b><code>data/instances</code><div class="dots"></div><span>escala de D1: 10 médicos, 21 turnos; <code>inst_00</code> = escenario exacto de D1</span></div>
           <div class="set" data-c="2"><b>Estrés</b><code>data/instances_stress</code><div class="dots"></div><span>el mismo generador + 1..3 franjas bloqueadas extra por médico</span></div>
@@ -552,40 +386,8 @@ body.offline .nosrv{display:block}
         </div>
         <div class="facts"><span><b>90</b>instancias en total</span><span><b>✓</b>todas factibles: CP-SAT las certifica al crearlas y no participa en ninguna estrategia</span></div>
       </div>
-      <!-- 2 · estrategias -->
-      <div class="pv" data-v="2"><div class="strs">
-        <div class="sr"><b>Línea base · prompt directo (D1)</b><i class="pb"><i></i></i><em>90</em></div>
-        <div class="sr"><b>Solución D2 · turno a turno</b><i class="pb"><i></i></i><em>90</em></div>
-        <div class="sr win"><b>Sistema de agentes (D3)</b><i class="pb"><i></i></i><em>90</em></div>
-        <div class="sr sub"><b>5 ablaciones: sin Diagnosticador, sin Crítico, sin memoria, sin ejemplos, sin ensamble</b><i class="pb"><i></i></i><em>5 × 90</em></div>
-        <div class="sr sub"><b>Controles: D2 al azar (y con 300 retrocesos), agentes al azar, agentes con reglas fijas</b><i class="pb"><i></i></i><em>× 5 semillas</em></div>
-        <p class="tiny">Cada estrategia con LLM corre <b>una vez</b> por instancia (greedy, determinista); los controles al azar, con 5 semillas.</p>
-      </div></div>
-      <!-- 3 · salida -->
-      <div class="pv" data-v="3">
-        <div class="strip" id="w1"></div>
-        <div class="msg" id="m1"></div>
-      </div>
-      <!-- 4 · juez -->
-      <div class="pv" data-v="4"><div class="jdg">
-        <div><div class="strip" id="w1b"></div><p class="tiny" id="jcap">el juez recorre los 21 turnos y las horas de cada médico</p></div>
-        <ul class="rules">
-          <li><b>HC1</b>descanso ≥ 16 h entre días seguidos</li>
-          <li><b>HC2</b>a lo más 1 turno por médico por día</li>
-          <li><b>HC3</b>dotación exacta de cada turno</li>
-          <li><b>HC4</b>cuota mínima de especialistas</li>
-          <li><b>HC5</b>horas semanales ≤ contrato</li>
-          <li><b>HC6</b>nadie trabaja en una franja bloqueada</li>
-          <li><b>Estructura</b>JSON legible, días, turnos e IDs válidos</li>
-        </ul>
-      </div></div>
-      <!-- 5 · criterio -->
-      <div class="pv" data-v="5"><div class="crx">
-        <div class="cx ok"><div class="strip" id="w1c"></div><div class="cv">✓ CORRECTO</div><span>0 violaciones</span></div>
-        <div class="cx bad"><div class="strip" id="w1d"></div><div class="cv">✕ INCORRECTO</div><span>1 violación (HC5) basta</span></div>
-      </div><p class="tiny" style="margin-top:10px">No hay crédito parcial. Un horario que el sistema marca <b>no certificado</b> se evalúa igual y cuenta como incorrecto si viola algo.</p></div>
-      <!-- 6 · métricas -->
-      <div class="pv" data-v="6"><div class="mets">
+      <!-- 1 · métricas -->
+      <div class="pv" data-v="1"><div class="mets">
         <div class="mt"><b>x / 30</b><span>horarios correctos por conjunto (y de 90)</span></div>
         <div class="mt"><b>viol.</b><span>violaciones medias por horario</span></div>
         <div class="mt"><b>saltos</b><span>retrocesos o saltos por horario</span></div>
@@ -593,173 +395,19 @@ body.offline .nosrv{display:block}
         <div class="mt"><b>pasadas</b><span>llamadas al LLM por horario</span></div>
         <div class="mt"><b>seg.</b><span>segundos por horario (RTX 5060)</span></div>
       </div></div>
-      <!-- 7 · evaluación por decisión -->
-      <div class="pv" data-v="7"><div class="dec">
+      <!-- 2 · evaluación por decisión -->
+      <div class="pv" data-v="2"><div class="dec">
         <div class="dh"><span>Agente</span><span>Qué se mide</span><span>Se compara con</span></div>
         <div class="dr"><b>Asignador</b><span>% de elecciones <em>fatales</em> (después la semana ya no tiene solución), sola y tras el Crítico</span><span>el azar en el mismo menú</span></div>
         <div class="dr"><b>Crítico</b><span>propuestas fatales que rechaza y rechazos innecesarios</span><span>aceptar todo (sin Crítico)</span></div>
         <div class="dr"><b>Diagnosticador</b><span>% de saltos <em>útiles</em>: deshacen la decisión culpable</span><span>el azar y retroceder 1 turno (D2)</span></div>
       </div></div>
-      <!-- 8 · qué es CP-SAT -->
-      <div class="pv" data-v="8"><div class="cps">
-        <div class="cpr"><h4>1 · Recibe la semana hasta el turno k y la opción que se quiere calificar</h4><div class="strip" id="w1f"></div></div>
-        <div class="cpbox"><div><b>CP-SAT</b><span>solver de restricciones de Google OR-Tools</span></div>
-          <ul><li>una variable sí/no por médico y turno</li><li>las reglas HC1–HC6 como restricciones</li><li>los turnos ya decididos quedan fijos</li></ul></div>
-        <div class="cpr"><h4>2 · Responde: ¿se puede completar la semana sin violar ninguna regla?</h4>
-          <div class="ans"><span class="an1" id="ans1"><b>opción A</b> → ✓ sí: tiene solución</span><span class="an2" id="ans2"><b>opción B</b> → ✕ no: es <b>fatal</b></span></div></div>
-        <div class="facts"><span><b>✓</b>exacto: si dice que no hay solución, no la hay</span><span><b>✕</b>no es un LLM y no decide en el sistema</span><span><b>⏱</b>se usa después, offline, sobre las trazas</span></div>
-      </div></div>
-      <!-- 9 · cómo se califica cada decisión -->
-      <div class="pv" data-v="9"><div class="cal">
-        <div class="menu"><h4>Menú del turno k · ejemplo</h4><ol id="menu1">
-          <li><span>DOC_05 + DOC_08</span><i>✓</i></li>
-          <li><span>DOC_05 + DOC_10</span><i>✕</i></li>
-          <li><span>DOC_06 + DOC_08</span><i>✓</i></li>
-          <li><span>DOC_06 + DOC_09</span><i>✕</i></li>
-          <li><span>DOC_05 + DOC_07</span><i>✕</i></li>
-          <li><span>DOC_06 + DOC_07</span><i>✓</i></li>
-        </ol><p class="tiny" id="menucap">CP-SAT marca cada opción</p></div>
-        <div class="rls">
-          <div class="rl"><b>Asignador</b><span>¿eligió una opción ✕? Eso es una elección <em>fatal</em>. El azar en este menú elige fatal 3 de cada 6 veces (50 %).</span></div>
-          <div class="rl"><b>Crítico</b><span>rechazar una propuesta ✕ es un acierto; rechazar una ✓ es una falsa alarma.</span></div>
-          <div class="rl"><b>Diagnosticador</b><span>ante un callejón, el salto es <em>útil</em> si deshace la decisión culpable y la semana vuelve a tener solución.</span></div>
-          <p class="tiny">Solo cuentan los <b>estados que deciden</b>: menús que mezclan ✓ y ✕. Si todas son ✓ o todas ✕, da igual qué se elija.</p>
-        </div>
-      </div></div>
-      <!-- 10 · resultado: Asignador -->
-      <div class="pv" data-v="10">
-        <div class="waf">
-          <div class="wf" data-n="48"><b>Asignador solo</b><div class="g"></div><div class="pc">48 %</div><span>elige una opción fatal</span></div>
-          <div class="wf" data-n="45"><b>Azar en el mismo menú</b><div class="g"></div><div class="pc">45 %</div><span>la referencia</span></div>
-          <div class="wf good" data-n="27"><b>Asignador + Crítico</b><div class="g"></div><div class="pc">27 %</div><span>tras la revisión</span></div>
-        </div>
-        <p class="tiny wcap"><i class="sw f"></i>fatal: después de esa decisión la semana ya no tiene solución · cada cuadro = 1 % de los <b>101</b> estados que deciden · <b>menos es mejor</b></p>
-      </div>
-      <!-- 11 · resultado: Crítico -->
-      <div class="pv" data-v="11"><div class="crt">
-        <div class="cr"><h4>Propuestas fatales que revisó: 52</h4><div class="bul" id="bul"></div>
-          <div class="lgd"><span><i class="sw ok"></i>47 interceptadas (90 %)</span><span><i class="sw f"></i>5 se le escaparon</span></div></div>
-        <div class="cr"><h4>Sus 488 rechazos</h4><div class="stk"><i class="sk ok" data-w="9.6"></i><i class="sk am" data-w="90.4"></i></div>
-          <div class="lgd"><span><i class="sw ok"></i>47 eran fatales</span><span><i class="sw am"></i>441 falsas alarmas: baratas, A1 propone otra</span></div></div>
-        <div class="facts"><span><b>58 %</b>elecciones fatales si se quita el Crítico</span><span><b style="color:var(--green)">27 %</b>con el Crítico</span></div>
-      </div></div>
-      <!-- 12 · resultado: Diagnosticador -->
-      <div class="pv" data-v="12">
-        <h4>Saltos útiles en los 27 callejones del sistema completo · más es mejor</h4>
-        <div class="hbs">
-          <div class="hb good" data-w="100"><span>Diagnosticador (A3)</span><i><i></i></i><b>100 %</b></div>
-          <div class="hb" data-w="69"><span>Azar entre los mismos candidatos</span><i><i></i></i><b>69 %</b></div>
-          <div class="hb bad" data-w="18"><span>Retroceder 1 turno (como D2)</span><i><i></i></i><b>18 %</b></div>
-        </div>
-        <div class="strip" id="w1e"></div>
-        <p class="tiny" id="dgcap">esquema: callejón en el turno 15; la decisión culpable está en el 9</p>
-      </div>
     </div>
   </div>
   <div class="tover" style="top:164px"><button class="btn ghost x">Cerrar ✕</button><div class="term"><pre></pre><div class="ph">Pulsa <span><kbd>R</kbd> o ▶ Ejecutar</span>para correr el script y ver su salida aquí</div></div></div>
 </section>
 
-<!-- ======================= 2 · AGENTES Y ROLES ======================= -->
-<section class="slide" id="ag" data-sec="Deliverable 3 · Agentes y roles" data-steps="4">
-  <div class="kicker">Deliverable 3 · Antes del flujo: quién es quién</div>
-  <h2>Tres agentes, un mismo modelo: cambia el prompt y lo que ve</h2>
-  <div class="anat">
-    <div class="an rise" style="--d:.1s;flex:1.25"><div class="n">Sistema · prompts/<span class="who" id="agF">&lt;agente&gt;</span>.md</div><b>Rol · Reglas · Ejemplos · Memoria</b><span>texto fijo y versionado, escrito por nosotros</span></div>
-    <div class="plus rise" style="--d:.2s">+</div>
-    <div class="an rise" style="--d:.3s;flex:1.25"><div class="n">Usuario · observación</div><b>La arma el código</b><span>con los números de <span class="who" id="agT">las herramientas</span></span></div>
-    <div class="to rise" style="--d:.4s">→</div>
-    <div class="an llm rise" style="--d:.5s;flex:1"><div class="n" id="agN">Agente</div><b>Llama-3.2-3B</b><span>el mismo modelo en los tres; 4-bit, greedy</span></div>
-    <div class="to rise" style="--d:.6s">→</div>
-    <div class="an rise" style="--d:.7s;flex:1"><div class="n">Salida · 1 token</div><b id="agL">una etiqueta del menú</b><span>solo valen las etiquetas permitidas</span></div>
-    <div class="to rise" style="--d:.8s">→</div>
-    <div class="an io rise" style="--d:.9s;flex:.9"><div class="n">Código</div><b>Coordinador</b><span>ejecuta lo que dice la etiqueta</span></div>
-  </div>
-
-  <div class="agents">
-    <article class="ag frag" data-f="1" data-a="1">
-      <header><div class="n">A1 · agente</div><b>Asignador</b><span>mira a lo ancho</span></header>
-      <dl>
-        <dt>Rol</dt><dd>Propone la opción para el turno <span class="m">k</span>.</dd>
-        <dt>Recibe</dt><dd><ul>
-          <li>Tabla de estado de D2: turno <span class="m">k</span>, cuotas que faltan | capacidad, candidatos.</li>
-          <li>Menú numerado de opciones viables, barajado en 2 órdenes (ensamble).</li>
-          <li>Hasta 3 lecciones; tras un rechazo, el motivo del Crítico.</li></ul></dd>
-        <dt>Herram.</dt><dd>Lee <span class="tl">T1</span> <span class="tl">T5</span>; su propuesta pasa a <span class="tl">T2</span></dd>
-        <dt>Responde</dt><dd><code>1…n</code> una opción · <code>0</code> mantener la suya</dd>
-        <dt>Después</dt><dd>Sin alertas de T2 se fija; con alertas, al Crítico.</dd>
-      </dl>
-    </article>
-    <article class="ag frag" data-f="2" data-a="2">
-      <header><div class="n">A2 · agente</div><b>Crítico</b><span>mira a fondo una propuesta</span></header>
-      <dl>
-        <dt>Rol</dt><dd>Fija la propuesta o la devuelve a A1. Solo actúa si hay alertas.</dd>
-        <dt>Recibe</dt><dd><ul>
-          <li>Alertas de T2 vs. la mejor alternativa:
-            <div class="alr"><span><span class="tl wr">R1</span><span>más especialistas sobre la cuota</span></span><span><span class="tl wr">R2</span><span>menos de ½ de opciones en <span class="m">k</span>+1</span></span><span><span class="tl wr">R3</span><span>más turnos futuros sin margen</span></span></div></li>
-          <li>Si sondeó, continuaciones a 2 turnos; lecciones.</li></ul></dd>
-        <dt>Herram.</dt><dd>Lee <span class="tl">T2</span> <span class="tl">T5</span>; pide <span class="tl ask">T3</span> (1 vez)</dd>
-        <dt>Responde</dt><dd><code>1</code> aceptar · <code>2</code> rechazar · <code>3</code> sondear</dd>
-        <dt>Después</dt><dd>Acepta: se fija, <span class="m">k</span>+1. Rechaza: vuelve a A1 (máx. 2).</dd>
-      </dl>
-    </article>
-    <article class="ag frag" data-f="3" data-a="3">
-      <header><div class="n">A3 · agente</div><b>Diagnosticador</b><span>mira hacia atrás</span></header>
-      <dl>
-        <dt>Rol</dt><dd>Ante un callejón, elige qué decisión pasada rehacer.</dd>
-        <dt>Recibe</dt><dd><ul>
-          <li>Turno del callejón y qué requisito futuro ya no se cubre.</li>
-          <li>Médicos del conflicto y por qué no pueden (HC5, HC1, HC2; HC6 es fijo).</li>
-          <li>Últimas 12 decisiones como candidatas; lecciones.</li></ul></dd>
-        <dt>Herram.</dt><dd>Lee <span class="tl">T4</span> <span class="tl">T5</span>; su elección escribe en <span class="tl wr">T5</span></dd>
-        <dt>Responde</dt><dd><code>1…12</code> el candidato a rehacer</dd>
-        <dt>Después</dt><dd>Deshace desde ahí, prohíbe a un médico y deja una lección (máx. 30).</dd>
-      </dl>
-    </article>
-  </div>
-
-  <div class="tools">
-    <div class="tool" data-t="1"><b>T1 opciones viables</b><em>→ A1</em></div>
-    <div class="tool" data-t="2"><b>T2 perfilar</b><em>→ A2</em></div>
-    <div class="tool" data-t="3"><b>T3 sondear</b><em>A2 lo pide</em></div>
-    <div class="tool" data-t="4"><b>T4 explicar callejón</b><em>→ A3</em></div>
-    <div class="tool" data-t="5"><b>T5 lecciones</b><em>→ A1, A2 · ← A3</em></div>
-    <div class="tool" data-t="6"><b>T6 verificador</b><em>coordinador</em></div>
-    <div class="tool" data-t="7"><b>T7 completar relajado</b><em>coordinador</em></div>
-  </div>
-  <p class="foot frag" data-f="4">Ningún agente ejecuta herramientas por su cuenta: <b>el coordinador de turnos las corre y pone sus números en la observación</b>. La única que un agente pide es T3, con la respuesta 3 del Crítico.</p>
-</section>
-
-<!-- ======================= 3 · FLUJO DE D3 (esquema) ======================= -->
-<section class="slide" id="d3" data-sec="Deliverable 3 · Flujo de los agentes" data-steps="8">
-  <div class="kicker">Deliverable 3 · Sistema de agentes</div>
-  <h2>D3: tres agentes proponen, critican y corrigen</h2>
-  <div id="f3"></div>
-  <div class="bottom">
-    <div class="exp" id="x3"></div>
-    <div class="d3r">
-      <div class="rings">
-        <div class="rg" data-r="1"><div class="rn">↻ Ciclo 1 · turno a turno</div><div class="rv">k = <b id="c3k">1</b><small> / 21</small></div><span>acepta → fija y pasa a k+1</span><i class="rb"><i></i></i></div>
-        <div class="rg" data-r="2"><div class="rn">↻ Ciclo 2 · crítica</div><div class="rv"><b id="c3r">0</b><small> / 2 rechazos</small></div><span>en el turno k · <b id="c3t">0</b> en la semana</span><i class="rb"><i></i></i></div>
-        <div class="rg" data-r="3"><div class="rn">↻ Ciclo 3 · saltos</div><div class="rv"><b id="c3s">0</b><small> / 30 saltos</small></div><span>callejón → vuelve al turno j</span><i class="rb"><i></i></i></div>
-      </div>
-      <div class="strip" id="w3"></div>
-      <div class="lg">
-        <span><i class="sc f"></i>fijado</span><span><i class="sc prop"></i>propuesta de A1</span><span><i class="sc rej"></i>rechazo de A2 (ciclo 2)</span>
-        <span><i class="sc dead"></i>callejón</span><span><i class="sc undo"></i>deshecho por el salto (ciclo 3)</span><span><i class="sc redo"></i>rehecho</span><span><i class="sc ok"></i>verificado</span>
-        <span><i class="mk am"></i>el Crítico rechazó ahí</span><span><i class="mk rd"></i>deshecho por un salto y rehecho</span>
-      </div>
-      <div class="bars">
-        <h4>Horarios correctos en las mismas 90 instancias</h4>
-        <div class="br zero"><div class="l">D1 · prompt directo<small>1 pasada del LLM</small></div><div class="t"><i data-w="0"></i></div><div class="v">0/90</div></div>
-        <div class="br"><div class="l">D2 · turno a turno<small>26 pasadas por horario</small></div><div class="t"><i data-w="88.9"></i></div><div class="v">80/90</div></div>
-        <div class="br win"><div class="l">D3 · agentes<small>77 pasadas por horario</small></div><div class="t"><i data-w="100"></i></div><div class="v">90/90</div></div>
-        <p class="tiny">Control: los mismos agentes eligiendo al azar también llegan a 90/90. El LLM aporta eficiencia: 78 horarios sin ningún salto, contra 65,6 del azar.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= 4 · PASO 2: AGENTES EN VIVO ======================= -->
+<!-- ======================= 2 · PASO 2: AGENTES EN VIVO ======================= -->
 <section class="slide" id="live" data-sec="Paso 2 · Agentes en vivo" data-paso="2">
   <div class="kicker" id="k4">Deliverable 3 · Paso 2 del video · sistema de agentes en vivo sobre hard_29</div>
   <h2>Los mensajes entre agentes, a medida que ocurren</h2>
@@ -792,7 +440,7 @@ body.offline .nosrv{display:block}
   <div class="tover" id="tover"><button class="btn ghost x">Cerrar ✕</button><div class="term"><pre></pre></div></div>
 </section>
 
-<!-- ======================= 5 · PASO 2: SALIDA FINAL ======================= -->
+<!-- ======================= 3 · PASO 2: SALIDA FINAL ======================= -->
 <section class="slide" id="fin" data-sec="Paso 2 · Salida final">
   <div class="kicker" id="finK">Deliverable 3 · Paso 2 del video · salida final</div>
   <h2 id="finH">Salida final del sistema de agentes</h2>
@@ -1022,180 +670,6 @@ function popSc(c){c.classList.remove('pop');void c.offsetWidth;c.classList.add('
 function message(box,m){box.innerHTML=`<div class="rt">${m.rt}</div><pre>${m.b}</pre>`;box.classList.remove('in');void box.offsetWidth;box.classList.add('in');}
 
 /* =====================================================================
-   Agentes y roles: cada paso presenta un agente y enciende sus herramientas
-   ===================================================================== */
-const AGS=[null,
-  {f:'asignador',     t:'T1 y T5',     n:'A1 · Asignador',     l:'1…n, o 0'},
-  {f:'critico',       t:'T2, T3 y T5', n:'A2 · Crítico',       l:'1, 2 o 3'},
-  {f:'diagnosticador',t:'T4 y T5',     n:'A3 · Diagnosticador',l:'1…12'}];
-const AG_TOOLS={1:[1,5],2:[2,3,5],3:[4,5],4:[6,7]};
-H.ag={
-  step(n,prev){
-    const a=AGS[n];
-    $('#agF').textContent=a?a.f:'<agente>';
-    $('#agT').textContent=a?a.t:'las herramientas';
-    $('#agN').textContent=a?a.n:'Agente';
-    $('#agL').textContent=a?a.l:'una etiqueta del menú';
-    if(prev===n-1&&a)$$('#ag .an').forEach(x=>{x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');});
-    $$('#ag .ag').forEach(c=>c.classList.toggle('cur',+c.dataset.a===n));
-    const on=AG_TOOLS[n]||[];
-    $$('#ag .tool').forEach(t=>{const k=+t.dataset.t;t.classList.toggle('on',on.includes(k));t.classList.toggle('dim',n>0&&!on.includes(k));});
-  }
-};
-
-/* =====================================================================
-   Flujo de D3 (esquema ilustrativo, sin datos de una instancia)
-   ===================================================================== */
-const F3=Flow($('#f3'),{w:1136,h:326,
-  nodes:{
-    in: {x:0,   y:70, w:92, h:80,k:'io',   n:'Entrada',     b:'Instancia'},
-    orq:{x:116, y:70, w:152,h:80,          n:'Código',      b:'Coordinador',      s:'estado y turno k'},
-    t1: {x:298, y:70, w:164,h:80,          n:'T1 · código D2',b:'Opciones viables',s:'filtro legal + chequeo adelante'},
-    a1: {x:494, y:70, w:152,h:80,k:'agent',n:'A1 · agente', b:'Asignador',        s:'elige 1 opción del menú'},
-    t2: {x:678, y:70, w:144,h:80,          n:'T2',          b:'Perfilar',         s:'rasgos y alertas R1–R3'},
-    a2: {x:854, y:70, w:152,h:80,k:'agent',n:'A2 · agente', b:'Crítico',          s:'acepta, rechaza o sondea'},
-    t3: {x:1036,y:70, w:100,h:80,          n:'T3',          b:'Sondear',          s:'conteos a 2 turnos'},
-    t6: {x:0,   y:214,w:150,h:72,k:'judge',n:'T6 · juez',   b:'Verificador',      s:'HC1–HC6 al llegar a k = 21'},
-    t4: {x:298, y:214,w:164,h:72,          n:'T4',          b:'Explicar callejón',s:'causa + 12 decisiones'},
-    a3: {x:494, y:214,w:152,h:72,k:'agent',n:'A3 · agente', b:'Diagnosticador',   s:'elige a qué turno saltar'},
-    t5: {x:854, y:214,w:152,h:72,          n:'T5',          b:'Lecciones',        s:'memoria verbal para A1 y A2'}
-  },
-  edges:{
-    in_orq:{p:[[92,110],[116,110]]},
-    orq_t1:{p:[[268,110],[298,110]]},
-    t1_a1: {p:[[462,110],[494,110]]},
-    a1_t2: {p:[[646,110],[678,110]]},
-    t2_a2: {p:[[822,110],[854,110]]},
-    a2_t3: {p:[[1006,98],[1036,98]]},
-    t3_a2: {p:[[1036,122],[1006,122]]},
-    rej:   {p:[[900,70],[900,44],[570,44],[570,70]],cyc:true,ring:2,lab:[735,38,'↻ CICLO 2 · rechaza + motivo (≤2 por turno)']},
-    acc:   {p:[[970,70],[970,16],[192,16],[192,70]],cyc:true,ring:1,lab:[581,10,'↻ CICLO 1 · acepta: fijar la opción y pasar a k+1 (21 turnos)']},
-    t1_t4: {p:[[380,150],[380,214]],lab:[390,186,'0 opciones: callejón','start']},
-    t4_a3: {p:[[462,250],[494,250]]},
-    a3_t5: {p:[[646,250],[854,250]],lab:[750,242,'lección']},
-    t5_a2: {p:[[930,214],[930,150]]},
-    t5_a1: {p:[[858,214],[624,150]]},
-    jump:  {p:[[570,286],[570,308],[192,308],[192,150]],cyc:true,ring:3,lab:[380,322,'↻ CICLO 3 · salta al turno j y prohíbe ahí a un médico (≤30)']},
-    orq_t6:{p:[[150,150],[100,214]]}
-  },
-  rings:{
-    1:['orq_t1','t1_a1','a1_t2','t2_a2','acc'],
-    2:['a1_t2','t2_a2','rej'],
-    3:['t1_t4','t4_a3','jump','orq_t1']
-  }});
-const S3=[
-  {act:['orq'],hops:[['in_orq','instancia']],cy:1,t:'El coordinador de turnos es código, no un agente',
-   p:'Guarda el estado de la semana y el turno <span class="m">k</span> que toca. La tarea, el juez y el modelo son los de D1 y D2: los tres agentes usan el mismo Llama-3.2-3B (4-bit, greedy).'},
-  {act:['t1'],hops:[['orq_t1','turno k']],cy:1,t:'T1 · Opciones viables',
-   p:'Es el filtro legal y el chequeo hacia adelante de D2, sin cambios. Con 1 opción se fija sin LLM; con 0 hay un callejón; con 2 o más se llama al Asignador.'},
-  {act:['a1'],hops:[['t1_a1','menú']],cy:1,t:'A1 · Asignador',
-   p:'Mira a lo ancho. Recibe el estado, el menú de opciones <b>barajado</b> (ensamble de órdenes contra el sesgo de posición), ejemplos y lecciones, y propone una opción.'},
-  {act:['t2'],hops:[['a1_t2','propuesta']],cy:1,t:'T2 · Perfilar la propuesta',
-   p:'Calcula los rasgos de la propuesta y levanta alertas R1–R3. Si no hay alertas, la opción se fija sin consultar al Crítico.'},
-  {act:['a2','t3','a1'],hops:[['t2_a2','alerta'],['a2_t3','sondear'],['t3_a2','conteos'],['rej','rechaza'],['a1_t2','2.ª propuesta'],['t2_a2','propuesta']],cy:2,ring:2,tag:'Ciclo 2 · dentro de un turno',t:'A2 · Crítico',
-   p:'Mira a fondo una sola propuesta frente a la mejor alternativa, con números: para un modelo de 3B verificar es más fácil que generar. Puede sondear dos turnos adelante (T3) y <b>rechazar</b> con un motivo; A1 corrige. Es una vuelta chica que no cambia de turno.'},
-  {act:['orq'],hops:[['acc','acepta · k+1']],cy:1,ring:1,tag:'Ciclo 1 · un turno por vuelta',t:'Acepta y se avanza',
-   p:'La opción se fija y el coordinador pasa al turno <span class="m">k</span>+1; la vuelta se repite y la semana se va llenando. La raya ámbar marca los turnos que el Crítico rechazó antes de fijar. En los estados donde la elección importa, el Crítico baja las elecciones fatales del <b>48 %</b> al <b>27 %</b>.'},
-  {act:['t4','a3','t5'],start:['t1_t4','0 opciones'],hops:[['t1_t4','0 opciones'],['t4_a3','causa'],['jump','salta a j']],hot:['a3_t5','t5_a2','t5_a1'],cy:3,ring:3,tag:'Ciclo 3 · hacia atrás',t:'A3 · Diagnosticador',
-   p:'Un turno queda sin opciones: callejón. T4 explica la causa y A3 elige a qué turno <span class="m">j</span> <b>saltar</b>; en el esquema deshace del 10 al 14 de una vez, prohíbe un médico en el 10 y deja una lección (T5). Sus saltos dan con la decisión culpable el <b>100 %</b> de las veces; retroceder 1 turno, como D2, el 18 %.'},
-  {act:['orq','t6'],hops:[['orq_t6','k = 21']],cy:1,ring:1,tag:'Ciclo 1 otra vez',t:'Se retoma y se completa la semana',
-   p:'Desde el turno <span class="m">j</span> el ciclo 1 vuelve a correr, ahora con el médico prohibido y la lección a la vista. Con <span class="m">k</span> = 21 el horario pasa al verificador (T6): 0 violaciones → <b>válido</b>. Si se agotaran los 30 saltos, se completaría relajado (T7) y saldría no certificado.'},
-  {act:['t6'],tag:'resultado',t:'Resultado: 90/90',
-   p:'En las mismas 90 instancias de D1 y D2, el sistema de agentes llega a <b>90/90</b> horarios correctos. Paga con más llamadas: <b>77</b> pasadas del LLM por horario, contra 26 de D2. En la diapositiva siguiente se ve <b>en vivo</b> sobre una instancia.'}
-];
-function side3(n){
-  $$('#d3 .rg').forEach(c=>c.classList.toggle('on',+c.dataset.r===S3[n].cy));
-  $$('#d3 .br .t i').forEach(i=>i.style.width=(n>=8?i.dataset.w:0)+'%');
-}
-const W3=strip('#w3');
-const REJ3=[1,6,8,17,19],DE3=15,J3=10;
-const CNT3=[[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,1,1,0],[DE3,0,3,0],[J3,0,3,1],[21,0,5,1],[21,0,5,1]];
-const fx3=k=>'f'+(REJ3.includes(k)?' crit':'');
-const ok3=k=>'ok'+(k>=J3&&k<DE3?' jmp':'')+(REJ3.includes(k)?' crit':'');
-function strip3(n){
-  if(n<=1)return paintStrip(W3,k=>k===1?'cur':'');
-  if(n===2||n===4)return paintStrip(W3,k=>k===1?'prop cur':'');
-  if(n===3)return paintStrip(W3,k=>k===1?'prop cur alr':'');
-  if(n===5)return paintStrip(W3,k=>k<DE3?fx3(k):k===DE3?'cur':'');
-  if(n===6)return paintStrip(W3,k=>k<J3?fx3(k):k===J3?'undo cur':k<DE3?'undo':'');
-  paintStrip(W3,ok3);
-}
-let c3=[1,0,0,0];
-function cnt3(k,r,t,s){
-  c3=[k,r,t,s];
-  $('#c3k').textContent=k;$('#c3r').textContent=r;$('#c3t').textContent=t;$('#c3s').textContent=s;
-  const w=[k/21,r/2,s/30];
-  $$('#d3 .rg .rb i').forEach((i,x)=>i.style.width=w[x]*100+'%');
-}
-function turn3(k,cls){
-  const h=[['orq_t1',''],['t1_a1',''],['a1_t2',''],['t2_a2','']];
-  if(REJ3.includes(k))h.push(['rej',''],()=>{setSc(W3[k-1],'rej cur',k);cnt3(c3[0],1,c3[2]+1,c3[3]);},['a1_t2',''],['t2_a2','']);
-  h.push(['acc',k<21?'turno '+(k+1):''],()=>{
-    setSc(W3[k-1],cls(k),k);popSc(W3[k-1]);
-    if(k<21)setSc(W3[k],'cur',k+1);
-    cnt3(Math.min(k+1,21),0,c3[2],c3[3]);
-  });
-  return h;
-}
-const FAST={speed:3,min:55};
-H.d3={
-  step(n,prev){
-    gen++;F3.state(S3,n);explain($('#x3'),S3[n],n,S3.length-1);side3(n);
-    const anim=prev===n-1&&n>0;
-    F3.hide(1);
-    if(!anim){
-      restPk(F3,S3,n);
-      if(n===6)F3.put(1,'t5_a2',F3.endU('t5_a2'),'lección');
-      strip3(n);cnt3(...CNT3[n]);
-      return;
-    }
-    strip3(n-1);cnt3(...CNT3[n-1]);
-    if(n===2||n===3){F3.run(S3[n].hops,()=>{strip3(n);popSc(W3[0]);});return;}
-    if(n===4){
-      const h=S3[4].hops;
-      F3.run([...h.slice(0,4),
-              ()=>{setSc(W3[0],'rej cur shk',1);cnt3(1,1,1,0);},
-              h[4],
-              ()=>{setSc(W3[0],'prop cur',1);popSc(W3[0]);},
-              h[5]]);
-      return;
-    }
-    if(n===5){
-      const rest=[];
-      for(let k=2;k<DE3;k++)rest.push(...turn3(k,fx3));
-      F3.run(S3[5].hops,()=>{
-        setSc(W3[0],fx3(1),1);popSc(W3[0]);setSc(W3[1],'cur',2);cnt3(2,0,1,0);
-        F3.run(rest,null,FAST);
-      });
-      return;
-    }
-    if(n===6){
-      const h=S3[6].hops;
-      F3.run([h[0],
-              ()=>setSc(W3[DE3-1],'dead shk',DE3),
-              h[1],
-              ()=>F3.run([['a3_t5','lección'],['t5_a2','lección']],null,{i:1}),
-              h[2],
-              ()=>{
-                for(let k=J3;k<=DE3;k++){setSc(W3[k-1],k===J3?'undo cur':k<DE3?'undo':'',k);popSc(W3[k-1]);}
-                cnt3(J3,0,c3[2],1);
-              }]);
-      return;
-    }
-    if(n===7){
-      const loop=[];
-      for(let k=J3;k<=21;k++)loop.push(...turn3(k,k=>k<DE3?'redo':fx3(k)));
-      F3.run(loop,()=>F3.run([...S3[7].hops,
-        ()=>W3.forEach((c,i)=>laterG(i*45,()=>{setSc(c,ok3(i+1),i+1);popSc(c);}))]),FAST);
-      return;
-    }
-    strip3(n);cnt3(...CNT3[n]);
-    if(S3[n].hops)F3.run(S3[n].hops);else restPk(F3,S3,n);
-  },
-  leave(){gen++;}
-};
-
-/* =====================================================================
    Ejecución de los scripts del video (servidor_video.py)
    El servidor corre video/pasoN_*.py y transmite NDJSON: {t:"linea"} por cada línea de la consola,
    {t:"ev"} por cada mensaje entre agentes y {t:"fin"} al terminar.
@@ -1322,103 +796,27 @@ const F1=Flow($('#f1'),{w:1136,h:176,
     tr_cp: {p:[[418,148],[460,148]]}
   }});
 const S1=[
-  {act:[],t:'Un solo protocolo, igual para todas las estrategias',
-   p:'La línea base de D1, la solución de D2, el sistema de agentes y cada ablación reciben <b>las mismas entradas</b>, las juzga <b>el mismo verificador</b> y cuentan con <b>el mismo criterio</b>. Es lo que imprime <span class="mono">src/protocol.py</span>: su salida se ve con el botón <b>Terminal</b>.'},
   {act:['in'],tag:'1 · entradas',t:'Entradas: 90 instancias fijas',
-   p:'Tres conjuntos de 30. Todas tienen solución: CP-SAT (un solver exacto, ver paso 9) las certifica al crearlas, pero no participa en ninguna estrategia. El conjunto <b>difícil</b> es nuevo en D3: la capacidad queda casi justa con la demanda, y ahí es donde D2 más falla (22/30).'},
-  {act:['st'],hops:[['in_st','instancia']],t:'Cada estrategia corre sobre las 90',
-   p:'Las estrategias con LLM corren <b>una sola vez</b> por instancia, con decodificación greedy: el resultado es determinista. Los controles que eligen al azar se corren con 5 semillas y se reporta el promedio y el rango.'},
-  {act:['out'],hops:[['st_out','horario']],t:'Lo que se evalúa es el horario final',
-   p:'Siempre el mismo objeto: el horario en JSON <span class="mono">{día: {turno: [IDs]}}</span>, 7 días × 3 turnos y 42 plazas. Da igual cómo se llegó a él: con un prompt, un turno por llamada o tres agentes.'},
-  {act:['ver'],hops:[['out_ver','horario']],tag:'2 · juez',t:'El juez: src/verifier.py',
-   p:'Es independiente del código de las soluciones. Cuenta las violaciones de las seis reglas duras (HC1–HC6) y los errores de estructura: JSON ilegible, días o turnos faltantes, IDs inexistentes o repetidos.'},
-  {act:['res'],hops:[['ver_res','reporte']],tag:'3 · criterio',t:'Correcto si y solo si hay 0 violaciones',
-   p:'No hay crédito parcial: una violación basta para que el horario sea incorrecto. Un horario que el sistema marca <b>no certificado</b> (agotó su presupuesto y completó relajando reglas) se evalúa igual.'},
-  {act:['res'],tag:'3 · métricas',t:'Métricas por estrategia y conjunto',
-   p:'Además de los horarios correctos de 30, se reportan las violaciones medias, los saltos o retrocesos, las decisiones deshechas, las pasadas del LLM y los segundos por horario en una RTX 5060. Son las columnas de la tabla del paso 3.'},
+   p:'Tres conjuntos de 30. Todas tienen solución: las certifica <b>CP-SAT</b>, un solver exacto de restricciones de Google OR-Tools que responde con certeza si una semana se puede completar sin violar HC1–HC6. No es un LLM ni participa en ninguna estrategia. El conjunto <b>difícil</b> es nuevo en D3: la capacidad queda casi justa con la demanda.'},
+  {act:['ver','res'],hops:[['in_st','instancia'],['st_out','horario'],['out_ver','horario'],['ver_res','reporte']],tag:'2 y 3 · juez y criterio',t:'Cómo se juzga cada horario',
+   p:'Cada estrategia produce un horario que juzga <span class="mono">src/verifier.py</span>: es <b>correcto solo si tiene 0 violaciones</b> de HC1–HC6, sin crédito parcial. Además se reportan las violaciones medias, los saltos, las decisiones deshechas, las pasadas del LLM y los segundos por horario (tabla de resultados del README, §7).'},
   {act:['tr','cp'],hops:[['st_tr','decisiones'],['tr_cp','traza']],tag:'4 · por decisión',t:'Evaluación del modelo, decisión por decisión',
-   p:'Contar horarios correctos no dice si cada agente decide bien. Por eso, <b>offline y desde las trazas</b>, se califica cada decisión de cada agente y se compara con lo que habría hecho el azar en la misma situación. El que califica es <b>CP-SAT</b>, que se explica en el paso siguiente.'},
-  {act:['cp'],tag:'4 · el calificador',t:'¿Qué es CP-SAT?',
-   p:'Es un <b>solver de programación con restricciones</b> de Google (OR-Tools). Se le describe la semana con una variable sí/no por médico y turno, las reglas HC1–HC6 como restricciones y los turnos ya decididos como fijos, y responde <b>con certeza</b> si existe una forma de completarla. <b>En palabras simples:</b> es un juez exacto que no adivina; no es un LLM y nunca decide dentro del sistema.'},
-  {act:['tr','cp'],tag:'4 · el calificador',t:'Cómo se califica cada decisión',
-   p:'Se reconstruye cada estado desde la traza y CP-SAT marca cada opción del menú: <b>✓ con solución</b> o <b>✕ fatal</b> (después de ella, la semana ya no se puede completar). Con esas marcas se califica lo que hizo cada agente. <b>En palabras simples:</b> como se sabe cuáles opciones eran buenas, se puede medir si el agente eligió bien y cuánto habría acertado el azar.'},
-  {act:['cp'],tag:'resultado · Asignador',t:'¿El Asignador elige bien por sí solo?',
-   p:'En los <b>101 estados que deciden</b> (el menú mezcla opciones fatales y opciones con solución), el Asignador solo elige una fatal el <b>48 %</b> de las veces; el azar en el mismo menú, el 45 %. <b>En palabras simples:</b> solo, el Asignador no distingue mejor que una moneda. Su aporte aparece cuando el Crítico revisa su propuesta: las fatales bajan a <b>27 %</b>.'},
-  {act:['cp'],tag:'resultado · Crítico',t:'El Crítico atrapa casi todas las propuestas fatales',
-   p:'De las 52 propuestas fatales que le llegaron, rechazó <b>47 (90 %)</b>. A cambio da muchas falsas alarmas: de sus 488 rechazos, solo 47 eran fatales. <b>En palabras simples:</b> es un revisor desconfiado, y conviene que lo sea, porque un rechazo de más solo cuesta que el Asignador proponga otra opción. Sin Crítico, las fatales suben a 58 %.'},
-  {act:['cp'],tag:'resultado · Diagnosticador',t:'El Diagnosticador vuelve a la decisión culpable',
-   p:'En los 27 callejones del sistema completo, sus saltos fueron <b>útiles el 100 %</b> de las veces: deshicieron la decisión culpable. Elegir al azar entre los mismos candidatos acierta el 69 %, y retroceder un turno como D2, el 18 %. <b>En palabras simples:</b> la culpable suele estar varios turnos antes del callejón (mediana 6), y retroceder de a uno casi nunca llega.'},
+   p:'Contar horarios correctos no dice si cada agente decide bien. Por eso, <b>offline y desde las trazas</b>, se califica cada decisión de cada agente y se compara con lo que habría hecho el azar en la misma situación. El que califica es <b>CP-SAT</b>, el mismo solver exacto que certificó las instancias.'},
 ];
-const W1=strip('#w1'),W1b=strip('#w1b'),W1c=strip('#w1c'),W1d=strip('#w1d'),W1e=strip('#w1e'),W1f=strip('#w1f');
-$$('#p1 .wf .g').forEach(g=>{for(let i=0;i<100;i++)g.append(el('i'));});
-for(let i=0;i<52;i++)$('#bul').append(el('i'));
-$$('#p1 .wf,#p1 .cr,#p1 .rl').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.className===x.className||y.classList.contains(x.classList[0]));x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.12+'s');});
 $$('#p1 .set').forEach(st=>{const d=$('.dots',st);for(let i=0;i<30;i++)d.append(el('i'));});
-$$('#p1 .ovc,#p1 .set,#p1 .mt,#p1 .dr,#p1 .dh').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.tagName===x.tagName);x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.09+'s');});
-$$('#p1 .sr').forEach((x,i)=>{x.classList.add('rz');x.style.setProperty('--d',i*.12+'s');$('.pb i',x).style.setProperty('--d',(.25+i*.12)+'s');});
-const M1={rt:'Qué se evalúa · el horario final (JSON)',
-  b:`{ <b>"Monday"</b>:  { "Morning": ["DOC_05", "DOC_07"], "Afternoon": […], … },
-  <b>"Tuesday"</b>: { … },
-  …
-  <b>"Sunday"</b>:  { … } }
-<span class="c">7 días × 3 turnos = 21 turnos · 2 médicos por turno = 42 plazas</span>`};
-const RULES=()=>$$('#p1 .rules li');
+$$('#p1 .set,#p1 .mt,#p1 .dr,#p1 .dh').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.tagName===x.tagName);x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.09+'s');});
 /* figura de cada paso; anim = recién se llegó a este paso (las figuras se arman de a poco) */
 function vis1(n,anim){
   $$('#p1 .pv').forEach(v=>v.classList.toggle('on',+v.dataset.v===n));
   const run=(ms,fn)=>anim?laterG(ms,fn):fn();
-  if(n===1)$$('#p1 .set').forEach((st,si)=>$$('.dots i',st).forEach((d,i)=>{d.classList.remove('on');run(si*160+i*22,()=>d.classList.add('on'));}));
-  if(n===3){
-    message($('#m1'),M1);paintStrip(W1,()=>'');
-    W1.forEach((c,i)=>run(i*70,()=>{setSc(c,'f',i+1);if(anim)popSc(c);}));
-  }
-  if(n===4){
-    paintStrip(W1b,()=>'f');RULES().forEach(r=>r.classList.remove('ok','cur'));
-    W1b.forEach((c,i)=>run(i*55,()=>{if(i)setSc(W1b[i-1],'ok',i);setSc(c,'f cur',i+1);}));
-    run(21*55,()=>setSc(W1b[20],'ok',21));
-    RULES().forEach((r,i)=>run(21*55+150+i*230,()=>{RULES().forEach(x=>x.classList.remove('cur'));r.classList.add('ok','cur');}));
-    run(21*55+150+7*230,()=>RULES().forEach(x=>x.classList.remove('cur')));
-  }
-  if(n===5){
-    $$('#p1 .cx').forEach(x=>x.classList.remove('on'));
-    paintStrip(W1c,()=>'ok');paintStrip(W1d,k=>k===12?'f bad':'f');
-    run(350,()=>$('#p1 .cx.ok').classList.add('on'));
-    run(800,()=>{W1d[11].classList.add('shk');$('#p1 .cx.bad').classList.add('on');});
-  }
-  /* barras: se vacían y se llenan hasta data-w */
-  const bars=(sel,d0)=>$$(sel).forEach((b,i)=>{const t=b.matches('.sk')?b:$('i>i',b);t.style.width='0';run(d0+i*160,()=>t.style.width=b.dataset.w+'%');});
-  if(n===8){
-    const a1=$('#ans1'),a2=$('#ans2');a1.classList.remove('on');a2.classList.remove('on');
-    paintStrip(W1f,k=>k<9?'f':k===9?'prop cur':'');
-    run(900,()=>a1.classList.add('on'));
-    run(1700,()=>{setSc(W1f[8],'rej cur shk',9);a2.classList.add('on');});
-  }
-  if(n===9){
-    const li=$$('#menu1 li'),cap=$('#menucap');
-    li.forEach(x=>x.classList.remove('ok','f','pick'));cap.textContent='CP-SAT marca cada opción';
-    li.forEach((x,i)=>run(300+i*260,()=>x.classList.add($('i',x).textContent==='✓'?'ok':'f')));
-    run(300+6*260+500,()=>{li[1].classList.add('pick');cap.innerHTML='si el Asignador elige la 2, eligió una opción <b>fatal</b>';});
-  }
-  if(n===10)$$('#p1 .wf').forEach((w,wi)=>{const k=+w.dataset.n;$$('.g i',w).forEach((c,i)=>{c.classList.remove('f');if(i<k)run(300+wi*350+i*14,()=>c.classList.add('f'));});});
-  if(n===11){
-    $$('#bul i').forEach((c,i)=>{c.className='';run(200+i*28,()=>c.className=i<47?'ok':'f');});
-    bars('#p1 .stk .sk',1000);
-  }
-  if(n===12){
-    bars('#p1 [data-v="12"] .hb',150);
-    const cap=$('#dgcap');
-    paintStrip(W1e,k=>k<15?'f':k===15?'dead':'');setSc(W1e[8],'f alr',9);
-    cap.innerHTML='esquema: callejón en el turno <b>15</b>; la decisión culpable está en el <b>9</b> (punto ámbar)';
-    run(1200,()=>{setSc(W1e[13],'undo cur',14);cap.innerHTML='<b>D2</b> retrocede 1 turno, al 14: la culpable sigue en pie y vuelve el callejón';});
-    run(2700,()=>{paintStrip(W1e,k=>k<9?'f':k===9?'ok cur':k<=15?'undo':'');popSc(W1e[8]);cap.innerHTML='<b>A3</b> salta al 9, deshace 9–15 de una vez y rehace la culpable ✓';});
-  }
+  if(n===0)$$('#p1 .set').forEach((st,si)=>$$('.dots i',st).forEach((d,i)=>{d.classList.remove('on');run(si*160+i*22,()=>d.classList.add('on'));}));
 }
 H.p1={
   step(n,prev){
     gen++;
     const anim=prev===n-1&&n>0;
-    if(n===0){F1.hide(0);F1.paint(new Set(Object.keys(F1.N)),new Set(['in_st','st_out','out_ver','ver_res','st_tr','tr_cp']),new Set(),new Set(),0);}
-    else{F1.state(S1,n);if(anim&&S1[n].hops)F1.run(S1[n].hops);else restPk(F1,S1,n);}
+    F1.state(S1,n);F1.hide(0);
+    if(anim&&S1[n].hops)F1.run(S1[n].hops,null,{speed:.9,min:180});else restPk(F1,S1,n);
     explain($('#x1'),S1[n],n,S1.length-1);
     vis1(n,anim||prev===-1);
   },

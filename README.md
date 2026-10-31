@@ -3,7 +3,7 @@
 **Generative Artificial Intelligence (580694) · Universidad de Concepción · Grupo 11**
 **Deliverable 3**: la solución de Deliverable 2 reconstruida como un sistema de tres agentes, sobre la misma tarea, la misma falla y el mismo criterio de corrección.
 
-- 🎥 **Video (≤3 min):** [VIDEO_LINK](VIDEO_LINK)
+- 🎥 **Video (≤3 min):** [youtu.be/rQ6Czah8hPs](https://youtu.be/rQ6Czah8hPs)
 - 📄 **Documento técnico (1 página, LaTeX):** [`deliverable3/Deliverable 3 Grupo 11.pdf`](deliverable3/Deliverable%203%20Grupo%2011.pdf) · fuente [`deliverable3/deliverable3.tex`](deliverable3/deliverable3.tex) (se compila con `pdflatex -jobname="Deliverable 3 Grupo 11" deliverable3.tex` dentro de `deliverable3/`)
 - 🧩 **Prompts de los agentes (versionados, fuera del código):** [`prompts/`](prompts/)
 - 📁 Entregas anteriores: [`deliverable1/`](deliverable1/) · [`deliverable2/`](deliverable2/)
@@ -59,7 +59,7 @@ La tabla de resultados (línea base, D2, agentes, cada ablación y los controles
 
 La traza completa de la demo queda en `results/demo/<instancia>_<fecha>.jsonl`. La de la corrida que aparece en el video es `results/demo/hard_29_<fecha del video>.jsonl`; las trazas de todas las instancias evaluadas están en `results/traces/`. Para otra instancia: `python src/demo_agents.py --random` (una al azar del conjunto difícil) o `--set stress --instance stress_04`.
 
-**Presentación HTML del video.** `python video/servidor_video.py` (o `video/0_presentacion.bat`) abre `video/Deliverable 3 Representacion Video.html` en el navegador: las diapositivas de D3 (agentes y flujo) y una diapositiva por paso con un botón ▶ (o la tecla `R`) que ejecuta el `pasoN_*.py` y muestra su salida. En el paso 2, cada mensaje entre agentes mueve el diagrama de flujo, llena la semana y los contadores de los tres ciclos; con clic en un mensaje se ve el prompt exacto que recibió el agente, y la diapositiva siguiente muestra el horario final, el verificador y la comparación con D1 y D2.
+**Presentación HTML del video.** `python video/servidor_video.py` (o `video/0_presentacion.bat`) abre `video/Deliverable 3 Representacion Video.html` en el navegador, con una diapositiva por paso y un botón ▶ (o la tecla `R`) que ejecuta el `pasoN_*.py`. En el paso 1 la evaluación se explica con figuras animadas y la salida del script se ve con el botón Terminal. En el paso 2, cada mensaje entre agentes mueve el diagrama de flujo, llena la semana y los contadores de los tres ciclos; con clic en un mensaje se ve el prompt exacto que recibió el agente, y la diapositiva siguiente muestra el horario final, el verificador y la comparación con D1 y D2.
 
 ### 2.3 Regenerar los resultados
 ```bash
