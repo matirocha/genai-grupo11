@@ -4,7 +4,7 @@
 **Deliverable 3**: la solución de Deliverable 2 reconstruida como un sistema de tres agentes, sobre la misma tarea, la misma falla y el mismo criterio de corrección.
 
 - 🎥 **Video (≤3 min):** [VIDEO_LINK](VIDEO_LINK)
-- 📄 **Documento técnico (1 página, LaTeX):** [`deliverable3/deliverable3.pdf`](deliverable3/deliverable3.pdf) · fuente [`deliverable3/deliverable3.tex`](deliverable3/deliverable3.tex)
+- 📄 **Documento técnico (1 página, LaTeX):** [`deliverable3/Deliverable 3 Grupo 11.pdf`](deliverable3/Deliverable%203%20Grupo%2011.pdf) · fuente [`deliverable3/deliverable3.tex`](deliverable3/deliverable3.tex) (se compila con `pdflatex -jobname="Deliverable 3 Grupo 11" deliverable3.tex` dentro de `deliverable3/`)
 - 🧩 **Prompts de los agentes (versionados, fuera del código):** [`prompts/`](prompts/)
 - 📁 Entregas anteriores: [`deliverable1/`](deliverable1/) · [`deliverable2/`](deliverable2/) (README de D2 en [`deliverable2/README.md`](deliverable2/README.md))
 
@@ -28,7 +28,7 @@ Mismas 90 instancias y mismo verificador para todas las filas. Correcto = 0 viol
 - **La técnica que más aporta es el Diagnosticador** (ReAct sobre la explicación del callejón). Si se lo quita y se vuelve al retroceso cronológico de D2, el sistema baja a **82/90**.
 - **Le siguen los ejemplos (few-shot) y el Crítico.** Sin ejemplos el sistema queda en 87/90 y usa 44 % más pasadas. Sin el Crítico queda en 89/90, pero necesita casi 4 veces más saltos y deshace 12 decisiones por horario en vez de 3. La memoria (Reflexion) y el ensamble no cambian el resultado.
 - **Lo que logra el andamiaje por sí solo:** los controles sin LLM ponen esto en contexto. Los mismos agentes eligiendo **al azar** también llegan a 90/90, con más saltos. D2 eligiendo al azar con 10 veces más presupuesto (300 retrocesos) llega a 85/90 de media, y los mismos agentes con reglas fijas, a 74/90.
-- **Dónde aporta el modelo:** la evaluación por decisión contra el oráculo (§7) muestra que el Diagnosticador elige saltos útiles más que el azar. El Asignador solo, en cambio, no es mejor que el azar: la mejora viene de dividir el trabajo y de las herramientas tanto como del modelo.
+- **Dónde aporta el modelo:** la evaluación por decisión con CP-SAT (§7) muestra que el Diagnosticador elige saltos útiles más que el azar. El Asignador solo, en cambio, no es mejor que el azar: la mejora viene de dividir el trabajo y de las herramientas tanto como del modelo.
 
 Modelo de los tres agentes: **meta-llama/Llama-3.2-3B-Instruct** (3.21B parámetros, revisión `0cb88a4f764b7a12671c53f0838cd831a0843b95`). Es el mismo de D2: 4-bit NF4, decodificación greedy, RTX 5060 8 GB.
 
@@ -46,17 +46,20 @@ Llama-3.2 tiene licencia de Meta, así que hay que hacer esto una sola vez:
 
 La primera ejecución del paso 2 descarga el modelo (~6 GB). También se puede descargar antes con `hf download meta-llama/Llama-3.2-3B-Instruct --revision 0cb88a4f764b7a12671c53f0838cd831a0843b95`. Sin GPU local, se puede usar Colab T4: [`notebooks/D3_Demo_Colab.ipynb`](notebooks/D3_Demo_Colab.ipynb).
 
-### 2.2 Los 4 pasos del video
+### 2.2 Los 3 pasos del video
 Están en `video/` como archivos que se ejecutan sin argumentos: `pasoN_*.py` (botón ▶ del IDE) o `N_*.bat` (doble clic). Cada uno corre un comando:
 
 | Paso | Comando | Qué muestra |
 |---|---|---|
 | 1. Cómo se evalúa | `python src/protocol.py` | entradas (90 instancias), juez, criterio, métricas y la evaluación por decisión |
-| 2. Agentes en vivo | `python src/demo_agents.py --set hard --instance hard_22` | la instancia `hard_22`, donde actúan los tres agentes y que también es el caso de falla del paso 4. Muestra los mensajes entre los agentes a medida que ocurren (propuestas, alertas, rechazos, sondeos, callejones, saltos y lecciones), la grilla final, el verificador y la comparación con D2 en la misma instancia |
+| 2. Agentes en vivo | `python src/demo_agents.py --set hard --instance hard_29` | la instancia `hard_29`, donde la solución de D2 falla (agota sus 30 retrocesos y queda con 1 violación) y el sistema de agentes llega a un horario válido; actúan los tres agentes, con 2 saltos del Diagnosticador. Muestra los mensajes entre los agentes a medida que ocurren (propuestas, alertas, rechazos, sondeos, callejones, saltos y lecciones), la grilla final, el verificador y la comparación con D2 en la misma instancia |
 | 3. Resultados | `python src/report.py` | la tabla con la línea base, D2, los agentes, cada ablación y los controles |
-| 4. Fallas | `python src/report.py --fallas` | el análisis general de fallas y la traza del caso de falla |
 
-La traza completa de la demo queda en `results/demo/<instancia>_<fecha>.jsonl`. La de la corrida que aparece en el video es `results/demo/hard_22_<fecha del video>.jsonl`; las trazas de todas las instancias evaluadas están en `results/traces/`. Para otra instancia: `python src/demo_agents.py --random` (una al azar del conjunto difícil) o `--set stress --instance stress_04`.
+El análisis general de fallas y el caso de falla no aparecen en el video, pero se reproducen con `python src/report.py --fallas` (ver §8); la traza del caso de falla está en `results/traces/hard/llama-3.2-3b/agents_sin_diagnosticador/hard_22.jsonl`.
+
+La traza completa de la demo queda en `results/demo/<instancia>_<fecha>.jsonl`. La de la corrida que aparece en el video es `results/demo/hard_29_<fecha del video>.jsonl`; las trazas de todas las instancias evaluadas están en `results/traces/`. Para otra instancia: `python src/demo_agents.py --random` (una al azar del conjunto difícil) o `--set stress --instance stress_04`.
+
+**Presentación HTML del video.** `python video/servidor_video.py` (o `video/0_presentacion.bat`) abre `video/Deliverable 3 Representacion Video.html` en el navegador: las diapositivas de D3 (agentes y flujo) y una diapositiva por paso con un botón ▶ (o la tecla `R`) que ejecuta el `pasoN_*.py` y muestra su salida. En el paso 2, cada mensaje entre agentes mueve el diagrama de flujo, llena la semana y los contadores de los tres ciclos; con clic en un mensaje se ve el prompt exacto que recibió el agente, y la diapositiva siguiente muestra el horario final, el verificador y la comparación con D1 y D2.
 
 ### 2.3 Regenerar los resultados
 ```bash
@@ -70,8 +73,8 @@ python src/evaluate.py --set hard --strategies agents_rules
 # D2 y línea base en el conjunto difícil (los de principal y estrés vienen de D2)
 python src/evaluate.py --set hard --strategies direct,stepwise
 # evaluación por decisión, análisis de fallas y pruebas de continuidad
-python src/oracle_eval.py --runs "*/llama-3.2-3b/agents,*/llama-3.2-3b/agents_sin_diagnosticador,*/llama-3.2-3b/agents_sin_critico,*/llama-3.2-3b/agents_sin_memoria,*/llama-3.2-3b/agents_sin_fewshot,*/llama-3.2-3b/agents_sin_ensamble,*/no_llm/agents_random,*/no_llm/agents_rules"
-# (o una configuración por proceso con --out results/oracle_parts/<config>.json y después --merge de los JSON)
+python src/decision_eval.py --runs "*/llama-3.2-3b/agents,*/llama-3.2-3b/agents_sin_diagnosticador,*/llama-3.2-3b/agents_sin_critico,*/llama-3.2-3b/agents_sin_memoria,*/llama-3.2-3b/agents_sin_fewshot,*/llama-3.2-3b/agents_sin_ensamble,*/no_llm/agents_random,*/no_llm/agents_rules"
+# (o una configuración por proceso con --out results/decision_parts/<config>.json y después --merge de los JSON)
 python src/failure_analysis.py
 python src/test_continuity.py
 ```
@@ -203,7 +206,7 @@ Lo mismo para todas las filas (`python src/protocol.py` lo imprime):
 5. **Corridas:** cada estrategia con LLM corre una vez por instancia, con decodificación greedy (determinista). Los controles al azar corren con 5 semillas.
 6. **Métricas:** correctos por conjunto, violaciones medias, saltos, decisiones deshechas, pasadas del modelo y segundos (RTX 5060).
 
-**Cómo se evalúa al modelo, y no solo al sistema.** El D2 dejaba una duda: el azar con el mismo andamiaje también llegaba a 30/30. Por eso aquí cada decisión de cada agente se juzga por separado (`src/oracle_eval.py`). Desde la traza se reconstruye el estado de la decisión, y CP-SAT (offline, solo como oráculo) dice si después de ella la semana sigue teniendo solución.
+**Cómo se evalúa al modelo, y no solo al sistema.** El D2 dejaba una duda: el azar con el mismo andamiaje también llegaba a 30/30. Por eso aquí cada decisión de cada agente se juzga por separado (`src/decision_eval.py`). Desde la traza se reconstruye el estado de la decisión, y CP-SAT (offline, solo para evaluar) dice si después de ella la semana sigue teniendo solución.
 - **Asignador:** porcentaje de elecciones *fatales* en los estados donde la elección importa, es decir, el prefijo aún tiene solución y el menú trae opciones fatales y opciones con solución. Se mide sola y después del Crítico. Se compara con lo que haría el azar en el mismo menú (la fracción de opciones fatales).
 - **Crítico:** de las propuestas fatales que revisa, cuántas rechaza, y cuántos de sus rechazos eran innecesarios.
 - **Diagnosticador:** porcentaje de saltos *útiles*: deshacen la decisión culpable y dejan en el turno de destino alguna opción con solución que no quedó prohibida. Se compara con el azar entre los mismos candidatos y con retroceder solo al turno anterior (D2).
@@ -255,7 +258,7 @@ Todas las políticas son deterministas: la corrida con presupuesto B ≤ 30 es i
 | Control: agentes al azar (5 semillas) | 65.6/90 (62–68) | 86.6/90 (84–89) | 88.8/90 (88–90) | 90.0/90 (90–90) | – |
 | Control: agentes con reglas fijas | 57/90 | 67/90 | 71/90 | 74/90 | – |
 
-### 7.3 El modelo, decisión por decisión (`python src/oracle_eval.py`)
+### 7.3 El modelo, decisión por decisión (`python src/decision_eval.py`)
 
 Cada estado se reconstruye desde las trazas de las 90 instancias, y CP-SAT (offline) dice si la decisión deja la semana con solución. *Estados que deciden* son aquellos en que el prefijo aún tiene solución y el menú mezcla opciones fatales y opciones con solución.
 
@@ -284,7 +287,7 @@ Cada estado se reconstruye desde las trazas de las 90 instancias, y CP-SAT (offl
 - **Qué técnica explica la mejora:** el Diagnosticador (ReAct sobre la explicación del callejón). Sin él se pierden 8 instancias. Few-shot y el Crítico pesan menos en el total, pero mucho en el costo y en la calidad de cada decisión.
 - **Qué aporta el LLM frente al azar:**
   - Los agentes al azar también llegan a 90/90, así que la división en agentes con estas herramientas es la que vuelve resoluble el problema.
-  - El modelo hace la búsqueda más eficiente: 78 horarios resueltos sin ningún salto, frente a 65.6 del azar, y 3.3 decisiones deshechas por horario, frente a 5.6. Además, sus decisiones concretas (Crítico y Diagnosticador) son mejores que el azar, según el oráculo.
+  - El modelo hace la búsqueda más eficiente: 78 horarios resueltos sin ningún salto, frente a 65.6 del azar, y 3.3 decisiones deshechas por horario, frente a 5.6. Además, sus decisiones concretas (Crítico y Diagnosticador) son mejores que el azar, según CP-SAT.
 - **Más presupuesto no es lo mismo:** D2 eligiendo al azar con 10 veces más presupuesto (300 retrocesos, control sin LLM) llega a 85.0/90 de media.
 
 ## 8. Análisis general de fallas (respuesta al comentario sobre D2)
@@ -343,16 +346,16 @@ Hay 124 fallas, y casi todas comparten el mismo mecanismo:
 │   ├── agents.py            # Asignador, Crítico y Diagnosticador (+ políticas de control azar/reglas)
 │   ├── coordinator.py       # el sistema de agentes y sus ablaciones
 │   ├── evaluate.py          # corre estrategias sobre los conjuntos
-│   ├── report.py            # tablas de D3 (pasos 3 y 4 del video)
-│   ├── oracle_eval.py       # evaluación por decisión contra CP-SAT
+│   ├── report.py            # tablas de D3 (paso 3 del video; --fallas: análisis de fallas)
+│   ├── decision_eval.py     # evaluación por decisión contra CP-SAT
 │   ├── failure_analysis.py  # análisis general de fallas
 │   ├── diagnose.py          # decisión culpable de una falla (CP-SAT, offline)
 │   ├── protocol.py          # protocolo de evaluación (paso 1 del video)
 │   ├── demo_agents.py       # demo en vivo (paso 2 del video)
 │   ├── build_fewshot.py     # ejemplos del Diagnosticador desde la calibración
 │   └── test_continuity.py   # el modo D2 reproduce D2; el verificador detecta cada violación
-├── video/                   # los 4 pasos del video (y video/deliverable2/ con los de D2)
-├── results/                 # resultados, trazas, tablas (d3_summary.md, oracle_eval.md, failure_analysis.md)
+├── video/                   # los 3 pasos del video, su presentación HTML (y video/deliverable2/ con los de D2)
+├── results/                 # resultados, trazas, tablas (d3_summary.md, decision_eval.md, failure_analysis.md)
 ├── notebooks/               # Colab de D1, D2 y D3
 └── deliverable1/, deliverable2/, deliverable3/
 ```

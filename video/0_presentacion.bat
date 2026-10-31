@@ -1,12 +1,11 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0.."
-set HF_HUB_OFFLINE=1
 set PYTHONIOENCODING=utf-8
 cls
 echo ==============================================================
-echo  PASO 4 - Análisis general de fallas y caso de falla
+echo  PRESENTACION HTML del video de Deliverable 3 (ejecuta los pasos 1 a 4)
 echo ==============================================================
-python src\report.py --fallas
+python video\servidor_video.py
 echo.
 pause

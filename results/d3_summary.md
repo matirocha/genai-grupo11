@@ -31,7 +31,7 @@
 | Control: agentes al azar (5 semillas) | 65.6/90 (62–68) | 86.6/90 (84–89) | 88.8/90 (88–90) | 90.0/90 (90–90) | – |
 | Control: agentes con reglas fijas | 57/90 | 67/90 | 71/90 | 74/90 | – |
 
-## Evaluación por decisión contra el oráculo (CP-SAT offline)
+## Evaluación por decisión (CP-SAT offline)
 
 | configuración | estados que deciden | elección fatal: Asignador / tras el Crítico / azar en el mismo menú | Crítico: rechazos de fatales / rechazos, fatales interceptadas | saltos útiles (azar entre candidatos, retroceder 1) |
 |---|---|---|---|---|

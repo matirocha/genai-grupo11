@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Reporte de Deliverable 3 (pasos 3 y 4 del video)
+Reporte de Deliverable 3 (paso 3 del video; con --fallas, el análisis de fallas)
 ------------------------------------------------
 Lee los resultados guardados en results/ (no ejecuta el modelo) y muestra:
   (por defecto) la tabla principal: línea base, solución D2, sistema de agentes, cada ablación y los controles sin
                 LLM, sobre las mismas 90 instancias y con el mismo verificador; además, horarios correctos según el
-                presupuesto de saltos y la evaluación por decisión contra el oráculo (results/oracle_eval.json).
+                presupuesto de saltos y la evaluación por decisión con CP-SAT (results/decision_eval.json).
   --fallas      el análisis general de fallas (results/failure_analysis.json) y la traza del caso de falla.
 
 Uso:
@@ -143,16 +143,16 @@ def budget_table(markdown: bool = False) -> str:
                      ["  ".join(str(c).ljust(w[i]) for i, c in enumerate(r)) for r in rows])
 
 
-def oracle_table() -> str:
-    path = os.path.join(RESULTS, "oracle_eval.md")
-    return open(path, encoding="utf-8").read().strip() if os.path.exists(path) else "(sin results/oracle_eval.md)"
+def decision_table() -> str:
+    path = os.path.join(RESULTS, "decision_eval.md")
+    return open(path, encoding="utf-8").read().strip() if os.path.exists(path) else "(sin results/decision_eval.md)"
 
 
 def show_failures():
     from demo_agents import pretty
     path = os.path.join(RESULTS, "failure_analysis.md")
     print("=" * 78)
-    print("ANÁLISIS GENERAL DE FALLAS (todas las corridas con búsqueda, CP-SAT solo como oráculo offline)")
+    print("ANÁLISIS GENERAL DE FALLAS (todas las corridas con búsqueda, CP-SAT solo como evaluador offline)")
     print("=" * 78)
     print(open(path, encoding="utf-8").read().split("\n| configuración")[0].strip() if os.path.exists(path)
           else "(falta results/failure_analysis.md)")
@@ -207,7 +207,7 @@ def main():
         return
     md = "\n\n".join(["## Horarios correctos (0 violaciones) por conjunto", main_table(True),
                       "## Correctos según el presupuesto de saltos (90 instancias)", budget_table(True),
-                      "## Evaluación por decisión contra el oráculo (CP-SAT offline)", oracle_table()])
+                      "## Evaluación por decisión (CP-SAT offline)", decision_table()])
     if args.markdown:
         with open(os.path.join(RESULTS, "d3_summary.md"), "w", encoding="utf-8") as f:
             f.write(md + "\n")

@@ -170,7 +170,7 @@ Código sin LLM: calculan números sobre el horario parcial para los agentes.\pa
 \toprule
 \textbf{T1} opciones viables & Opciones para $k$ que cumplen HC1--HC6 y el chequeo hacia adelante (lógica de D2), sin las prohibidas por saltos. \\
 \addlinespace[1pt]
-\textbf{T2} perfilar & Alertas vs.\ la mejor alternativa: R1 más especialistas sobre la cuota, R2 deja la mitad de opciones o menos, R3 más turnos sin margen. \\
+\textbf{T2} perfilar & Alertas vs.\ la mejor alternativa: R1 más especialistas sobre la cuota, R2 deja menos de la mitad de opciones, R3 más turnos sin margen. \\
 \addlinespace[1pt]
 \textbf{T3} sondear & Continuaciones viables a 2 turnos (propuesta y alternativa). \\
 \addlinespace[1pt]
@@ -283,7 +283,7 @@ C4. D3 con reglas fijas & 29 & 25 & 20 & 74 \\
     \item Con reglas fijas (C4) baja a 74: saltan a la decisión equivocada.
 \end{itemize}
 \section{7. Límites y reproducción}
-\textbf{Límites} (lo que este trabajo no demuestra): el 90/90 no se debe al LLM: con agentes al azar (C3) también se llega. El LLM aporta menos callejones y mejores saltos (A3 arregló los 27 callejones; al azar, 69\,\%; \texttt{oracle\_eval.py}). Con 90 instancias, diferencias de 1 a 3 horarios pueden ser azar.\par
+\textbf{Límites} (lo que este trabajo no demuestra): el 90/90 no se debe al LLM: con agentes al azar (C3) también se llega. El LLM aporta menos callejones y mejores saltos (A3 arregló los 27 callejones; al azar, 69\,\%; \texttt{decision\_eval.py}). Con 90 instancias, diferencias de 1 a 3 horarios pueden ser azar.\par
 \textbf{Reproducción:} los pasos del video están en \texttt{video/}; las corridas, trazas y tablas, en \texttt{results/}; y el paso a paso, en el README.
 
 \end{multicols}

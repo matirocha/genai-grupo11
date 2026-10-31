@@ -30,6 +30,7 @@
   --c7-b:#EFDDEB; --c7-f:#72305D;
   --c8-b:#F6DCC6; --c8-f:#86460F;
   --x1:#263049; --x2:#3B5675; --x3:#5F4D7C;
+  --cy1:#2D5C9E; --cy2:#B0771A; --cy3:#A32638;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -166,18 +167,36 @@ figcaption{font:600 12px var(--sans);letter-spacing:.06em;text-transform:upperca
 .lg span{display:inline-flex;align-items:center;gap:6px}
 .lg .sc{width:14px;height:14px;font-size:0;display:inline-block}
 
-/* D3: ciclos y barras */
-#d3 .bottom{grid-template-columns:560px 1fr}
-.cycs{display:grid;gap:7px;transition:opacity .35s}
-.cy{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;background:var(--card);border-radius:8px;padding:8px 14px;opacity:.45;transition:opacity .3s,box-shadow .3s}
-.cy .n{font:600 12px var(--mono);color:var(--crimson)}
-.cy b{font-size:14px;display:block;line-height:1.25}
-.cy span{font-size:12.5px;color:var(--slate)}
-.cy.on{opacity:1;box-shadow:inset 3px 0 0 var(--crimson)}
+/* D3: un color por ciclo, en el diagrama, en los contadores y en la tira */
+.flow .e.own1.seen{stroke:var(--cy1)} .flow .e.own2.seen{stroke:var(--cy2)} .flow .e.own3.seen{stroke:var(--cy3)}
+.flow .el.cyc.own1.seen{fill:var(--cy1)} .flow .el.cyc.own2.seen{fill:var(--cy2)} .flow .el.cyc.own3.seen{fill:var(--cy3)}
+.flow .e.ring{stroke-width:3;stroke-dasharray:9 6;animation:march .9s linear infinite}
+.flow .e.ring.q1{stroke:var(--cy1)} .flow .e.ring.q2{stroke:var(--cy2)} .flow .e.ring.q3{stroke:var(--cy3)}
+@keyframes march{from{stroke-dashoffset:15}to{stroke-dashoffset:0}}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;transition:opacity .35s}
+.rg{position:relative;overflow:hidden;background:var(--card);border-radius:8px;padding:6px 11px 9px;opacity:.5;transition:opacity .3s,box-shadow .3s}
+.rg[data-r="1"]{--rc:var(--cy1)} .rg[data-r="2"]{--rc:var(--cy2)} .rg[data-r="3"]{--rc:var(--cy3)}
+.rg.on{opacity:1;box-shadow:inset 0 3px 0 var(--rc)}
+.rg .rn{font:600 10.5px var(--mono);color:var(--rc);letter-spacing:.03em;white-space:nowrap}
+.rg .rv{font:600 13px/1.5 var(--mono);color:var(--ink);white-space:nowrap}
+.rg .rv b{font-size:21px;font-variant-numeric:tabular-nums}
+.rg .rv small{font-size:12px;font-weight:500;color:var(--slate)}
+.rg span{display:block;font-size:11.5px;line-height:1.3;color:var(--slate);white-space:nowrap}
+.rg span b{color:var(--ink)}
+.rg .rb{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--paper)}
+.rg .rb i{display:block;height:100%;width:0;background:var(--rc);transition:width .25s}
+#w3{margin-top:10px}
+.sc.prop{background:var(--card);border:1.5px dashed var(--cy1);color:var(--cy1)}
+.sc.rej{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+.sc.ok{background:var(--green-soft);border-color:transparent;color:var(--green)}
+.sc.alr::before{content:"";position:absolute;top:-5px;right:-5px;width:9px;height:9px;border-radius:50%;background:var(--amber);border:2px solid var(--paper);z-index:2}
+.sc.crit::after,.sc.jmp::after{content:"";position:absolute;left:4px;right:4px;bottom:2px;height:2.5px;border-radius:2px;background:var(--cy2)}
+.sc.jmp::after{background:var(--cy3)}
 .d3r{position:relative}
 .bars{position:absolute;inset:0 0 auto 0;display:grid;gap:9px;opacity:0;pointer-events:none;transition:opacity .4s}
-#d3.at7 .cycs{opacity:0}
-#d3.at7 .bars{opacity:1}
+#d3 .strip,#d3 .lg{transition:opacity .35s}
+#d3.at8 .rings,#d3.at8 .strip,#d3.at8 .lg{opacity:0}
+#d3.at8 .bars{opacity:1}
 .br{display:grid;grid-template-columns:150px 1fr 58px;gap:12px;align-items:center}
 .br .l{font-size:13.5px;line-height:1.25;color:var(--ink-2)}
 .br .l small{display:block;font-size:11.5px;color:var(--slate)}
@@ -217,6 +236,8 @@ figcaption{font:600 12px var(--sans);letter-spacing:.06em;text-transform:upperca
 .ag .tl{font:600 11.5px var(--mono);border-radius:999px;padding:0 7px;white-space:nowrap;background:var(--c1-b);color:var(--c1-f)}
 .ag .tl.ask{background:var(--crimson-soft);color:var(--crimson-deep)}
 .ag .tl.wr{background:var(--amber-soft);color:var(--amber)}
+.ag dd .alr{display:grid;gap:2px;margin:3px 0 1px}
+.ag dd .alr>span{display:flex;align-items:baseline;gap:6px;font-size:12.3px;line-height:1.35}
 .tools{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
 .tool{background:var(--card);border-radius:8px;padding:5px 10px;transition:opacity .3s,box-shadow .3s}
 .tool b{display:block;font:600 11.5px var(--mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -306,8 +327,8 @@ figcaption{font:600 12px var(--sans);letter-spacing:.06em;text-transform:upperca
       <dl>
         <dt>Rol</dt><dd>Fija la propuesta o la devuelve a A1. Solo actúa si hay alertas.</dd>
         <dt>Recibe</dt><dd><ul>
-          <li>Propuesta, alertas R1–R3 y la mejor alternativa del menú.</li>
-          <li>3 números propuesta | alternativa: sobre la cuota, opciones en <span class="m">k</span>+1, turnos sin margen.</li>
+          <li>Alertas de T2 vs. la mejor alternativa:
+            <div class="alr"><span><span class="tl wr">R1</span><span>más especialistas sobre la cuota</span></span><span><span class="tl wr">R2</span><span>menos de ½ de opciones en <span class="m">k</span>+1</span></span><span><span class="tl wr">R3</span><span>más turnos futuros sin margen</span></span></div></li>
           <li>Si sondeó, continuaciones a 2 turnos; lecciones.</li></ul></dd>
         <dt>Herram.</dt><dd>Lee <span class="tl">T2</span> <span class="tl">T5</span>; pide <span class="tl ask">T3</span> (1 vez)</dd>
         <dt>Responde</dt><dd><code>1</code> aceptar · <code>2</code> rechazar · <code>3</code> sondear</dd>
@@ -342,17 +363,22 @@ figcaption{font:600 12px var(--sans);letter-spacing:.06em;text-transform:upperca
 </section>
 
 <!-- ======================= 4 · DELIVERABLE 3 ======================= -->
-<section class="slide" id="d3" data-sec="Deliverable 3 · Agentes" data-steps="7">
+<section class="slide" id="d3" data-sec="Deliverable 3 · Agentes" data-steps="8">
   <div class="kicker">Deliverable 3 · Sistema de agentes</div>
   <h2>D3: tres agentes proponen, critican y corrigen</h2>
   <div id="f3"></div>
   <div class="bottom">
     <div class="exp" id="x3"></div>
     <div class="d3r">
-      <div class="cycs">
-        <div class="cy" data-c="1"><div class="n">Ciclo 1</div><div><b>Turno a turno</b><span>21 turnos; cada uno se fija y se pasa a k+1</span></div></div>
-        <div class="cy" data-c="2"><div class="n">Ciclo 2</div><div><b>Propuesta y crítica</b><span>A2 puede rechazar hasta 2 veces por turno</span></div></div>
-        <div class="cy" data-c="3"><div class="n">Ciclo 3</div><div><b>Saltos del Diagnosticador</b><span>hasta 30, como los 30 retrocesos de D2</span></div></div>
+      <div class="rings">
+        <div class="rg" data-r="1"><div class="rn">↻ Ciclo 1 · turno a turno</div><div class="rv">k = <b id="c3k">1</b><small> / 21</small></div><span>acepta → fija y pasa a k+1</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="2"><div class="rn">↻ Ciclo 2 · crítica</div><div class="rv"><b id="c3r">0</b><small> / 2 rechazos</small></div><span>en el turno k · <b id="c3t">0</b> en la semana</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="3"><div class="rn">↻ Ciclo 3 · saltos</div><div class="rv"><b id="c3s">0</b><small> / 30 saltos</small></div><span>callejón → vuelve al turno j</span><i class="rb"><i></i></i></div>
+      </div>
+      <div class="strip" id="w3"></div>
+      <div class="lg">
+        <span><i class="sc f"></i>fijado</span><span><i class="sc prop"></i>propuesta de A1</span><span><i class="sc rej"></i>rechazo de A2 (ciclo 2)</span>
+        <span><i class="sc dead"></i>callejón</span><span><i class="sc undo"></i>deshecho por el salto (ciclo 3)</span><span><i class="sc redo"></i>rehecho</span><span><i class="sc ok"></i>verificado</span>
       </div>
       <div class="bars">
         <h4>Horarios correctos en las mismas 90 instancias</h4>
@@ -452,7 +478,7 @@ function Flow(root,spec){
   root.classList.add('flow');root.style.width=spec.w+'px';root.style.height=spec.h+'px';
   const svg=svgEl('svg',{viewBox:`0 0 ${spec.w} ${spec.h}`,width:spec.w,height:spec.h,'aria-hidden':'true'});
   const defs=svgEl('defs',{});
-  const mk={b:'var(--line)',s:'var(--slate-2)',h:'var(--crimson)'};
+  const mk={b:'var(--line)',s:'var(--slate-2)',h:'var(--crimson)',q1:'var(--cy1)',q2:'var(--cy2)',q3:'var(--cy3)'};
   for(const k in mk){
     const m=svgEl('marker',{id:`${root.id}-${k}`,viewBox:'0 0 10 10',refX:'8.5',refY:'5',markerWidth:'6.5',markerHeight:'6.5',orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'});
     m.setAttribute('markerWidth','10');m.setAttribute('markerHeight','10');
@@ -462,13 +488,14 @@ function Flow(root,spec){
   const G={};
   for(const id in spec.edges){
     const s=spec.edges[id],pts=s.p;
-    const path=svgEl('path',{d:pts.map((q,i)=>(i?'L':'M')+q[0]+' '+q[1]).join(' '),class:'e'+(s.neg?' neg':'')});
+    const own=s.ring?' own'+s.ring:'';
+    const path=svgEl('path',{d:pts.map((q,i)=>(i?'L':'M')+q[0]+' '+q[1]).join(' '),class:'e'+(s.neg?' neg':'')+own});
     svg.append(path);
     let len=0;const segs=[];
     for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],l=Math.hypot(b[0]-a[0],b[1]-a[1]);segs.push({a,b,l,s:len});len+=l;}
     let lab=null;
-    if(s.lab){lab=svgEl('text',{x:s.lab[0],y:s.lab[1],'text-anchor':s.lab[3]||'middle',class:'el'+(s.cyc?' cyc':'')+(s.neg?' ghost':'')});lab.textContent=s.lab[2];}
-    G[id]={path,segs,len,lab,neg:!!s.neg};
+    if(s.lab){lab=svgEl('text',{x:s.lab[0],y:s.lab[1],'text-anchor':s.lab[3]||'middle',class:'el'+(s.cyc?' cyc':'')+(s.neg?' ghost':'')+own});lab.textContent=s.lab[2];}
+    G[id]={path,segs,len,lab,neg:!!s.neg,ring:s.ring};
   }
   for(const id in G)if(G[id].lab)svg.append(G[id].lab);
   const N={};
@@ -497,12 +524,15 @@ function Flow(root,spec){
       const seenN=new Set(),seenE=new Set();
       for(let i=0;i<=n;i++){const s=steps[i];(s.act||[]).forEach(x=>seenN.add(x));(s.hops||[]).forEach(h=>Array.isArray(h)&&seenE.add(h[0]));(s.hot||[]).forEach(x=>seenE.add(x));(s.show||[]).forEach(x=>seenE.add(x));}
       const c=steps[n],actN=new Set(c.act||[]),hotE=new Set([...(c.hops||[]).filter(Array.isArray).map(h=>h[0]),...(c.hot||[])]);
+      /* el circuito completo del ciclo activo se marca con su color */
+      const rg=c.ring,ringE=new Set(rg&&spec.rings?spec.rings[rg]:[]);
       for(const id in N){N[id].classList.toggle('seen',seenN.has(id));N[id].classList.toggle('act',actN.has(id));}
       for(const id in G){
-        const g=G[id],sn=seenE.has(id),ht=hotE.has(id)&&!g.neg;
+        const g=G[id],rn=ringE.has(id),sn=seenE.has(id)||rn,ht=hotE.has(id)&&!g.neg;
         g.path.classList.toggle('seen',sn);g.path.classList.toggle('hot',ht);
+        g.path.classList.toggle('ring',rn);[1,2,3].forEach(q=>g.path.classList.toggle('q'+q,rn&&rg===q));
         if(g.lab)g.lab.classList.toggle('seen',sn);
-        setMark(g,ht?'h':sn?'s':'b');
+        setMark(g,rn?'q'+rg:g.ring&&sn?'q'+g.ring:ht?'h':sn?'s':'b');
       }
     },
     put, endU, settle, hide(i){if(P[i])P[i].classList.remove('on');},
@@ -551,7 +581,7 @@ function strip(sel){
   });
   return cells;
 }
-const ST=['f','redo','dead','undo','rx','cur','bad','pop','shk'];
+const ST=['f','redo','dead','undo','rx','cur','bad','pop','shk','prop','rej','ok','alr','crit','jmp'];
 function setSc(c,cls,k){c.classList.remove(...ST);if(cls)c.classList.add(...cls.split(' '));c.textContent=c.classList.contains('dead')?'✕':String(k);}
 /* pinta toda la tira: spec(k) devuelve las clases del turno k (1…21) */
 function paintStrip(cells,spec){cells.forEach((c,i)=>setSc(c,spec(i+1),i+1));}
@@ -846,15 +876,21 @@ const F3=Flow($('#f3'),{w:1136,h:326,
     t2_a2: {p:[[822,110],[854,110]]},
     a2_t3: {p:[[1006,98],[1036,98]]},
     t3_a2: {p:[[1036,122],[1006,122]]},
-    rej:   {p:[[900,70],[900,44],[570,44],[570,70]],cyc:true,lab:[735,38,'CICLO 2 · rechaza + motivo (≤2 por turno)']},
-    acc:   {p:[[970,70],[970,16],[192,16],[192,70]],cyc:true,lab:[581,10,'CICLO 1 · acepta: fijar la opción y pasar a k+1']},
+    rej:   {p:[[900,70],[900,44],[570,44],[570,70]],cyc:true,ring:2,lab:[735,38,'↻ CICLO 2 · rechaza + motivo (≤2 por turno)']},
+    acc:   {p:[[970,70],[970,16],[192,16],[192,70]],cyc:true,ring:1,lab:[581,10,'↻ CICLO 1 · acepta: fijar la opción y pasar a k+1 (21 turnos)']},
     t1_t4: {p:[[380,150],[380,214]],lab:[390,186,'0 opciones: callejón','start']},
     t4_a3: {p:[[462,250],[494,250]]},
     a3_t5: {p:[[646,250],[854,250]],lab:[750,242,'lección']},
     t5_a2: {p:[[930,214],[930,150]]},
     t5_a1: {p:[[858,214],[624,150]]},
-    jump:  {p:[[570,286],[570,308],[192,308],[192,150]],cyc:true,lab:[380,322,'CICLO 3 · salta al turno j y prohíbe ahí a un médico (≤30)']},
+    jump:  {p:[[570,286],[570,308],[192,308],[192,150]],cyc:true,ring:3,lab:[380,322,'↻ CICLO 3 · salta al turno j y prohíbe ahí a un médico (≤30)']},
     orq_t6:{p:[[150,150],[100,214]]}
+  },
+  /* aristas que forman cada ciclo: se encienden juntas cuando ese ciclo está activo */
+  rings:{
+    1:['orq_t1','t1_a1','a1_t2','t2_a2','acc'],
+    2:['a1_t2','t2_a2','rej'],
+    3:['t1_t4','t4_a3','jump','orq_t1']
   }});
 const S3=[
   {act:['orq'],hops:[['in_orq','instancia']],cy:1,t:'El coordinador de turnos es código, no un agente',
@@ -865,33 +901,111 @@ const S3=[
    p:'Mira a lo ancho. Recibe el estado, el menú de opciones <b>barajado</b> (ensamble de órdenes contra el sesgo de posición), ejemplos y lecciones, y propone una opción.'},
   {act:['t2'],hops:[['a1_t2','propuesta']],cy:1,t:'T2 · Perfilar la propuesta',
    p:'Calcula los rasgos de la propuesta y levanta alertas R1–R3. Si no hay alertas, la opción se fija sin consultar al Crítico.'},
-  {act:['a2','t3','a1'],hops:[['t2_a2','alerta'],['a2_t3','sondear'],['t3_a2','conteos'],['rej','rechaza'],['a1_t2','2.ª propuesta'],['t2_a2','propuesta']],cy:2,tag:'Ciclo 2',t:'A2 · Crítico',
-   p:'Mira a fondo una sola propuesta frente a la mejor alternativa, con números: para un modelo de 3B verificar es más fácil que generar. Puede sondear dos turnos adelante (T3) y rechazar con un motivo; A1 corrige.'},
-  {act:['orq'],hops:[['acc','acepta · k+1']],cy:1,tag:'Ciclo 1',t:'Acepta y se avanza',
-   p:'La opción se fija y el coordinador pasa al turno <span class="m">k</span>+1. En los estados donde la elección importa, el Crítico baja las elecciones fatales del <b>48 %</b> (Asignador solo) al <b>27 %</b>.'},
-  {act:['t4','a3','t5'],start:['t1_t4','0 opciones'],hops:[['t1_t4','0 opciones'],['t4_a3','causa'],['jump','salta a j']],hot:['a3_t5','t5_a2','t5_a1'],cy:3,tag:'Ciclo 3',t:'A3 · Diagnosticador',
-   p:'Ante un callejón, T4 explica la causa y las últimas 12 decisiones. A3 elige a qué turno <span class="m">j</span> <b>saltar</b>, prohíbe ahí a un médico y deja una lección (T5). Sus saltos deshacen la decisión culpable el <b>100 %</b> de las veces; retroceder 1 turno, como D2, acierta el 18 %.'},
-  {act:['t6'],hops:[['orq_t6','k = 21']],t:'Parada y resultado',
-   p:'Con <span class="m">k</span> = 21 el horario pasa al verificador (T6); si se agotan los 30 saltos, se completa relajado y se marca no certificado. En las mismas 90 instancias: <b>90/90</b> correctos.'}
+  {act:['a2','t3','a1'],hops:[['t2_a2','alerta'],['a2_t3','sondear'],['t3_a2','conteos'],['rej','rechaza'],['a1_t2','2.ª propuesta'],['t2_a2','propuesta']],cy:2,ring:2,tag:'Ciclo 2 · dentro de un turno',t:'A2 · Crítico',
+   p:'Mira a fondo una sola propuesta frente a la mejor alternativa, con números: para un modelo de 3B verificar es más fácil que generar. Puede sondear dos turnos adelante (T3) y <b>rechazar</b> con un motivo; A1 corrige. Es una vuelta chica que no cambia de turno.'},
+  {act:['orq'],hops:[['acc','acepta · k+1']],cy:1,ring:1,tag:'Ciclo 1 · un turno por vuelta',t:'Acepta y se avanza',
+   p:'La opción se fija y el coordinador pasa al turno <span class="m">k</span>+1; la vuelta se repite y la semana se va llenando. La raya ámbar marca los turnos que el Crítico rechazó antes de fijar. En los estados donde la elección importa, el Crítico baja las elecciones fatales del <b>48 %</b> al <b>27 %</b>.'},
+  {act:['t4','a3','t5'],start:['t1_t4','0 opciones'],hops:[['t1_t4','0 opciones'],['t4_a3','causa'],['jump','salta a j']],hot:['a3_t5','t5_a2','t5_a1'],cy:3,ring:3,tag:'Ciclo 3 · hacia atrás',t:'A3 · Diagnosticador',
+   p:'Un turno queda sin opciones: callejón. T4 explica la causa y A3 elige a qué turno <span class="m">j</span> <b>saltar</b>; en el esquema deshace del 10 al 14 de una vez, prohíbe un médico en el 10 y deja una lección (T5). Sus saltos dan con la decisión culpable el <b>100 %</b> de las veces; retroceder 1 turno, como D2, el 18 %.'},
+  {act:['orq','t6'],hops:[['orq_t6','k = 21']],cy:1,ring:1,tag:'Ciclo 1 otra vez',t:'Se retoma y se completa la semana',
+   p:'Desde el turno <span class="m">j</span> el ciclo 1 vuelve a correr, ahora con el médico prohibido y la lección a la vista. Con <span class="m">k</span> = 21 el horario pasa al verificador (T6): 0 violaciones → <b>válido</b>. Si se agotaran los 30 saltos, se completaría relajado (T7) y saldría no certificado.'},
+  {act:['t6'],tag:'resultado',t:'Resultado: 90/90',
+   p:'En las mismas 90 instancias de D1 y D2, el sistema de agentes llega a <b>90/90</b> horarios correctos. Paga con más llamadas: <b>77</b> pasadas del LLM por horario, contra 26 de D2.'}
 ];
 function side3(n){
-  $$('#d3 .cy').forEach(c=>c.classList.toggle('on',+c.dataset.c===S3[n].cy));
-  $$('#d3 .br .t i').forEach(i=>i.style.width=(n>=7?i.dataset.w:0)+'%');
+  $$('#d3 .rg').forEach(c=>c.classList.toggle('on',+c.dataset.r===S3[n].cy));
+  $$('#d3 .br .t i').forEach(i=>i.style.width=(n>=8?i.dataset.w:0)+'%');
 }
+/* tira de la semana para D3 (esquema ilustrativo, no es una instancia):
+   el Crítico rechaza en los turnos REJ3, el turno 15 es un callejón y A3 salta al 10 */
+const W3=strip('#w3');
+const REJ3=[1,6,8,17,19],DE3=15,J3=10;
+const CNT3=[[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,1,1,0],[DE3,0,3,0],[J3,0,3,1],[21,0,5,1],[21,0,5,1]];
+const fx3=k=>'f'+(REJ3.includes(k)?' crit':'');
+const ok3=k=>'ok'+(k>=J3&&k<DE3?' jmp':'')+(REJ3.includes(k)?' crit':'');
+function strip3(n){
+  if(n<=1)return paintStrip(W3,k=>k===1?'cur':'');
+  if(n===2||n===4)return paintStrip(W3,k=>k===1?'prop cur':'');
+  if(n===3)return paintStrip(W3,k=>k===1?'prop cur alr':'');
+  if(n===5)return paintStrip(W3,k=>k<DE3?fx3(k):k===DE3?'cur':'');
+  if(n===6)return paintStrip(W3,k=>k<J3?fx3(k):k===J3?'undo cur':k<DE3?'undo':'');
+  paintStrip(W3,ok3);
+}
+/* contadores de los tres ciclos: turno k, rechazos en el turno, rechazos en la semana, saltos */
+let c3=[1,0,0,0];
+function cnt3(k,r,t,s){
+  c3=[k,r,t,s];
+  $('#c3k').textContent=k;$('#c3r').textContent=r;$('#c3t').textContent=t;$('#c3s').textContent=s;
+  const w=[k/21,r/2,s/30];
+  $$('#d3 .rg .rb i').forEach((i,x)=>i.style.width=w[x]*100+'%');
+}
+/* una vuelta del ciclo 1 para el turno k; si A2 rechaza, incluye una vuelta del ciclo 2 */
+function turn3(k,cls){
+  const h=[['orq_t1',''],['t1_a1',''],['a1_t2',''],['t2_a2','']];
+  if(REJ3.includes(k))h.push(['rej',''],()=>{setSc(W3[k-1],'rej cur',k);cnt3(c3[0],1,c3[2]+1,c3[3]);},['a1_t2',''],['t2_a2','']);
+  h.push(['acc',k<21?'turno '+(k+1):''],()=>{
+    setSc(W3[k-1],cls(k),k);popSc(W3[k-1]);
+    if(k<21)setSc(W3[k],'cur',k+1);
+    cnt3(Math.min(k+1,21),0,c3[2],c3[3]);
+  });
+  return h;
+}
+const FAST={speed:3,min:55};
 H.d3={
   step(n,prev){
     gen++;F3.state(S3,n);explain($('#x3'),S3[n],n,S3.length-1);side3(n);
-    const anim=prev===n-1;
+    const anim=prev===n-1&&n>0;
     F3.hide(1);
-    if(anim&&n===6){
-      F3.run([S3[6].hops[0],S3[6].hops[1],
-              ()=>F3.run([['a3_t5','lección'],['t5_a2','lección']],null,{i:1}),
-              S3[6].hops[2]]);
+    if(!anim){
+      restPk(F3,S3,n);
+      if(n===6)F3.put(1,'t5_a2',F3.endU('t5_a2'),'lección');
+      strip3(n);cnt3(...CNT3[n]);
       return;
     }
-    if(anim&&n>0){F3.run(S3[n].hops);return;}
-    restPk(F3,S3,n);
-    if(n===6)F3.put(1,'t5_a2',F3.endU('t5_a2'),'lección');
+    strip3(n-1);cnt3(...CNT3[n-1]);
+    if(n===2||n===3){F3.run(S3[n].hops,()=>{strip3(n);popSc(W3[0]);});return;}
+    if(n===4){
+      const h=S3[4].hops;
+      F3.run([...h.slice(0,4),
+              ()=>{setSc(W3[0],'rej cur shk',1);cnt3(1,1,1,0);},
+              h[4],
+              ()=>{setSc(W3[0],'prop cur',1);popSc(W3[0]);},
+              h[5]]);
+      return;
+    }
+    if(n===5){
+      /* se fija el turno 1 y el ciclo 1 corre rápido hasta el callejón */
+      const rest=[];
+      for(let k=2;k<DE3;k++)rest.push(...turn3(k,fx3));
+      F3.run(S3[5].hops,()=>{
+        setSc(W3[0],fx3(1),1);popSc(W3[0]);setSc(W3[1],'cur',2);cnt3(2,0,1,0);
+        F3.run(rest,null,FAST);
+      });
+      return;
+    }
+    if(n===6){
+      const h=S3[6].hops;
+      F3.run([h[0],
+              ()=>setSc(W3[DE3-1],'dead shk',DE3),
+              h[1],
+              ()=>F3.run([['a3_t5','lección'],['t5_a2','lección']],null,{i:1}),
+              h[2],
+              ()=>{
+                /* el salto deshace de una vez todos los turnos entre j y el callejón */
+                for(let k=J3;k<=DE3;k++){setSc(W3[k-1],k===J3?'undo cur':k<DE3?'undo':'',k);popSc(W3[k-1]);}
+                cnt3(J3,0,c3[2],1);
+              }]);
+      return;
+    }
+    if(n===7){
+      const loop=[];
+      for(let k=J3;k<=21;k++)loop.push(...turn3(k,k=>k<DE3?'redo':fx3(k)));
+      F3.run(loop,()=>F3.run([...S3[7].hops,
+        ()=>W3.forEach((c,i)=>laterG(i*45,()=>{setSc(c,ok3(i+1),i+1);popSc(c);}))]),FAST);
+      return;
+    }
+    strip3(n);cnt3(...CNT3[n]);
+    if(S3[n].hops)F3.run(S3[n].hops);else restPk(F3,S3,n);
   },
   leave(){gen++;}
 };

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Evaluación del modelo decisión por decisión (offline; CP-SAT solo como oráculo)
+Evaluación del modelo decisión por decisión (offline; CP-SAT solo para evaluar)
 -------------------------------------------------------------------------------
 Responde al comentario del profesor sobre Deliverable 2 ("cómo se evalúa el modelo"). Además del resultado final
 (horario correcto o no), se juzga CADA decisión de cada agente reconstruyendo el estado desde su traza:
@@ -13,9 +13,9 @@ Responde al comentario del profesor sobre Deliverable 2 ("cómo se evalúa el mo
                   Se compara con el azar entre los mismos candidatos y con retroceder solo al turno anterior (D2).
 
 Uso:
-    python src/oracle_eval.py --runs hard/llama-3.2-3b/agents,hard/no_llm/agents_random
-    python src/oracle_eval.py --runs "*/llama-3.2-3b/agents"        # los tres conjuntos evaluados juntos
-    python src/oracle_eval.py --runs ... --out parcial.json; python src/oracle_eval.py --merge a.json,b.json
+    python src/decision_eval.py --runs hard/llama-3.2-3b/agents,hard/no_llm/agents_random
+    python src/decision_eval.py --runs "*/llama-3.2-3b/agents"        # los tres conjuntos evaluados juntos
+    python src/decision_eval.py --runs ... --out parcial.json; python src/decision_eval.py --merge a.json,b.json
 """
 
 import argparse
@@ -33,7 +33,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 
-class Oracle:
+class FeasibilityChecker:
     def __init__(self, staff, demands):
         self.staff, self.demands = staff, demands
         self.cache: Dict = {}
@@ -68,7 +68,7 @@ def read_trace(path: str) -> List[Dict]:
 
 def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
     staff_data, demands = load_instance(os.path.join(instance_dir(inst_set), f"{inst_id}.json"))
-    orc = Oracle(staff_data["staff"], demands)
+    chk = FeasibilityChecker(staff_data["staff"], demands)
     out = {"a1": [], "a2": [], "a3": []}
     last_prop = {}
     last_expl = None
@@ -76,7 +76,7 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
 
     def close_visit():
         if visit and visit.get("disc") is not None:
-            final_ok = orc.ok({**visit["prefix"], visit["k"]: visit["final"]})
+            final_ok = chk.ok({**visit["prefix"], visit["k"]: visit["final"]})
             out["a1"][visit["idx"]]["final_fatal"] = not final_ok
 
     for ev in events:
@@ -93,11 +93,11 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
                 continue
             close_visit()
             visit = None
-            if not orc.ok(prefix):
+            if not chk.ok(prefix):
                 last_prop = {"prefix": prefix, "k": k, "opcion": ev["contenido"]["opcion"], "perdido": True}
                 continue
-            labels = [orc.ok({**prefix, k: o}) for o in ev["opciones"]]
-            chosen_ok = orc.ok({**prefix, k: ev["contenido"]["opcion"]})
+            labels = [chk.ok({**prefix, k: o}) for o in ev["opciones"]]
+            chosen_ok = chk.ok({**prefix, k: ev["contenido"]["opcion"]})
             out["a1"].append({"k": k, "n": len(labels), "fatal_frac": 1 - sum(labels) / len(labels),
                               "chosen_fatal": not chosen_ok, "final_fatal": not chosen_ok,
                               "disc": 0 < sum(labels) < len(labels)})
@@ -105,9 +105,9 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
                      "disc": out["a1"][-1]["disc"]}
             last_prop = {"prefix": prefix, "k": k, "opcion": ev["contenido"]["opcion"]}
         elif ev["de"] == "Crítico" and ev["tipo"] in ("aceptar", "rechazar") and last_prop:
-            if last_prop.get("perdido") or not orc.ok(last_prop["prefix"]):
+            if last_prop.get("perdido") or not chk.ok(last_prop["prefix"]):
                 continue
-            fatal = not orc.ok({**last_prop["prefix"], last_prop["k"]: last_prop["opcion"]})
+            fatal = not chk.ok({**last_prop["prefix"], last_prop["k"]: last_prop["opcion"]})
             out["a2"].append({"k": last_prop["k"], "rechaza": ev["tipo"] == "rechazar", "fatal": fatal})
         elif ev["de"] == "explicar_callejon" or ev["tipo"] == "callejón":
             last_expl = ev
@@ -118,7 +118,7 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
             k = last_expl["contenido"]["paso"]
             culprit = None
             for c in range(k):
-                if not orc.ok({j: prefix[j] for j in range(c + 1)}):
+                if not chk.ok({j: prefix[j] for j in range(c + 1)}):
                     culprit = c
                     break
             j = ev["contenido"]["paso"]
@@ -130,7 +130,7 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
                 que el salto no prohíbe (se prohíbe la opción anterior de x y, si se aplica, al médico)."""
                 if culprit is None or x > culprit:
                     return False
-                return orc.repairable(prefix, x, doc)
+                return chk.repairable(prefix, x, doc)
             # el azar elige uniforme entre los candidatos de T4 (que ya incluyen el turno k-1)
             choices = list(zip(pasos, medicos)) or [(k - 1, None)]
             util = useful(j, ev["contenido"].get("prohibir"))
@@ -192,16 +192,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", default=None,
                     help="conjunto/modelo/estrategia separados por comas; '*' como conjunto junta principal, estrés y difícil")
-    ap.add_argument("--out", default=os.path.join(RESULTS_DIR, "oracle_eval.json"),
-                    help="JSON de salida (por defecto results/oracle_eval.json, que se reescribe)")
-    ap.add_argument("--merge", default=None, help="une JSON parciales (separados por comas) en results/oracle_eval.*")
+    ap.add_argument("--out", default=os.path.join(RESULTS_DIR, "decision_eval.json"),
+                    help="JSON de salida (por defecto results/decision_eval.json, que se reescribe)")
+    ap.add_argument("--merge", default=None, help="une JSON parciales (separados por comas) en results/decision_eval.*")
     args = ap.parse_args()
     rows = []
     if args.merge:
         for path in args.merge.split(","):
             with open(path, encoding="utf-8") as f:
                 rows += json.load(f)
-        args.out = os.path.join(RESULTS_DIR, "oracle_eval.json")
+        args.out = os.path.join(RESULTS_DIR, "decision_eval.json")
     else:
         for run in args.runs.split(","):
             inst_sets, rest = run.split("/", 1)
@@ -216,9 +216,9 @@ def main():
             print(json.dumps(rows[-1], ensure_ascii=False), flush=True)
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(rows, f, indent=1, ensure_ascii=False)
-    if os.path.abspath(args.out) == os.path.abspath(os.path.join(RESULTS_DIR, "oracle_eval.json")):
+    if os.path.abspath(args.out) == os.path.abspath(os.path.join(RESULTS_DIR, "decision_eval.json")):
         text = table(rows)
-        with open(os.path.join(RESULTS_DIR, "oracle_eval.md"), "w", encoding="utf-8") as f:
+        with open(os.path.join(RESULTS_DIR, "decision_eval.md"), "w", encoding="utf-8") as f:
             f.write(text + "\n")
         print(text)
 

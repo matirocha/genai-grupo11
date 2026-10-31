@@ -4,7 +4,7 @@ Análisis GENERAL de fallas (herramienta offline, NO forma parte del sistema)
 ---------------------------------------------------------------------------
 Responde al comentario del profesor sobre Deliverable 2: en vez de explicar una sola instancia, junta TODAS las
 corridas fallidas de las estrategias con búsqueda (solución D2, azar, sistema de agentes y sus ablaciones) y
-mide qué tienen en común. Para cada falla usa src/diagnose.py (CP-SAT solo como oráculo de análisis):
+mide qué tienen en común. Para cada falla usa src/diagnose.py (CP-SAT solo para el análisis):
   - decisión culpable: primer turno tras el cual la semana ya no tiene solución;
   - distancia (en turnos) entre la decisión culpable y el callejón sin salida;
   - precisión del chequeo hacia adelante en el turno culpable (opciones que dejaba pasar vs. completables);

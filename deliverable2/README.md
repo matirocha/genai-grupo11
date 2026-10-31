@@ -7,7 +7,7 @@
 **Deliverable 2** — sobre la tarea y el fallo definidos en Deliverable 1.
 
 - 🎥 **Video (≤3 min):** [youtu.be/B9UK7B3sv48](https://youtu.be/B9UK7B3sv48)
-- 📄 **Documento técnico (1 página, LaTeX):** [`deliverable2/deliverable2.pdf`](deliverable2.pdf) · fuente [`deliverable2/deliverable2.tex`](deliverable2.tex)
+- 📄 **Documento técnico (1 página, LaTeX):** [`deliverable2/Deliverable 2 Grupo 11.pdf`](Deliverable%202%20Grupo%2011.pdf) · fuente [`deliverable2/deliverable2.tex`](deliverable2.tex)
 - 📁 Entrega anterior: [`deliverable1/`](../deliverable1/)
 
 ---

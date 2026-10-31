@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deliverable 3 · Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<!--
+  Presentación del video de Deliverable 3. Ábrela con el servidor local, que es el que ejecuta los scripts:
+      python video/servidor_video.py        (o doble clic en video/0_presentacion.bat)
+  Teclas: ← → avanzar/retroceder · R ejecutar el paso de la diapositiva · T terminal (pasos 1 y 2) · F pantalla completa
+-->
+<style>
+/* =====================================================================
+   DISEÑO 1 · escenario fijo 1280×720 escalado a la ventana (igual que HTMLs/flujo_deliverables.html).
+   ===================================================================== */
+:root{
+  --ink:#151A28; --ink-2:#242C42; --ink-3:#3A4460;
+  --paper:#ECEEF2; --card:#FFFFFF;
+  --crimson:#A32638; --crimson-deep:#75182A; --crimson-soft:#F6E1E4; --crimson-on-dark:#E4899A;
+  --slate:#6C7488; --slate-2:#9AA1B1; --line:#D3D7E0;
+  --amber:#B0771A; --amber-soft:#F7EAD2;
+  --green:#2F7A54; --green-soft:#DDEFE4;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+  --term:'Cascadia Mono','Cascadia Code',Consolas,'IBM Plex Mono',monospace;
+  --math:'IBM Plex Serif',Georgia,'Times New Roman',serif;
+  --c1-b:#DCE5F4; --c1-f:#23477F;
+  --c2-b:#FAE6C1; --c2-f:#704300;
+  --c3-b:#DAEBDB; --c3-f:#2A6336;
+  --c4-b:#D2ECE8; --c4-f:#1B5F58;
+  --c5-b:#EADFD3; --c5-f:#5B4430;
+  --c6-b:#E6DDF3; --c6-f:#533585;
+  --c7-b:#EFDDEB; --c7-f:#72305D;
+  --c8-b:#F6DCC6; --c8-f:#86460F;
+  --cy1:#2D5C9E; --cy2:#B0771A; --cy3:#A32638;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#0B0E16;font-family:var(--sans);color:var(--ink)}
+#stage{position:absolute;top:50%;left:50%;width:1280px;height:720px;transform-origin:center center;background:var(--paper);overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+
+.slide{position:absolute;inset:0;padding:40px 72px 70px;display:none;flex-direction:column;background:var(--paper);color:var(--ink)}
+.slide.is-active{display:flex}
+
+/* ---------- tipografía ---------- */
+h2{font-size:36px;font-weight:600;line-height:1.12;letter-spacing:-.018em;text-wrap:balance}
+h3{font-size:19px;font-weight:600;line-height:1.25}
+h4{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+p{font-size:16px;line-height:1.55;color:var(--ink-2)}
+.kicker{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;color:var(--crimson);letter-spacing:.02em;margin-bottom:10px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+.m{font-family:var(--math);font-style:italic;font-weight:400;letter-spacing:0}
+.mono{font-family:var(--mono)}
+b,strong{font-weight:600}
+.tiny{font-size:12.5px;line-height:1.45;color:var(--slate)}
+
+/* ---------- apariciones ---------- */
+.frag{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.7,.3,1)}
+.frag.on{opacity:1;transform:none}
+.rise{opacity:0;transform:translateY(14px)}
+.is-active .rise{animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.5);opacity:.2}65%{transform:scale(1.07);opacity:1}100%{transform:none}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- componentes base ---------- */
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.facts span{background:var(--card);border-radius:999px;padding:5px 13px;font-size:13.5px;color:var(--ink-2)}
+.facts b{font-family:var(--mono);color:var(--crimson);margin-right:5px}
+[data-c="1"]{--cb:var(--c1-b);--cf:var(--c1-f)} [data-c="2"]{--cb:var(--c2-b);--cf:var(--c2-f)}
+[data-c="3"]{--cb:var(--c3-b);--cf:var(--c3-f)} [data-c="4"]{--cb:var(--c4-b);--cf:var(--c4-f)}
+[data-c="5"]{--cb:var(--c5-b);--cf:var(--c5-f)} [data-c="6"]{--cb:var(--c6-b);--cf:var(--c6-f)}
+[data-c="7"]{--cb:var(--c7-b);--cf:var(--c7-f)} [data-c="8"]{--cb:var(--c8-b);--cf:var(--c8-f)}
+
+/* ---------- navegación ---------- */
+#nav{position:absolute;left:72px;right:22px;bottom:16px;display:flex;justify-content:space-between;align-items:center;font:500 12px var(--mono);color:var(--slate);z-index:30}
+#nav .r{display:flex;align-items:center;gap:10px}
+#nav button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:transparent;color:inherit;font:600 16px/1 var(--sans);cursor:pointer}
+#nav button:hover{background:rgba(127,127,127,.12)}
+#nav button:focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
+#dots{display:flex;gap:4px}
+#dots i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.25}
+#dots i.on{opacity:.9}
+#bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(127,127,127,.15);z-index:30}
+#bar i{display:block;height:100%;width:0;background:var(--crimson);transition:width .35s ease}
+
+/* ================= diagrama de flujo con paquete ================= */
+.flow{position:relative;margin-top:14px;flex:none}
+.flow svg{position:absolute;left:0;top:0;overflow:visible}
+.flow .e{fill:none;stroke:var(--line);stroke-width:2;transition:stroke .3s,opacity .3s}
+.flow .e.seen{stroke:var(--slate-2)}
+.flow .e.hot{stroke:var(--crimson);stroke-width:2.5}
+.flow .el{font:500 11.5px var(--sans);fill:var(--slate);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round;opacity:.5;transition:opacity .3s,fill .3s}
+.flow .el.seen{opacity:1}
+.flow .el.cyc{font:600 11px var(--mono);letter-spacing:.03em}
+.flow .el.cyc.seen{fill:var(--crimson)}
+.nd{position:absolute;background:var(--card);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;gap:1px;opacity:.36;transition:opacity .35s,box-shadow .3s,transform .3s}
+.nd .n{font:600 10.5px var(--mono);color:var(--crimson);letter-spacing:.02em;white-space:nowrap}
+.nd b{font-size:15px;line-height:1.2}
+.nd span{font-size:12px;line-height:1.3;color:var(--slate)}
+.nd.io{background:transparent;border:1.5px dashed var(--slate-2)}
+.nd.agent{background:var(--ink);color:#fff;border-radius:20px}
+.nd.agent span{color:#C6CBD8}
+.nd.agent .n{color:var(--crimson-on-dark)}
+.nd.judge{background:var(--green-soft)}
+.nd.judge .n{color:var(--green)}
+.nd.seen{opacity:1}
+.nd.act{opacity:1;box-shadow:0 0 0 2.5px var(--crimson);transform:translateY(-2px)}
+.pk{position:absolute;left:0;top:0;transform:translate(-50%,-50%);display:none;align-items:center;gap:6px;padding:3px 9px 3px 6px;border-radius:999px;background:var(--crimson);color:#fff;font:600 11px/1.25 var(--mono);white-space:nowrap;z-index:5;pointer-events:none}
+.pk i{width:8px;height:8px;border-radius:50%;background:#fff;flex:none}
+.pk.on{display:inline-flex}
+.pk.nolab{padding:4px}
+.pk.nolab span{display:none}
+.pk.alt{background:var(--ink-3)}
+
+/* ================= parte inferior: explicación + figura ================= */
+.bottom{display:grid;grid-template-columns:500px 1fr;gap:30px;margin-top:22px;align-items:start}
+.exp{background:var(--card);border-radius:12px;padding:15px 20px 16px;min-height:168px}
+.exp.in{animation:fadeUp .45s both}
+.exp .en{font:600 12px var(--mono);color:var(--crimson);margin-bottom:5px;letter-spacing:.02em}
+.exp .en span{color:var(--slate)}
+.exp h3{font-size:19px;margin-bottom:6px}
+.exp p{font-size:14.5px;line-height:1.52}
+.exp p b{color:var(--ink)}
+
+.msg{background:var(--card);border-radius:10px;padding:10px 14px 12px;overflow:hidden}
+.msg.in{animation:fadeUp .35s both}
+.msg .rt{font:600 11.5px var(--mono);color:var(--crimson);margin-bottom:6px;letter-spacing:.02em;display:flex;justify-content:space-between;gap:10px}
+.msg .rt em{font-style:normal;color:var(--slate);font-weight:500}
+.msg pre{font:500 12px/1.52 var(--mono);color:var(--ink-2);white-space:pre-wrap;margin:0}
+.msg pre .c{color:var(--slate)}
+.msg pre b{color:var(--crimson-deep);font-weight:600}
+.msg pre .g{color:var(--green);font-weight:600}
+.msg pre .a{color:var(--amber);font-weight:600}
+
+/* tira de los 21 turnos (k = 1…21) */
+.strip{display:flex;gap:9px;margin-top:12px}
+.day{display:grid;grid-template-columns:repeat(3,23px);gap:3px}
+.day .dl{grid-column:1/-1;font:500 10.5px/14px var(--mono);color:var(--slate);text-align:center;text-transform:uppercase;letter-spacing:.06em}
+.sc{height:26px;border-radius:4px;background:var(--card);border:1px solid var(--line);font:500 9.5px var(--mono);color:var(--slate-2);display:flex;align-items:center;justify-content:center;position:relative;transition:background-color .25s,color .25s,box-shadow .25s,border-color .25s}
+.sc.f{background:var(--c1-b);border-color:transparent;color:var(--c1-f)}
+.sc.redo{background:var(--crimson-soft);border-color:transparent;color:var(--crimson-deep)}
+.sc.dead{background:var(--crimson);border-color:transparent;color:#fff}
+.sc.undo{background:transparent;border:1.5px dashed var(--crimson);color:var(--crimson)}
+.sc.rx{background:var(--amber-soft) repeating-linear-gradient(135deg,rgba(176,119,26,.22) 0 2px,transparent 2px 6px);border-color:transparent;color:var(--amber)}
+.sc.cur{box-shadow:0 0 0 2px var(--crimson);z-index:1}
+.sc.bad::before{content:"";position:absolute;top:-5px;right:-5px;width:9px;height:9px;border-radius:50%;background:var(--crimson);border:2px solid var(--paper);z-index:2}
+.sc.pop{animation:pop .42s cubic-bezier(.2,.7,.3,1)}
+.sc.shk{animation:shake .4s 2 .1s}
+.lg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:9px;font-size:12px;color:var(--slate);align-items:center}
+.lg span{display:inline-flex;align-items:center;gap:6px}
+.lg .sc{width:14px;height:14px;font-size:0;display:inline-block}
+
+/* un color por ciclo, en el diagrama, en los contadores y en la tira */
+.flow .e.own1.seen{stroke:var(--cy1)} .flow .e.own2.seen{stroke:var(--cy2)} .flow .e.own3.seen{stroke:var(--cy3)}
+.flow .el.cyc.own1.seen{fill:var(--cy1)} .flow .el.cyc.own2.seen{fill:var(--cy2)} .flow .el.cyc.own3.seen{fill:var(--cy3)}
+.flow .e.ring{stroke-width:3;stroke-dasharray:9 6;animation:march .9s linear infinite}
+.flow .e.ring.q1{stroke:var(--cy1)} .flow .e.ring.q2{stroke:var(--cy2)} .flow .e.ring.q3{stroke:var(--cy3)}
+@keyframes march{from{stroke-dashoffset:15}to{stroke-dashoffset:0}}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;transition:opacity .35s}
+.rg{position:relative;overflow:hidden;background:var(--card);border-radius:8px;padding:6px 11px 9px;opacity:.5;transition:opacity .3s,box-shadow .3s}
+.rg[data-r="1"]{--rc:var(--cy1)} .rg[data-r="2"]{--rc:var(--cy2)} .rg[data-r="3"]{--rc:var(--cy3)}
+.rg.on{opacity:1;box-shadow:inset 0 3px 0 var(--rc)}
+.rg .rn{font:600 10.5px var(--mono);color:var(--rc);letter-spacing:.03em;white-space:nowrap}
+.rg .rv{font:600 13px/1.5 var(--mono);color:var(--ink);white-space:nowrap}
+.rg .rv b{font-size:21px;font-variant-numeric:tabular-nums}
+.rg .rv small{font-size:12px;font-weight:500;color:var(--slate)}
+.rg span{display:block;font-size:11.5px;line-height:1.3;color:var(--slate);white-space:nowrap}
+.rg span b{color:var(--ink)}
+.rg .rb{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--paper)}
+.rg .rb i{display:block;height:100%;width:0;background:var(--rc);transition:width .25s}
+#w3{margin-top:10px}
+.sc.prop{background:var(--card);border:1.5px dashed var(--cy1);color:var(--cy1)}
+.sc.rej{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+.sc.ok{background:var(--green-soft);border-color:transparent;color:var(--green)}
+.sc.alr::before{content:"";position:absolute;top:-5px;right:-5px;width:9px;height:9px;border-radius:50%;background:var(--amber);border:2px solid var(--paper);z-index:2}
+.sc.crit::after{content:"";position:absolute;left:4px;right:4px;bottom:2px;height:2.5px;border-radius:2px;background:var(--cy2)}
+.sc.jmp::before{content:"";position:absolute;left:4px;right:4px;top:2px;height:2.5px;border-radius:2px;background:var(--cy3)}
+.d3r{position:relative}
+.bars{position:absolute;inset:0 0 auto 0;display:grid;gap:9px;opacity:0;pointer-events:none;transition:opacity .4s}
+#d3 .strip,#d3 .lg{transition:opacity .35s}
+#d3.at8 .rings,#d3.at8 .strip,#d3.at8 .lg{opacity:0}
+#d3.at8 .bars{opacity:1}
+.br{display:grid;grid-template-columns:150px 1fr 58px;gap:12px;align-items:center}
+.br .l{font-size:13.5px;line-height:1.25;color:var(--ink-2)}
+.br .l small{display:block;font-size:11.5px;color:var(--slate)}
+.br .t{height:26px;background:var(--card);border-radius:5px;overflow:hidden}
+.br .t i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.br.win .t i{background:var(--green)}
+.br .v{font:600 16px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.br.zero .v{color:var(--crimson)}
+.br.win .v{color:var(--green)}
+
+/* ================= agentes y roles ================= */
+.anat{display:flex;align-items:stretch;gap:8px;margin-top:16px}
+.an{background:var(--card);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.an .n{font:600 10.5px var(--mono);color:var(--crimson);white-space:nowrap}
+.an b{font-size:14px;line-height:1.25}
+.an span{font-size:12px;line-height:1.3;color:var(--slate)}
+.an.llm{background:var(--ink);color:#fff;border-radius:18px}
+.an.llm .n{color:var(--crimson-on-dark)} .an.llm span{color:#C6CBD8}
+.an.io{background:transparent;border:1.5px dashed var(--slate-2)}
+.an .who{color:var(--crimson-deep);font-family:var(--mono);font-weight:600}
+.an.llm .who{color:var(--crimson-on-dark)}
+.plus,.to{align-self:center;font:600 18px var(--mono);color:var(--slate-2)}
+.agents{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.ag{background:var(--card);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .3s}
+.ag.cur{box-shadow:0 0 0 2.5px var(--crimson)}
+.ag header{background:var(--ink);color:#fff;padding:9px 14px 10px;border-radius:12px 12px 0 0}
+.ag header .n{font:600 11px var(--mono);color:var(--crimson-on-dark)}
+.ag header b{font-size:18px;margin-right:8px}
+.ag header span{font-size:12.5px;color:#C6CBD8}
+.ag dl{display:grid;grid-template-columns:74px 1fr;gap:6px 10px;padding:9px 14px 11px;margin:0}
+.ag dt{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding-top:1px}
+.ag dd{margin:0;font-size:12.8px;line-height:1.42;color:var(--ink-2)}
+.ag dd ul{list-style:none;display:grid;gap:2px}
+.ag dd li{position:relative;padding-left:11px}
+.ag dd li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:1px;background:var(--crimson)}
+.ag code{font:600 12px var(--mono);background:var(--paper);border-radius:4px;padding:0 5px;color:var(--ink)}
+.ag .tl{font:600 11.5px var(--mono);border-radius:999px;padding:0 7px;white-space:nowrap;background:var(--c1-b);color:var(--c1-f)}
+.ag .tl.ask{background:var(--crimson-soft);color:var(--crimson-deep)}
+.ag .tl.wr{background:var(--amber-soft);color:var(--amber)}
+.ag dd .alr{display:grid;gap:2px;margin:3px 0 1px}
+.ag dd .alr>span{display:flex;align-items:baseline;gap:6px;font-size:12.3px;line-height:1.35}
+.tools{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+.tool{background:var(--card);border-radius:8px;padding:5px 10px;transition:opacity .3s,box-shadow .3s}
+.tool b{display:block;font:600 11.5px var(--mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool em{display:block;font:600 10.5px var(--mono);font-style:normal;color:var(--crimson);margin-top:2px}
+.tool.on{opacity:1;box-shadow:0 0 0 2px var(--crimson)}
+#ag .tool.dim{opacity:.38}
+.an.flash{animation:fadeUp .4s both}
+#ag .foot{margin-top:10px;font-size:13px;color:var(--ink-2)}
+#ag .foot b{color:var(--crimson-deep)}
+
+/* ================= ejecución de los scripts del video ================= */
+.runbar{display:flex;align-items:center;gap:10px;margin-top:14px;flex:none}
+.btn{height:32px;padding:0 15px;border-radius:999px;border:0;background:var(--crimson);color:#fff;font:600 13px var(--sans);cursor:pointer;white-space:nowrap;transition:background .2s}
+.btn:hover{background:var(--crimson-deep)}
+.btn.stop{background:var(--ink)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:#F6F7FA}
+.btn.ghost.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible{outline:2px solid var(--crimson);outline-offset:2px}
+.runbar code{font:500 12.5px var(--mono);color:var(--ink-2);background:var(--card);border-radius:6px;padding:6px 10px}
+.runbar .st{flex:1;font:500 12.5px var(--mono);color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.runbar .st b{color:var(--ink)}
+.runbar .st.ok b{color:var(--green)}
+.runbar .st.err b{color:var(--crimson)}
+.runbar .st i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--slate-2);margin-right:7px;vertical-align:1px}
+.runbar .st.live i{background:var(--crimson);animation:blink 1s infinite}
+.runbar .st.ok i{background:var(--green)}
+.runbar .st.err i{background:var(--crimson)}
+@keyframes blink{50%{opacity:.25}}
+.spd{display:inline-flex;align-items:center;gap:2px;font-size:12px;color:var(--slate);background:var(--card);border-radius:999px;padding:3px;border:1px solid var(--line)}
+.spd span{padding:0 6px 0 8px}
+.spd button{border:0;background:transparent;font:600 12px var(--mono);color:var(--ink-2);border-radius:999px;padding:4px 8px;cursor:pointer}
+.spd button.on{background:var(--ink);color:#fff}
+.nosrv{display:none;margin-top:10px;background:var(--amber-soft);color:var(--c2-f);border-radius:8px;padding:8px 14px;font-size:13px}
+.nosrv code{font:600 12.5px var(--mono)}
+body.offline .nosrv{display:block}
+
+/* terminal: la salida del script tal cual, con la misma alineación que en consola */
+.term{flex:1;min-height:0;margin-top:12px;background:var(--ink);border-radius:12px;padding:14px 18px;overflow:auto;position:relative}
+.term pre{font:400 13px/1.42 var(--term);color:#D5D9E3;white-space:pre;margin:0;font-variant-ligatures:none}
+.term.wrap pre{white-space:pre-wrap;word-break:break-word}
+.term pre>div{min-height:1.42em}
+.term .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#8E96AA;font:500 14px var(--sans)}
+.term .ph kbd{font:600 12px var(--mono);border:1px solid #4A5370;border-radius:4px;padding:1px 6px;color:#C6CBD8}
+.term::-webkit-scrollbar{width:10px;height:10px}.term::-webkit-scrollbar-thumb{background:#3A4460;border-radius:6px}.term::-webkit-scrollbar-corner{background:transparent}
+.tr{color:#525C78}
+.th{color:var(--crimson-on-dark);font-weight:700}
+.bx{color:#56607C}
+.tg{color:#9FB7E6}
+.vb{font-weight:700}
+.tok{color:#7FD3A2;font-weight:700}
+.tbad{color:#F08A9B;font-weight:700}
+.tmid{color:#F2C36B;font-weight:700}
+
+/* ---------- paso 2 en vivo ---------- */
+#live{padding:30px 72px 56px}
+#live h2{font-size:28px}
+#live .flow{margin-top:10px}
+.lbot{display:grid;grid-template-columns:536px 1fr;gap:20px;margin-top:8px;flex:1;min-height:0}
+.feed{background:var(--card);border-radius:12px;overflow:auto;position:relative;min-height:0}
+.feed::-webkit-scrollbar{width:8px}.feed::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+.feed ol{list-style:none;padding:4px 0}
+.feed .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:13px;color:var(--slate)}
+.fi{display:grid;grid-template-columns:30px 176px 1fr;gap:8px;align-items:baseline;padding:4px 12px 4px 8px;font-size:12.3px;line-height:1.38;cursor:pointer;border-left:3px solid transparent;animation:fadeUp .3s both}
+.fi:hover{background:#F4F5F8}
+.fi.cur{background:var(--crimson-soft);border-left-color:var(--crimson)}
+.fi .ix{font:500 10.5px var(--mono);color:var(--slate-2);text-align:right}
+.fi .who{font:600 11px var(--mono);color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi .tx{color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fi .tx b{color:var(--ink)}
+.fi.syn .tx{color:var(--slate);font-style:italic}
+.fi .obs{font:600 10px var(--mono);color:var(--cy1);margin-left:4px}
+.ac{display:inline-block;border-radius:5px;padding:0 5px;background:var(--paper);color:var(--ink)}
+.ac.ag{background:var(--ink);color:#fff}
+.ac.jd{background:var(--green-soft);color:var(--green)}
+.ac.co{background:transparent;border:1px dashed var(--slate-2);padding:0 4px}
+.lside{display:flex;flex-direction:column;min-height:0}
+.lside .strip{margin-top:8px}
+.lside .lg{margin-top:5px;gap:2px 9px;font-size:10.5px;white-space:nowrap}
+.mk{display:inline-block;width:13px;height:3px;border-radius:2px;background:var(--cy2)}.mk.rd{background:var(--cy3)}
+.lside .lg span{gap:4px}
+.lside .lg .sc{width:11px;height:11px}
+#m4{padding:7px 12px 8px}
+#m4 .rt{margin-bottom:3px}
+#m4 pre{font-size:11.3px;line-height:1.42}
+.cnts{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px;font-size:11.5px;color:var(--slate)}
+.cnts b{font:600 12px var(--mono);color:var(--ink);margin-right:3px}
+#m4{margin-top:8px;flex:1;min-height:0;cursor:pointer}
+#m4:hover{box-shadow:0 0 0 1.5px var(--line)}
+.tover{position:absolute;left:72px;right:72px;top:132px;bottom:56px;z-index:20;display:none;flex-direction:column;box-shadow:0 18px 50px rgba(0,0,0,.35);border-radius:12px}
+.tover.on{display:flex}
+.tover .term{margin:0}
+.tover .x{position:absolute;right:12px;top:10px;z-index:2}
+
+/* ---------- detalle de un mensaje ---------- */
+.modal{position:absolute;inset:0;background:rgba(21,26,40,.55);z-index:40;display:none;align-items:center;justify-content:center}
+.modal.on{display:flex}
+.mcard{width:1120px;height:600px;background:var(--paper);border-radius:14px;padding:20px 24px 18px;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:fadeUp .3s both}
+.mhead{display:flex;align-items:baseline;gap:12px}
+.mhead h3{font-size:21px;flex:1}
+.mhead .n{font:600 12px var(--mono);color:var(--crimson)}
+.mbody{display:grid;grid-template-columns:400px 1fr;gap:18px;margin-top:12px;flex:1;min-height:0}
+.mbody>div{background:var(--card);border-radius:10px;padding:12px 16px;overflow:auto;min-height:0}
+.mbody h4{margin-bottom:8px}
+.kv{display:grid;grid-template-columns:118px 1fr;gap:5px 12px;font-size:13px;line-height:1.4}
+.kv dt{font:600 11px/1.6 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--slate)}
+.kv dd{color:var(--ink-2);font-family:var(--mono);font-size:12.5px;word-break:break-word}
+.kv dd b{color:var(--crimson-deep)}
+.opts{list-style:none;margin-top:10px;font:500 12px/1.6 var(--mono);color:var(--ink-2);columns:2}
+.opts li.ch{color:var(--crimson);font-weight:600}
+.obs-tabs{display:flex;gap:6px;margin-bottom:8px}
+.obs-pre{font:500 12.3px/1.5 var(--mono);color:var(--ink-2);white-space:pre-wrap;margin:0}
+.obs-none{font-size:13.5px;color:var(--slate)}
+
+/* ---------- salida final ---------- */
+.fgrid{display:grid;grid-template-columns:640px 1fr;gap:30px;margin-top:16px;flex:1;min-height:0}
+.sched{border-collapse:separate;border-spacing:4px;width:100%;margin-left:-4px}
+.sched th{font:600 11px var(--mono);color:var(--slate);letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:0 0 2px}
+.sched tbody th{text-align:right;padding-right:6px;width:70px;text-transform:none;letter-spacing:0;font-size:12px}
+.sched td{background:var(--card);border-radius:7px;padding:5px 4px;text-align:center;vertical-align:middle;height:62px}
+.sched td.rlx{background:var(--amber-soft)}
+.dc{display:block;margin:2px auto;width:max-content;border-radius:999px;padding:1px 8px;background:var(--cb,var(--paper));color:var(--cf,var(--ink));font:600 11.5px/1.5 var(--mono)}
+.splg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--slate);align-items:center}
+.splg .dc{display:inline-block;margin:0 4px 0 0}
+.hrs{display:grid;grid-template-columns:1fr 1fr;gap:5px 26px;margin-top:6px}
+.hr{display:grid;grid-template-columns:62px 1fr 64px;gap:8px;align-items:center;font-size:12px}
+.hr .t{height:12px;background:var(--card);border-radius:3px;overflow:hidden;position:relative}
+.hr .t i{position:absolute;left:0;top:0;bottom:0;background:var(--cf,var(--slate-2));opacity:.75;border-radius:3px;transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.hr .t.over i{background:var(--crimson);opacity:1}
+.hr .v{font:600 11.5px var(--mono);color:var(--ink-2);text-align:right;white-space:nowrap}
+.hr .v small{color:var(--slate);font-weight:500}
+.verd{border-radius:12px;padding:14px 18px;background:var(--green-soft)}
+.verd.bad{background:var(--crimson-soft)}
+.verd .big{font:700 26px var(--sans);color:var(--green);letter-spacing:-.01em}
+.verd.bad .big{color:var(--crimson)}
+.verd p{font-size:13.5px;margin-top:2px}
+.verd ul{list-style:none;margin-top:6px;font:500 11.5px/1.45 var(--mono);color:var(--crimson-deep)}
+.cmp{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;background:var(--card);border-radius:10px;overflow:hidden}
+.cmp th{font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--slate);text-align:right;padding:8px 10px 6px;border-bottom:1px solid var(--line)}
+.cmp th:first-child,.cmp td:first-child{text-align:left}
+.cmp td{padding:5px 10px;text-align:right;font-family:var(--mono);font-size:12.5px;border-bottom:1px solid var(--paper)}
+.cmp td:first-child{font-family:var(--sans);font-size:13px;white-space:nowrap}
+.cmp td small{display:block;font-size:11px;color:var(--slate);font-weight:400}
+.cmp tr.me td{background:#F7FAF8;font-weight:600}
+.cmp .y{color:var(--green);font-weight:600}.cmp .n{color:var(--crimson);font-weight:600}
+.fempty{display:flex;align-items:center;justify-content:center;flex:1;font-size:15px;color:var(--slate);text-align:center}
+
+/* ---------- paso 1: protocolo explicado con figuras ---------- */
+#p1 .bottom{margin-top:16px}
+#p1 .exp{min-height:0}
+.tbtn.new{animation:ring 1.2s ease-out 3}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(163,38,56,.55)}100%{box-shadow:0 0 0 12px rgba(163,38,56,0)}}
+.pvs{position:relative;height:300px}
+.pv{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .35s}
+.pv.on{opacity:1;pointer-events:auto}
+.pv .rz{opacity:0;transform:translateY(10px)}
+.pv.on .rz{animation:rise .5s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:var(--d,0s)}
+.ov{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ovc{background:var(--card);border-radius:12px;padding:14px 16px 15px;display:grid;grid-template-columns:34px 1fr;column-gap:10px;align-items:start}
+.ovc i{grid-row:1/3;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font:600 14px/30px var(--mono);font-style:normal;text-align:center}
+.ovc b{font-size:16px}
+.ovc span{font-size:13px;line-height:1.4;color:var(--slate)}
+.ovc code{font:600 12px var(--mono);color:var(--ink)}
+.sets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.set{background:var(--card);border-radius:12px;padding:11px 14px 12px;display:flex;flex-direction:column;gap:3px}
+.set b{font-size:15px;color:var(--cf)}
+.set code{font:500 11px var(--mono);color:var(--slate)}
+.set>span{font-size:12px;line-height:1.38;color:var(--ink-2)}
+.set>span code{font-size:11.5px;color:var(--ink)}
+.dots{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:6px 0 5px}
+.dots i{aspect-ratio:1;border-radius:50%;background:var(--cb);border:1.5px solid var(--cf);opacity:0;transform:scale(.3)}
+.dots i.on{animation:dot .4s cubic-bezier(.2,.7,.3,1.5) forwards}
+@keyframes dot{to{opacity:1;transform:none}}
+.strs{display:grid;gap:7px}
+.sr{display:grid;grid-template-columns:262px 1fr 86px;gap:12px;align-items:center;background:var(--card);border-radius:9px;padding:7px 12px}
+.sr b{font-size:13.5px;line-height:1.25}
+.sr.sub b{font-size:12px;font-weight:500;color:var(--ink-2)}
+.sr em{font:600 12.5px var(--mono);font-style:normal;color:var(--slate);text-align:right;white-space:nowrap}
+.sr .pb{display:block;height:10px;background:var(--paper);border-radius:5px;overflow:hidden}
+.sr .pb i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px}
+.sr.win .pb i{background:var(--green)}
+.pv.on .sr .pb i{animation:fill 1.1s cubic-bezier(.3,.6,.3,1) forwards;animation-delay:var(--d,0s)}
+@keyframes fill{to{width:100%}}
+.pv[data-v="3"] .strip{margin-top:0}
+#m1{margin-top:12px;height:auto}
+.jdg{display:block}
+.jdg .strip{margin-top:0}
+.rules{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}
+.rules li{display:grid;grid-template-columns:70px 1fr 18px;align-items:center;gap:6px;background:var(--card);border-radius:7px;padding:4px 10px;font-size:12px;color:var(--slate);transition:color .3s,box-shadow .3s}
+.rules li b{font:600 11.5px var(--mono);color:var(--ink)}
+.rules li::after{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);transition:all .3s}
+.rules li.ok{color:var(--ink-2)}
+.rules li.ok::after{content:"✓";border-color:var(--green);background:var(--green);color:#fff;font:700 10px/14px var(--sans);text-align:center}
+.rules li.cur{box-shadow:0 0 0 2px var(--green)}
+.crx{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cx{background:var(--card);border-radius:12px;padding:10px 12px 12px;text-align:center}
+.cx .strip{margin-top:0;gap:4px;justify-content:center}
+.cx .day{grid-template-columns:repeat(3,10px);gap:2px}
+.cx .day .dl{font-size:8.5px;line-height:11px}
+.cx .sc{height:14px;font-size:0;border-radius:3px}
+.cx .sc.bad::before{top:-4px;right:-4px;width:7px;height:7px}
+.cv{font:700 22px var(--sans);margin-top:10px;opacity:0;transform:scale(.8);transition:opacity .4s,transform .4s cubic-bezier(.2,.7,.3,1.4)}
+.cx.on .cv{opacity:1;transform:none}
+.cx.ok .cv{color:var(--green)} .cx.bad .cv{color:var(--crimson)}
+.cx span{font-size:12.5px;color:var(--slate)}
+.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mt{background:var(--card);border-radius:12px;padding:12px 14px 13px;min-height:86px}
+.mt b{display:block;font:600 21px var(--mono);color:var(--crimson);letter-spacing:-.01em}
+.mt span{font-size:12.5px;line-height:1.35;color:var(--ink-2)}
+.dec{display:grid;gap:6px}
+.dh,.dr{display:grid;grid-template-columns:118px 1fr 168px;gap:12px;align-items:center}
+.dh span{font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--slate);padding:0 12px}
+.dr{background:var(--card);border-radius:9px;padding:8px 12px;font-size:12.5px;line-height:1.35;color:var(--ink-2)}
+.dr b{font-size:13.5px;color:var(--ink)}
+.dr em{font-style:normal;font-weight:600;color:var(--crimson-deep)}
+.dr span:last-child{color:var(--slate)}
+/* resultados de la evaluación por decisión */
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px;background:var(--paper);border:1px solid var(--line)}
+.sw.f{background:var(--crimson);border-color:transparent}.sw.ok{background:var(--green);border-color:transparent}.sw.am{background:var(--amber);border-color:transparent}
+.waf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wf{background:var(--card);border-radius:12px;padding:10px 12px 11px;text-align:center}
+.wf>b{font-size:13.5px}
+.wf .g{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:150px;margin:8px auto 6px}
+.wf .g i{aspect-ratio:1;border-radius:2px;background:var(--paper);transition:background .15s}
+.wf .g i.f{background:var(--crimson)}
+.wf .pc{font:600 24px var(--mono);color:var(--crimson);line-height:1.1}
+.wf.good .pc{color:var(--green)}
+.wf>span{font-size:12px;color:var(--slate)}
+.wcap{margin-top:9px}
+.crt{display:grid;gap:10px}
+.cr{background:var(--card);border-radius:12px;padding:9px 14px 10px}
+.cr h4{margin-bottom:6px}
+.bul{display:flex;flex-wrap:wrap;gap:3px}
+.bul i{width:14px;height:14px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line);transition:background .2s,border-color .2s}
+.bul i.ok{background:var(--green);border-color:var(--green)}
+.bul i.f{background:var(--crimson);border-color:var(--crimson)}
+.lgd{display:flex;gap:16px;margin-top:6px;font-size:12px;color:var(--ink-2)}
+.stk{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--paper)}
+.stk .sk{display:block;height:100%;width:0;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.stk .sk.ok{background:var(--green)}.stk .sk.am{background:var(--amber);opacity:.75}
+.crt .facts{margin-top:0}
+.hbs{display:grid;gap:8px;margin-bottom:12px}
+.hbs.sm{gap:5px}
+.hb{display:grid;grid-template-columns:230px 1fr 78px;gap:12px;align-items:center;font-size:13px;color:var(--ink-2)}
+.hb>i{display:block;height:22px;background:var(--card);border-radius:5px;overflow:hidden}
+.hbs.sm .hb>i{height:19px}
+.hb>i>i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.hb.good>i>i{background:var(--green)}.hb.bad>i>i{background:var(--crimson)}.hb.ctl>i>i{background:var(--slate-2);opacity:.45}
+.hb.ctl{color:var(--slate)}
+.hb>b{font:600 15px var(--mono);text-align:right;white-space:nowrap}
+.hb.good>b{color:var(--green)}.hb.bad>b{color:var(--crimson)}
+.hb>b em{font-style:normal;font-size:12px;color:var(--crimson);margin-left:3px}
+#w1e{margin-top:0}
+#dgcap{margin-top:5px;min-height:18px}
+#dgcap b{color:var(--ink)}
+.tks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tk{background:var(--card);border-radius:12px;padding:11px 15px 12px;min-height:110px}
+.tk>b{display:block;font:600 22px var(--mono);color:var(--crimson);letter-spacing:-.01em;margin-bottom:3px}
+.tk span{font-size:13px;line-height:1.4;color:var(--ink-2)}
+.tk span b{color:var(--ink)}
+
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ======================= 1 · PASO 1: PROTOCOLO ======================= -->
+<section class="slide" id="p1" data-sec="Paso 1 · Protocolo" data-paso="1" data-steps="12">
+  <div class="kicker">Deliverable 3 · Paso 1 del video</div>
+  <h2>Cómo se evalúa: el mismo protocolo para todas las estrategias</h2>
+  <div class="runbar">
+    <button class="btn" data-run>▶ Ejecutar</button>
+    <code>python video/paso1_protocolo.py</code>
+    <span class="st"><i></i>listo para ejecutar</span>
+    <button class="btn ghost tbtn" title="Salida de consola (T)">Terminal</button>
+  </div>
+  <div class="nosrv">Para ejecutar los scripts abre esta presentación con <code>python video/servidor_video.py</code> (o <code>video/0_presentacion.bat</code>).</div>
+  <div id="f1"></div>
+  <div class="bottom">
+    <div class="exp" id="x1"></div>
+    <div class="pvs">
+      <!-- 0 · resumen -->
+      <div class="pv" data-v="0"><div class="ov">
+        <div class="ovc"><i>1</i><b>Entradas</b><span>90 instancias fijas y factibles, las mismas para todos</span></div>
+        <div class="ovc"><i>2</i><b>Juez</b><span><code>src/verifier.py</code>, independiente de las soluciones</span></div>
+        <div class="ovc"><i>3</i><b>Criterio</b><span>correcto si y solo si hay 0 violaciones</span></div>
+        <div class="ovc"><i>4</i><b>Evaluación por decisión</b><span>cada agente contra el azar, desde las trazas</span></div>
+      </div></div>
+      <!-- 1 · entradas -->
+      <div class="pv" data-v="1">
+        <div class="sets">
+          <div class="set" data-c="1"><b>Principal</b><code>data/instances</code><div class="dots"></div><span>escala de D1: 10 médicos, 21 turnos; <code>inst_00</code> = escenario exacto de D1</span></div>
+          <div class="set" data-c="2"><b>Estrés</b><code>data/instances_stress</code><div class="dots"></div><span>el mismo generador + 1..3 franjas bloqueadas extra por médico</span></div>
+          <div class="set" data-c="7"><b>Difícil · nuevo en D3</b><code>data/instances_hard</code><div class="dots"></div><span>capacidad = demanda + 0..2; Urgencia = cuota + 0..2 turnos</span></div>
+        </div>
+        <div class="facts"><span><b>90</b>instancias en total</span><span><b>✓</b>todas factibles: CP-SAT las certifica al crearlas y no participa en ninguna estrategia</span></div>
+      </div>
+      <!-- 2 · estrategias -->
+      <div class="pv" data-v="2"><div class="strs">
+        <div class="sr"><b>Línea base · prompt directo (D1)</b><i class="pb"><i></i></i><em>90</em></div>
+        <div class="sr"><b>Solución D2 · turno a turno</b><i class="pb"><i></i></i><em>90</em></div>
+        <div class="sr win"><b>Sistema de agentes (D3)</b><i class="pb"><i></i></i><em>90</em></div>
+        <div class="sr sub"><b>5 ablaciones: sin Diagnosticador, sin Crítico, sin memoria, sin ejemplos, sin ensamble</b><i class="pb"><i></i></i><em>5 × 90</em></div>
+        <div class="sr sub"><b>Controles: D2 al azar (y con 300 retrocesos), agentes al azar, agentes con reglas fijas</b><i class="pb"><i></i></i><em>× 5 semillas</em></div>
+        <p class="tiny">Cada estrategia con LLM corre <b>una vez</b> por instancia (greedy, determinista); los controles al azar, con 5 semillas.</p>
+      </div></div>
+      <!-- 3 · salida -->
+      <div class="pv" data-v="3">
+        <div class="strip" id="w1"></div>
+        <div class="msg" id="m1"></div>
+      </div>
+      <!-- 4 · juez -->
+      <div class="pv" data-v="4"><div class="jdg">
+        <div><div class="strip" id="w1b"></div><p class="tiny" id="jcap">el juez recorre los 21 turnos y las horas de cada médico</p></div>
+        <ul class="rules">
+          <li><b>HC1</b>descanso ≥ 16 h entre días seguidos</li>
+          <li><b>HC2</b>a lo más 1 turno por médico por día</li>
+          <li><b>HC3</b>dotación exacta de cada turno</li>
+          <li><b>HC4</b>cuota mínima de especialistas</li>
+          <li><b>HC5</b>horas semanales ≤ contrato</li>
+          <li><b>HC6</b>nadie trabaja en una franja bloqueada</li>
+          <li><b>Estructura</b>JSON legible, días, turnos e IDs válidos</li>
+        </ul>
+      </div></div>
+      <!-- 5 · criterio -->
+      <div class="pv" data-v="5"><div class="crx">
+        <div class="cx ok"><div class="strip" id="w1c"></div><div class="cv">✓ CORRECTO</div><span>0 violaciones</span></div>
+        <div class="cx bad"><div class="strip" id="w1d"></div><div class="cv">✕ INCORRECTO</div><span>1 violación (HC5) basta</span></div>
+      </div><p class="tiny" style="margin-top:10px">No hay crédito parcial. Un horario que el sistema marca <b>no certificado</b> se evalúa igual y cuenta como incorrecto si viola algo.</p></div>
+      <!-- 6 · métricas -->
+      <div class="pv" data-v="6"><div class="mets">
+        <div class="mt"><b>x / 30</b><span>horarios correctos por conjunto (y de 90)</span></div>
+        <div class="mt"><b>viol.</b><span>violaciones medias por horario</span></div>
+        <div class="mt"><b>saltos</b><span>retrocesos o saltos por horario</span></div>
+        <div class="mt"><b>deshechas</b><span>decisiones deshechas por horario</span></div>
+        <div class="mt"><b>pasadas</b><span>llamadas al LLM por horario</span></div>
+        <div class="mt"><b>seg.</b><span>segundos por horario (RTX 5060)</span></div>
+      </div></div>
+      <!-- 7 · evaluación por decisión -->
+      <div class="pv" data-v="7"><div class="dec">
+        <div class="dh"><span>Agente</span><span>Qué se mide</span><span>Se compara con</span></div>
+        <div class="dr"><b>Asignador</b><span>% de elecciones <em>fatales</em> (después la semana ya no tiene solución), sola y tras el Crítico</span><span>el azar en el mismo menú</span></div>
+        <div class="dr"><b>Crítico</b><span>propuestas fatales que rechaza y rechazos innecesarios</span><span>aceptar todo (sin Crítico)</span></div>
+        <div class="dr"><b>Diagnosticador</b><span>% de saltos <em>útiles</em>: deshacen la decisión culpable</span><span>el azar y retroceder 1 turno (D2)</span></div>
+        <div class="dr"><b>Sistema</b><span>horarios correctos con los agentes reemplazados</span><span>azar o reglas fijas</span></div>
+      </div></div>
+      <!-- 8 · resultado: Asignador -->
+      <div class="pv" data-v="8">
+        <div class="waf">
+          <div class="wf" data-n="48"><b>Asignador solo</b><div class="g"></div><div class="pc">48 %</div><span>elige una opción fatal</span></div>
+          <div class="wf" data-n="45"><b>Azar en el mismo menú</b><div class="g"></div><div class="pc">45 %</div><span>la referencia</span></div>
+          <div class="wf good" data-n="27"><b>Asignador + Crítico</b><div class="g"></div><div class="pc">27 %</div><span>tras la revisión</span></div>
+        </div>
+        <p class="tiny wcap"><i class="sw f"></i>fatal: después de esa decisión la semana ya no tiene solución · cada cuadro = 1 % de los <b>101</b> estados que deciden · <b>menos es mejor</b></p>
+      </div>
+      <!-- 9 · resultado: Crítico -->
+      <div class="pv" data-v="9"><div class="crt">
+        <div class="cr"><h4>Propuestas fatales que revisó: 52</h4><div class="bul" id="bul"></div>
+          <div class="lgd"><span><i class="sw ok"></i>47 interceptadas (90 %)</span><span><i class="sw f"></i>5 se le escaparon</span></div></div>
+        <div class="cr"><h4>Sus 488 rechazos</h4><div class="stk"><i class="sk ok" data-w="9.6"></i><i class="sk am" data-w="90.4"></i></div>
+          <div class="lgd"><span><i class="sw ok"></i>47 eran fatales</span><span><i class="sw am"></i>441 falsas alarmas: baratas, A1 propone otra</span></div></div>
+        <div class="facts"><span><b>58 %</b>elecciones fatales si se quita el Crítico</span><span><b style="color:var(--green)">27 %</b>con el Crítico</span></div>
+      </div></div>
+      <!-- 10 · resultado: Diagnosticador -->
+      <div class="pv" data-v="10">
+        <h4>Saltos útiles en los 27 callejones del sistema completo · más es mejor</h4>
+        <div class="hbs">
+          <div class="hb good" data-w="100"><span>Diagnosticador (A3)</span><i><i></i></i><b>100 %</b></div>
+          <div class="hb" data-w="69"><span>Azar entre los mismos candidatos</span><i><i></i></i><b>69 %</b></div>
+          <div class="hb bad" data-w="18"><span>Retroceder 1 turno (como D2)</span><i><i></i></i><b>18 %</b></div>
+        </div>
+        <div class="strip" id="w1e"></div>
+        <p class="tiny" id="dgcap">esquema: callejón en el turno 15; la decisión culpable está en el 9</p>
+      </div>
+      <!-- 11 · resultado: ablaciones y controles -->
+      <div class="pv" data-v="11">
+        <h4>Horarios correctos de 90 · mismo protocolo</h4>
+        <div class="hbs sm">
+          <div class="hb good" data-w="100"><span>Sistema completo</span><i><i></i></i><b>90</b></div>
+          <div class="hb bad" data-w="91.1"><span>sin Diagnosticador</span><i><i></i></i><b>82 <em>−8</em></b></div>
+          <div class="hb" data-w="96.7"><span>sin ejemplos (few-shot)</span><i><i></i></i><b>87 <em>−3</em></b></div>
+          <div class="hb" data-w="98.9"><span>sin Crítico</span><i><i></i></i><b>89 <em>−1</em></b></div>
+          <div class="hb" data-w="100"><span>sin memoria · sin ensamble</span><i><i></i></i><b>90</b></div>
+          <div class="hb ctl" data-w="100"><span>Control: agentes al azar</span><i><i></i></i><b>90</b></div>
+          <div class="hb ctl" data-w="82.2"><span>Control: agentes con reglas fijas</span><i><i></i></i><b>74</b></div>
+          <div class="hb ctl" data-w="88.9"><span>Solución D2</span><i><i></i></i><b>80</b></div>
+        </div>
+      </div>
+      <!-- 12 · interpretación -->
+      <div class="pv" data-v="12"><div class="tks">
+        <div class="tk"><b>90/90</b><span>incluso con agentes que eligen <b>al azar</b>: la división en agentes con herramientas es lo que vuelve resoluble el problema</span></div>
+        <div class="tk"><b>48 % → 27 %</b><span>el <b>Crítico</b> corrige al Asignador: menos decisiones que dejan la semana sin solución</span></div>
+        <div class="tk"><b>100 % vs 18 %</b><span>el <b>Diagnosticador</b> encuentra la decisión culpable; retroceder de a un turno casi nunca llega</span></div>
+        <div class="tk"><b>78 vs 65,6</b><span>de 90 horarios, cuántos salen bien <b>a la primera</b>, sin chocar con ningún callejón: con el <b>LLM</b>, 78; eligiendo <b>al azar</b>, 65,6 en promedio. El modelo comete menos errores en el camino</span></div>
+      </div><p class="tiny" style="margin-top:9px">El precio: 77 pasadas del LLM por horario, contra 26 de D2. Fuentes: <span class="mono">results/decision_eval.md</span> y la tabla del paso 3.</p></div>
+    </div>
+  </div>
+  <div class="tover" style="top:164px"><button class="btn ghost x">Cerrar ✕</button><div class="term"><pre></pre><div class="ph">Pulsa <span><kbd>R</kbd> o ▶ Ejecutar</span>para correr el script y ver su salida aquí</div></div></div>
+</section>
+
+<!-- ======================= 2 · AGENTES Y ROLES ======================= -->
+<section class="slide" id="ag" data-sec="Deliverable 3 · Agentes y roles" data-steps="4">
+  <div class="kicker">Deliverable 3 · Antes del flujo: quién es quién</div>
+  <h2>Tres agentes, un mismo modelo: cambia el prompt y lo que ve</h2>
+  <div class="anat">
+    <div class="an rise" style="--d:.1s;flex:1.25"><div class="n">Sistema · prompts/<span class="who" id="agF">&lt;agente&gt;</span>.md</div><b>Rol · Reglas · Ejemplos · Memoria</b><span>texto fijo y versionado, escrito por nosotros</span></div>
+    <div class="plus rise" style="--d:.2s">+</div>
+    <div class="an rise" style="--d:.3s;flex:1.25"><div class="n">Usuario · observación</div><b>La arma el código</b><span>con los números de <span class="who" id="agT">las herramientas</span></span></div>
+    <div class="to rise" style="--d:.4s">→</div>
+    <div class="an llm rise" style="--d:.5s;flex:1"><div class="n" id="agN">Agente</div><b>Llama-3.2-3B</b><span>el mismo modelo en los tres; 4-bit, greedy</span></div>
+    <div class="to rise" style="--d:.6s">→</div>
+    <div class="an rise" style="--d:.7s;flex:1"><div class="n">Salida · 1 token</div><b id="agL">una etiqueta del menú</b><span>solo valen las etiquetas permitidas</span></div>
+    <div class="to rise" style="--d:.8s">→</div>
+    <div class="an io rise" style="--d:.9s;flex:.9"><div class="n">Código</div><b>Coordinador</b><span>ejecuta lo que dice la etiqueta</span></div>
+  </div>
+
+  <div class="agents">
+    <article class="ag frag" data-f="1" data-a="1">
+      <header><div class="n">A1 · agente</div><b>Asignador</b><span>mira a lo ancho</span></header>
+      <dl>
+        <dt>Rol</dt><dd>Propone la opción para el turno <span class="m">k</span>.</dd>
+        <dt>Recibe</dt><dd><ul>
+          <li>Tabla de estado de D2: turno <span class="m">k</span>, cuotas que faltan | capacidad, candidatos.</li>
+          <li>Menú numerado de opciones viables, barajado en 2 órdenes (ensamble).</li>
+          <li>Hasta 3 lecciones; tras un rechazo, el motivo del Crítico.</li></ul></dd>
+        <dt>Herram.</dt><dd>Lee <span class="tl">T1</span> <span class="tl">T5</span>; su propuesta pasa a <span class="tl">T2</span></dd>
+        <dt>Responde</dt><dd><code>1…n</code> una opción · <code>0</code> mantener la suya</dd>
+        <dt>Después</dt><dd>Sin alertas de T2 se fija; con alertas, al Crítico.</dd>
+      </dl>
+    </article>
+    <article class="ag frag" data-f="2" data-a="2">
+      <header><div class="n">A2 · agente</div><b>Crítico</b><span>mira a fondo una propuesta</span></header>
+      <dl>
+        <dt>Rol</dt><dd>Fija la propuesta o la devuelve a A1. Solo actúa si hay alertas.</dd>
+        <dt>Recibe</dt><dd><ul>
+          <li>Alertas de T2 vs. la mejor alternativa:
+            <div class="alr"><span><span class="tl wr">R1</span><span>más especialistas sobre la cuota</span></span><span><span class="tl wr">R2</span><span>menos de ½ de opciones en <span class="m">k</span>+1</span></span><span><span class="tl wr">R3</span><span>más turnos futuros sin margen</span></span></div></li>
+          <li>Si sondeó, continuaciones a 2 turnos; lecciones.</li></ul></dd>
+        <dt>Herram.</dt><dd>Lee <span class="tl">T2</span> <span class="tl">T5</span>; pide <span class="tl ask">T3</span> (1 vez)</dd>
+        <dt>Responde</dt><dd><code>1</code> aceptar · <code>2</code> rechazar · <code>3</code> sondear</dd>
+        <dt>Después</dt><dd>Acepta: se fija, <span class="m">k</span>+1. Rechaza: vuelve a A1 (máx. 2).</dd>
+      </dl>
+    </article>
+    <article class="ag frag" data-f="3" data-a="3">
+      <header><div class="n">A3 · agente</div><b>Diagnosticador</b><span>mira hacia atrás</span></header>
+      <dl>
+        <dt>Rol</dt><dd>Ante un callejón, elige qué decisión pasada rehacer.</dd>
+        <dt>Recibe</dt><dd><ul>
+          <li>Turno del callejón y qué requisito futuro ya no se cubre.</li>
+          <li>Médicos del conflicto y por qué no pueden (HC5, HC1, HC2; HC6 es fijo).</li>
+          <li>Últimas 12 decisiones como candidatas; lecciones.</li></ul></dd>
+        <dt>Herram.</dt><dd>Lee <span class="tl">T4</span> <span class="tl">T5</span>; su elección escribe en <span class="tl wr">T5</span></dd>
+        <dt>Responde</dt><dd><code>1…12</code> el candidato a rehacer</dd>
+        <dt>Después</dt><dd>Deshace desde ahí, prohíbe a un médico y deja una lección (máx. 30).</dd>
+      </dl>
+    </article>
+  </div>
+
+  <div class="tools">
+    <div class="tool" data-t="1"><b>T1 opciones viables</b><em>→ A1</em></div>
+    <div class="tool" data-t="2"><b>T2 perfilar</b><em>→ A2</em></div>
+    <div class="tool" data-t="3"><b>T3 sondear</b><em>A2 lo pide</em></div>
+    <div class="tool" data-t="4"><b>T4 explicar callejón</b><em>→ A3</em></div>
+    <div class="tool" data-t="5"><b>T5 lecciones</b><em>→ A1, A2 · ← A3</em></div>
+    <div class="tool" data-t="6"><b>T6 verificador</b><em>coordinador</em></div>
+    <div class="tool" data-t="7"><b>T7 completar relajado</b><em>coordinador</em></div>
+  </div>
+  <p class="foot frag" data-f="4">Ningún agente ejecuta herramientas por su cuenta: <b>el coordinador de turnos las corre y pone sus números en la observación</b>. La única que un agente pide es T3, con la respuesta 3 del Crítico.</p>
+</section>
+
+<!-- ======================= 3 · FLUJO DE D3 (esquema) ======================= -->
+<section class="slide" id="d3" data-sec="Deliverable 3 · Flujo de los agentes" data-steps="8">
+  <div class="kicker">Deliverable 3 · Sistema de agentes</div>
+  <h2>D3: tres agentes proponen, critican y corrigen</h2>
+  <div id="f3"></div>
+  <div class="bottom">
+    <div class="exp" id="x3"></div>
+    <div class="d3r">
+      <div class="rings">
+        <div class="rg" data-r="1"><div class="rn">↻ Ciclo 1 · turno a turno</div><div class="rv">k = <b id="c3k">1</b><small> / 21</small></div><span>acepta → fija y pasa a k+1</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="2"><div class="rn">↻ Ciclo 2 · crítica</div><div class="rv"><b id="c3r">0</b><small> / 2 rechazos</small></div><span>en el turno k · <b id="c3t">0</b> en la semana</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="3"><div class="rn">↻ Ciclo 3 · saltos</div><div class="rv"><b id="c3s">0</b><small> / 30 saltos</small></div><span>callejón → vuelve al turno j</span><i class="rb"><i></i></i></div>
+      </div>
+      <div class="strip" id="w3"></div>
+      <div class="lg">
+        <span><i class="sc f"></i>fijado</span><span><i class="sc prop"></i>propuesta de A1</span><span><i class="sc rej"></i>rechazo de A2 (ciclo 2)</span>
+        <span><i class="sc dead"></i>callejón</span><span><i class="sc undo"></i>deshecho por el salto (ciclo 3)</span><span><i class="sc redo"></i>rehecho</span><span><i class="sc ok"></i>verificado</span>
+        <span><i class="mk am"></i>el Crítico rechazó ahí</span><span><i class="mk rd"></i>deshecho por un salto y rehecho</span>
+      </div>
+      <div class="bars">
+        <h4>Horarios correctos en las mismas 90 instancias</h4>
+        <div class="br zero"><div class="l">D1 · prompt directo<small>1 pasada del LLM</small></div><div class="t"><i data-w="0"></i></div><div class="v">0/90</div></div>
+        <div class="br"><div class="l">D2 · turno a turno<small>26 pasadas por horario</small></div><div class="t"><i data-w="88.9"></i></div><div class="v">80/90</div></div>
+        <div class="br win"><div class="l">D3 · agentes<small>77 pasadas por horario</small></div><div class="t"><i data-w="100"></i></div><div class="v">90/90</div></div>
+        <p class="tiny">Control: los mismos agentes eligiendo al azar también llegan a 90/90. El LLM aporta eficiencia: 78 horarios sin ningún salto, contra 65,6 del azar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4 · PASO 2: AGENTES EN VIVO ======================= -->
+<section class="slide" id="live" data-sec="Paso 2 · Agentes en vivo" data-paso="2">
+  <div class="kicker" id="k4">Deliverable 3 · Paso 2 del video · sistema de agentes en vivo sobre hard_29</div>
+  <h2>Los mensajes entre agentes, a medida que ocurren</h2>
+  <div class="runbar">
+    <button class="btn" data-run>▶ Ejecutar en vivo</button>
+    <code>python video/paso2_agentes.py</code>
+    <span class="spd" id="spd"><span>velocidad</span><button data-v="1">1×</button><button data-v="2">2×</button><button data-v="4">4×</button><button data-v="0" title="sin animación">⏭</button></span>
+    <span class="st" id="st4"><i></i>listo</span>
+    <button class="btn ghost tbtn" id="tbtn" title="Salida de consola (T)">Terminal</button>
+  </div>
+  <div class="nosrv">Para ejecutar los scripts abre esta presentación con <code>python video/servidor_video.py</code> (o <code>video/0_presentacion.bat</code>).</div>
+  <div id="f4"></div>
+  <div class="lbot">
+    <div class="feed" id="feedBox"><ol id="feed"></ol><div class="ph" id="feedPh">Aquí aparece cada mensaje entre agentes y herramientas.<br>Clic en un mensaje para ver el prompt exacto que recibió el agente.</div></div>
+    <div class="lside">
+      <div class="rings" id="rg4">
+        <div class="rg" data-r="1"><div class="rn">↻ Ciclo 1 · turno a turno</div><div class="rv">k = <b id="c4k">–</b><small> / 21</small></div><span id="c4f"><b>0</b> turnos fijados</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="2"><div class="rn">↻ Ciclo 2 · crítica</div><div class="rv"><b id="c4r">0</b><small> / 2 rechazos</small></div><span>en el turno k · <b id="c4t">0</b> en la semana</span><i class="rb"><i></i></i></div>
+        <div class="rg" data-r="3"><div class="rn">↻ Ciclo 3 · saltos</div><div class="rv"><b id="c4s">0</b><small> / 30 saltos</small></div><span><b id="c4u">0</b> decisiones deshechas</span><i class="rb"><i></i></i></div>
+      </div>
+      <div class="cnts" id="cn4"></div>
+      <div class="strip" id="w4"></div>
+      <div class="lg">
+        <span><i class="sc f"></i>fijado</span><span><i class="sc prop"></i>propuesta</span><span><i class="sc rej"></i>rechazo</span><span><i class="sc dead"></i>callejón</span>
+        <span><i class="sc undo"></i>deshecho</span><span><i class="sc redo"></i>rehecho</span><span><i class="sc rx"></i>relajado</span><span><i class="sc ok"></i>verificado</span><span><i class="mk am"></i>rechazo del Crítico</span><span><i class="mk rd"></i>deshecho por un salto</span>
+      </div>
+      <div class="msg" id="m4"><div class="rt">Último mensaje</div><pre class="c">—</pre></div>
+    </div>
+  </div>
+  <div class="tover" id="tover"><button class="btn ghost x">Cerrar ✕</button><div class="term"><pre></pre></div></div>
+</section>
+
+<!-- ======================= 5 · PASO 2: SALIDA FINAL ======================= -->
+<section class="slide" id="fin" data-sec="Paso 2 · Salida final">
+  <div class="kicker" id="finK">Deliverable 3 · Paso 2 del video · salida final</div>
+  <h2 id="finH">Salida final del sistema de agentes</h2>
+  <div class="fempty" id="finE">Ejecuta el paso 2 en la diapositiva anterior para ver aquí el horario final y el veredicto del verificador.</div>
+  <div class="fgrid" id="finG" style="display:none">
+    <div>
+      <h4>Horario final · 7 días × 3 turnos</h4>
+      <table class="sched" id="sch"></table>
+      <div class="splg" id="splg"></div>
+      <h4 style="margin-top:12px">Horas asignadas por médico (tope del contrato, HC5)</h4>
+      <div class="hrs" id="hrs"></div>
+    </div>
+    <div>
+      <div class="verd" id="verd"></div>
+      <div class="facts" id="fst"></div>
+      <h4 style="margin-top:14px">Misma instancia, mismo verificador</h4>
+      <table class="cmp" id="cmp"></table>
+      <p class="tiny" id="fsrc" style="margin-top:8px"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6 · PASO 3: RESULTADOS ======================= -->
+<section class="slide" id="p3" data-sec="Paso 3 · Resultados" data-paso="3">
+  <div class="kicker">Deliverable 3 · Paso 3 del video</div>
+  <h2>Resultados: las mismas 90 instancias para todas</h2>
+  <div class="runbar">
+    <button class="btn" data-run>▶ Ejecutar</button>
+    <code>python video/paso3_resultados.py</code>
+    <span class="st"><i></i>listo para ejecutar</span>
+  </div>
+  <div class="nosrv">Para ejecutar los scripts abre esta presentación con <code>python video/servidor_video.py</code> (o <code>video/0_presentacion.bat</code>).</div>
+  <div class="term"><pre></pre><div class="ph">Pulsa <span><kbd>R</kbd> o ▶ Ejecutar</span>para correr el script y ver su salida aquí</div></div>
+</section>
+
+
+<div class="modal" id="modal"><div class="mcard" role="dialog" aria-modal="true">
+  <div class="mhead"><span class="n" id="mdN"></span><h3 id="mdT"></h3><button class="btn ghost" id="mdX">Cerrar ✕</button></div>
+  <div class="mbody">
+    <div><h4>Contenido del mensaje</h4><dl class="kv" id="mdKV"></dl><ul class="opts" id="mdOp"></ul></div>
+    <div><h4 id="mdOH">Mensaje de usuario que recibió el agente</h4><div class="obs-tabs" id="mdTabs"></div><pre class="obs-pre" id="mdObs"></pre></div>
+  </div>
+</div></div>
+
+<div id="nav"><span id="navSec"></span><div class="r"><span id="dots"></span><button id="prev" aria-label="Diapositiva anterior">‹</button><span id="navNum"></span><button id="next" aria-label="Diapositiva siguiente">›</button></div></div>
+<div id="bar"><i></i></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* =====================================================================
+   Utilidades
+   ===================================================================== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+let timers=[], epoch=0;
+const later=(ms,fn)=>{const id=setTimeout(fn,ms);timers.push(id);return id;};
+const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* =====================================================================
+   Motor de diapositivas
+   ===================================================================== */
+const stage=$('#stage');
+const slides=$$('.slide');
+const H={};
+let cur=0, step=0;
+
+function fit(){const s=Math.min(window.innerWidth/1280,window.innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${s})`;}
+window.addEventListener('resize',fit);fit();
+
+function maxStep(sl){let m=+(sl.dataset.steps||0);$$('[data-f]',sl).forEach(e=>m=Math.max(m,+e.dataset.f));return m;}
+function applyStep(sl,n,prev){
+  $$('[data-f]',sl).forEach(e=>e.classList.toggle('on',+e.dataset.f<=n));
+  for(let i=1;i<=9;i++)sl.classList.toggle('at'+i,n>=i);
+  if(H[sl.id]&&H[sl.id].step)H[sl.id].step(n,prev);
+  updateNav();
+}
+function updateNav(){
+  const sl=slides[cur],m=maxStep(sl);
+  $('#navNum').textContent=`${cur+1} / ${slides.length}`;
+  $('#navSec').textContent=sl.dataset.sec||'';
+  $('#bar i').style.width=((cur+1)/slides.length*100)+'%';
+  const dots=$('#dots');dots.innerHTML='';
+  if(m>0)for(let i=0;i<=m;i++)dots.append(el('i',i<=step?'on':''));
+  try{history.replaceState(null,'','#'+(cur+1)+(step?'.'+step:''));}catch(e){}
+}
+function go(n,toEnd,atStep){
+  if(n<0||n>=slides.length)return;
+  const old=slides[cur];
+  if(H[old.id]&&H[old.id].leave)H[old.id].leave();
+  clearTimers();epoch++;
+  old.classList.remove('is-active');
+  cur=n;const sl=slides[cur];
+  sl.classList.add('is-active');
+  step=atStep!=null?Math.min(atStep,maxStep(sl)):(toEnd?maxStep(sl):0);
+  if(H[sl.id]&&H[sl.id].enter)H[sl.id].enter(step);
+  applyStep(sl,step,-1);
+}
+function next(){const sl=slides[cur];if(step<maxStep(sl)){const p=step;step++;applyStep(sl,step,p);}else go(cur+1);}
+function prev(){if(step>0){const p=step;step--;applyStep(slides[cur],step,p);}else go(cur-1,true);}
+
+document.addEventListener('keydown',e=>{
+  const tg=e.target&&e.target.tagName;
+  if(tg==='SELECT'||tg==='INPUT')return;
+  if($('#modal').classList.contains('on')){if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeModal();}return;}
+  if(e.key==='Escape'&&$('.tover.on',slides[cur])){toggleTerm(false);return;}
+  const onBtn=tg==='BUTTON';
+  if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)||(!onBtn&&(e.key===' '||e.key==='Enter'))){e.preventDefault();next();}
+  else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+  else if(e.key==='Home')go(0);
+  else if(e.key==='End')go(slides.length-1);
+  else if(e.key==='r'||e.key==='R'){const b=$('[data-run]',slides[cur]);if(b)b.click();}
+  else if((e.key==='t'||e.key==='T')&&$('.tover',slides[cur]))toggleTerm();
+  else if(e.key==='f'||e.key==='F'){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}catch(err){}}
+});
+$('#next').addEventListener('click',e=>{e.currentTarget.blur();next();});
+$('#prev').addEventListener('click',e=>{e.currentTarget.blur();prev();});
+/* los botones de la presentación sueltan el foco, así las flechas siguen navegando */
+stage.addEventListener('click',e=>{const b=e.target.closest('button');if(b)setTimeout(()=>b.blur(),0);});
+
+/* =====================================================================
+   Diagrama de flujo: nodos HTML, aristas SVG y un "paquete" que viaja
+   por las aristas (el mismo motor de HTMLs/flujo_deliverables.html).
+   ===================================================================== */
+let gen=0;
+const NS='http://www.w3.org/2000/svg';
+function svgEl(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+function Flow(root,spec){
+  root.classList.add('flow');root.style.width=spec.w+'px';root.style.height=spec.h+'px';
+  const svg=svgEl('svg',{viewBox:`0 0 ${spec.w} ${spec.h}`,width:spec.w,height:spec.h,'aria-hidden':'true'});
+  const defs=svgEl('defs',{});
+  const mk={b:'var(--line)',s:'var(--slate-2)',h:'var(--crimson)',q1:'var(--cy1)',q2:'var(--cy2)',q3:'var(--cy3)'};
+  for(const k in mk){
+    const m=svgEl('marker',{id:`${root.id}-${k}`,viewBox:'0 0 10 10',refX:'8.5',refY:'5',markerWidth:'10',markerHeight:'10',orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'});
+    m.append(svgEl('path',{d:'M0,0 L10,5 L0,10 z',fill:mk[k]}));defs.append(m);
+  }
+  svg.append(defs);root.append(svg);
+  const G={};
+  for(const id in spec.edges){
+    const s=spec.edges[id],pts=s.p;
+    const own=s.ring?' own'+s.ring:'';
+    const path=svgEl('path',{d:pts.map((q,i)=>(i?'L':'M')+q[0]+' '+q[1]).join(' '),class:'e'+own});
+    svg.append(path);
+    let len=0;const segs=[];
+    for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],l=Math.hypot(b[0]-a[0],b[1]-a[1]);segs.push({a,b,l,s:len});len+=l;}
+    let lab=null;
+    if(s.lab){lab=svgEl('text',{x:s.lab[0],y:s.lab[1],'text-anchor':s.lab[3]||'middle',class:'el'+(s.cyc?' cyc':'')+own});lab.textContent=s.lab[2];}
+    G[id]={path,segs,len,lab,ring:s.ring};
+  }
+  for(const id in G)if(G[id].lab)svg.append(G[id].lab);
+  const N={};
+  for(const id in spec.nodes){
+    const s=spec.nodes[id];
+    const d=el('div','nd '+(s.k||''),`${s.n?`<div class="n">${s.n}</div>`:''}<b>${s.b}</b>${s.s?`<span>${s.s}</span>`:''}`);
+    Object.assign(d.style,{left:s.x+'px',top:s.y+'px',width:s.w+'px',height:s.h+'px'});
+    root.append(d);N[id]=d;
+  }
+  const P=[];
+  function pk(i){if(!P[i]){P[i]=el('div','pk'+(i?' alt':''),'<i></i><span></span>');root.append(P[i]);}return P[i];}
+  function at(id,d){const g=G[id];d=Math.max(0,Math.min(g.len,d));for(const s of g.segs){if(d<=s.s+s.l+1e-6){const u=s.l?(d-s.s)/s.l:0;return [s.a[0]+(s.b[0]-s.a[0])*u,s.a[1]+(s.b[1]-s.a[1])*u];}}const l=g.segs[g.segs.length-1];return l.b;}
+  function put(i,id,u,label){
+    const p=pk(i),[x,y]=at(id,u*G[id].len);
+    p.style.left=x+'px';p.style.top=y+'px';p.classList.add('on');
+    if(label!==undefined){p.querySelector('span').textContent=label||'';p.classList.toggle('nolab',!label);}
+  }
+  function endU(id){return Math.max(.5,1-48/G[id].len);}
+  function settle(i,id){if(G[id].len<60)pk(i).classList.add('nolab');}
+  function setMark(g,k){g.path.setAttribute('marker-end',`url(#${root.id}-${k})`);}
+  /* nodos vistos/activos y aristas vistas/encendidas; rg = ciclo cuyo circuito se marca con su color */
+  function paint(seenN,seenE,actN,hotE,rg){
+    const ringE=new Set(rg&&spec.rings?spec.rings[rg]:[]);
+    for(const id in N){N[id].classList.toggle('seen',seenN.has(id));N[id].classList.toggle('act',actN.has(id));}
+    for(const id in G){
+      const g=G[id],rn=ringE.has(id),sn=seenE.has(id)||rn,ht=hotE.has(id);
+      g.path.classList.toggle('seen',sn);g.path.classList.toggle('hot',ht);
+      g.path.classList.toggle('ring',rn);[1,2,3].forEach(q=>g.path.classList.toggle('q'+q,rn&&rg===q));
+      if(g.lab)g.lab.classList.toggle('seen',sn);
+      setMark(g,rn?'q'+rg:g.ring&&sn?'q'+g.ring:ht?'h':sn?'s':'b');
+    }
+  }
+  return {
+    N,
+    state(steps,n){
+      const seenN=new Set(),seenE=new Set();
+      for(let i=0;i<=n;i++){const s=steps[i];(s.act||[]).forEach(x=>seenN.add(x));(s.hops||[]).forEach(h=>Array.isArray(h)&&seenE.add(h[0]));(s.hot||[]).forEach(x=>seenE.add(x));}
+      const c=steps[n];
+      paint(seenN,seenE,new Set(c.act||[]),new Set([...(c.hops||[]).filter(Array.isArray).map(h=>h[0]),...(c.hot||[])]),c.ring);
+    },
+    paint, put, endU, settle, hide(i){if(P[i])P[i].classList.remove('on');},
+    /* recorre una lista de aristas con el paquete i; una función en la lista se ejecuta al pasar por ahí.
+       alive() decide si la animación sigue (por defecto: mientras no cambie el paso ni la diapositiva) */
+    run(hops,done,{i=0,speed=.45,min=260,alive}={}){
+      const g0=gen,ep=epoch,ok=alive||(()=>g0===gen&&ep===epoch);let k=0;
+      (function hop(){
+        if(!ok())return;
+        if(k>=hops.length){done&&done();return;}
+        const h=hops[k++];
+        if(typeof h==='function'){h();hop();return;}
+        const [id,label]=h,last=!hops.slice(k).some(Array.isArray),end=last?endU(id):1;
+        const dur=Math.max(min,Math.min(950,G[id].len*end/speed)),t0=performance.now();
+        put(i,id,0,label);
+        (function f(t){if(!ok())return;const u=Math.min(1,(t-t0)/dur);put(i,id,end*ease(u));if(u<1)requestAnimationFrame(f);else{if(last)settle(i,id);hop();}})(t0);
+      })();
+    }
+  };
+}
+function restPk(fl,steps,n){
+  for(let i=n;i>=0;i--){
+    const hs=(steps[i].hops||[]).filter(Array.isArray);
+    if(hs.length){const h=hs[hs.length-1];fl.put(0,h[0],fl.endU(h[0]),h[1]);fl.settle(0,h[0]);return;}
+    if(steps[i].start){fl.put(0,steps[i].start[0],.5,steps[i].start[1]);return;}
+  }
+}
+function explain(box,s,n,N){
+  box.innerHTML=`<div class="en">Paso ${n+1} de ${N+1}${s.tag?` · <span>${s.tag}</span>`:''}</div><h3>${s.t}</h3><p>${s.p}</p>`;
+  box.classList.remove('in');void box.offsetWidth;box.classList.add('in');
+}
+function laterG(ms,fn){const g0=gen;later(ms,()=>{if(g0===gen)fn();});}
+
+/* =====================================================================
+   Tira de los 21 turnos de la semana
+   ===================================================================== */
+const DIAS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+function strip(sel){
+  const root=$(sel),cells=[];root.innerHTML='';
+  DIAS.forEach((d,di)=>{
+    const g=el('div','day');g.append(el('div','dl',d));
+    for(let s=0;s<3;s++){const c=el('div','sc',String(di*3+s+1));g.append(c);cells.push(c);}
+    root.append(g);
+  });
+  return cells;
+}
+const ST=['f','redo','dead','undo','rx','cur','bad','pop','shk','prop','rej','ok','alr','crit','jmp'];
+function setSc(c,cls,k){c.classList.remove(...ST);if(cls)c.classList.add(...cls.split(' ').filter(Boolean));c.textContent=c.classList.contains('dead')?'✕':String(k);}
+function paintStrip(cells,spec){cells.forEach((c,i)=>setSc(c,spec(i+1),i+1));}
+function popSc(c){c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');}
+function message(box,m){box.innerHTML=`<div class="rt">${m.rt}</div><pre>${m.b}</pre>`;box.classList.remove('in');void box.offsetWidth;box.classList.add('in');}
+
+/* =====================================================================
+   Agentes y roles: cada paso presenta un agente y enciende sus herramientas
+   ===================================================================== */
+const AGS=[null,
+  {f:'asignador',     t:'T1 y T5',     n:'A1 · Asignador',     l:'1…n, o 0'},
+  {f:'critico',       t:'T2, T3 y T5', n:'A2 · Crítico',       l:'1, 2 o 3'},
+  {f:'diagnosticador',t:'T4 y T5',     n:'A3 · Diagnosticador',l:'1…12'}];
+const AG_TOOLS={1:[1,5],2:[2,3,5],3:[4,5],4:[6,7]};
+H.ag={
+  step(n,prev){
+    const a=AGS[n];
+    $('#agF').textContent=a?a.f:'<agente>';
+    $('#agT').textContent=a?a.t:'las herramientas';
+    $('#agN').textContent=a?a.n:'Agente';
+    $('#agL').textContent=a?a.l:'una etiqueta del menú';
+    if(prev===n-1&&a)$$('#ag .an').forEach(x=>{x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');});
+    $$('#ag .ag').forEach(c=>c.classList.toggle('cur',+c.dataset.a===n));
+    const on=AG_TOOLS[n]||[];
+    $$('#ag .tool').forEach(t=>{const k=+t.dataset.t;t.classList.toggle('on',on.includes(k));t.classList.toggle('dim',n>0&&!on.includes(k));});
+  }
+};
+
+/* =====================================================================
+   Flujo de D3 (esquema ilustrativo, sin datos de una instancia)
+   ===================================================================== */
+const F3=Flow($('#f3'),{w:1136,h:326,
+  nodes:{
+    in: {x:0,   y:70, w:92, h:80,k:'io',   n:'Entrada',     b:'Instancia'},
+    orq:{x:116, y:70, w:152,h:80,          n:'Código',      b:'Coordinador',      s:'estado y turno k'},
+    t1: {x:298, y:70, w:164,h:80,          n:'T1 · código D2',b:'Opciones viables',s:'filtro legal + chequeo adelante'},
+    a1: {x:494, y:70, w:152,h:80,k:'agent',n:'A1 · agente', b:'Asignador',        s:'elige 1 opción del menú'},
+    t2: {x:678, y:70, w:144,h:80,          n:'T2',          b:'Perfilar',         s:'rasgos y alertas R1–R3'},
+    a2: {x:854, y:70, w:152,h:80,k:'agent',n:'A2 · agente', b:'Crítico',          s:'acepta, rechaza o sondea'},
+    t3: {x:1036,y:70, w:100,h:80,          n:'T3',          b:'Sondear',          s:'conteos a 2 turnos'},
+    t6: {x:0,   y:214,w:150,h:72,k:'judge',n:'T6 · juez',   b:'Verificador',      s:'HC1–HC6 al llegar a k = 21'},
+    t4: {x:298, y:214,w:164,h:72,          n:'T4',          b:'Explicar callejón',s:'causa + 12 decisiones'},
+    a3: {x:494, y:214,w:152,h:72,k:'agent',n:'A3 · agente', b:'Diagnosticador',   s:'elige a qué turno saltar'},
+    t5: {x:854, y:214,w:152,h:72,          n:'T5',          b:'Lecciones',        s:'memoria verbal para A1 y A2'}
+  },
+  edges:{
+    in_orq:{p:[[92,110],[116,110]]},
+    orq_t1:{p:[[268,110],[298,110]]},
+    t1_a1: {p:[[462,110],[494,110]]},
+    a1_t2: {p:[[646,110],[678,110]]},
+    t2_a2: {p:[[822,110],[854,110]]},
+    a2_t3: {p:[[1006,98],[1036,98]]},
+    t3_a2: {p:[[1036,122],[1006,122]]},
+    rej:   {p:[[900,70],[900,44],[570,44],[570,70]],cyc:true,ring:2,lab:[735,38,'↻ CICLO 2 · rechaza + motivo (≤2 por turno)']},
+    acc:   {p:[[970,70],[970,16],[192,16],[192,70]],cyc:true,ring:1,lab:[581,10,'↻ CICLO 1 · acepta: fijar la opción y pasar a k+1 (21 turnos)']},
+    t1_t4: {p:[[380,150],[380,214]],lab:[390,186,'0 opciones: callejón','start']},
+    t4_a3: {p:[[462,250],[494,250]]},
+    a3_t5: {p:[[646,250],[854,250]],lab:[750,242,'lección']},
+    t5_a2: {p:[[930,214],[930,150]]},
+    t5_a1: {p:[[858,214],[624,150]]},
+    jump:  {p:[[570,286],[570,308],[192,308],[192,150]],cyc:true,ring:3,lab:[380,322,'↻ CICLO 3 · salta al turno j y prohíbe ahí a un médico (≤30)']},
+    orq_t6:{p:[[150,150],[100,214]]}
+  },
+  rings:{
+    1:['orq_t1','t1_a1','a1_t2','t2_a2','acc'],
+    2:['a1_t2','t2_a2','rej'],
+    3:['t1_t4','t4_a3','jump','orq_t1']
+  }});
+const S3=[
+  {act:['orq'],hops:[['in_orq','instancia']],cy:1,t:'El coordinador de turnos es código, no un agente',
+   p:'Guarda el estado de la semana y el turno <span class="m">k</span> que toca. La tarea, el juez y el modelo son los de D1 y D2: los tres agentes usan el mismo Llama-3.2-3B (4-bit, greedy).'},
+  {act:['t1'],hops:[['orq_t1','turno k']],cy:1,t:'T1 · Opciones viables',
+   p:'Es el filtro legal y el chequeo hacia adelante de D2, sin cambios. Con 1 opción se fija sin LLM; con 0 hay un callejón; con 2 o más se llama al Asignador.'},
+  {act:['a1'],hops:[['t1_a1','menú']],cy:1,t:'A1 · Asignador',
+   p:'Mira a lo ancho. Recibe el estado, el menú de opciones <b>barajado</b> (ensamble de órdenes contra el sesgo de posición), ejemplos y lecciones, y propone una opción.'},
+  {act:['t2'],hops:[['a1_t2','propuesta']],cy:1,t:'T2 · Perfilar la propuesta',
+   p:'Calcula los rasgos de la propuesta y levanta alertas R1–R3. Si no hay alertas, la opción se fija sin consultar al Crítico.'},
+  {act:['a2','t3','a1'],hops:[['t2_a2','alerta'],['a2_t3','sondear'],['t3_a2','conteos'],['rej','rechaza'],['a1_t2','2.ª propuesta'],['t2_a2','propuesta']],cy:2,ring:2,tag:'Ciclo 2 · dentro de un turno',t:'A2 · Crítico',
+   p:'Mira a fondo una sola propuesta frente a la mejor alternativa, con números: para un modelo de 3B verificar es más fácil que generar. Puede sondear dos turnos adelante (T3) y <b>rechazar</b> con un motivo; A1 corrige. Es una vuelta chica que no cambia de turno.'},
+  {act:['orq'],hops:[['acc','acepta · k+1']],cy:1,ring:1,tag:'Ciclo 1 · un turno por vuelta',t:'Acepta y se avanza',
+   p:'La opción se fija y el coordinador pasa al turno <span class="m">k</span>+1; la vuelta se repite y la semana se va llenando. La raya ámbar marca los turnos que el Crítico rechazó antes de fijar. En los estados donde la elección importa, el Crítico baja las elecciones fatales del <b>48 %</b> al <b>27 %</b>.'},
+  {act:['t4','a3','t5'],start:['t1_t4','0 opciones'],hops:[['t1_t4','0 opciones'],['t4_a3','causa'],['jump','salta a j']],hot:['a3_t5','t5_a2','t5_a1'],cy:3,ring:3,tag:'Ciclo 3 · hacia atrás',t:'A3 · Diagnosticador',
+   p:'Un turno queda sin opciones: callejón. T4 explica la causa y A3 elige a qué turno <span class="m">j</span> <b>saltar</b>; en el esquema deshace del 10 al 14 de una vez, prohíbe un médico en el 10 y deja una lección (T5). Sus saltos dan con la decisión culpable el <b>100 %</b> de las veces; retroceder 1 turno, como D2, el 18 %.'},
+  {act:['orq','t6'],hops:[['orq_t6','k = 21']],cy:1,ring:1,tag:'Ciclo 1 otra vez',t:'Se retoma y se completa la semana',
+   p:'Desde el turno <span class="m">j</span> el ciclo 1 vuelve a correr, ahora con el médico prohibido y la lección a la vista. Con <span class="m">k</span> = 21 el horario pasa al verificador (T6): 0 violaciones → <b>válido</b>. Si se agotaran los 30 saltos, se completaría relajado (T7) y saldría no certificado.'},
+  {act:['t6'],tag:'resultado',t:'Resultado: 90/90',
+   p:'En las mismas 90 instancias de D1 y D2, el sistema de agentes llega a <b>90/90</b> horarios correctos. Paga con más llamadas: <b>77</b> pasadas del LLM por horario, contra 26 de D2. En la diapositiva siguiente se ve <b>en vivo</b> sobre una instancia.'}
+];
+function side3(n){
+  $$('#d3 .rg').forEach(c=>c.classList.toggle('on',+c.dataset.r===S3[n].cy));
+  $$('#d3 .br .t i').forEach(i=>i.style.width=(n>=8?i.dataset.w:0)+'%');
+}
+const W3=strip('#w3');
+const REJ3=[1,6,8,17,19],DE3=15,J3=10;
+const CNT3=[[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,1,1,0],[DE3,0,3,0],[J3,0,3,1],[21,0,5,1],[21,0,5,1]];
+const fx3=k=>'f'+(REJ3.includes(k)?' crit':'');
+const ok3=k=>'ok'+(k>=J3&&k<DE3?' jmp':'')+(REJ3.includes(k)?' crit':'');
+function strip3(n){
+  if(n<=1)return paintStrip(W3,k=>k===1?'cur':'');
+  if(n===2||n===4)return paintStrip(W3,k=>k===1?'prop cur':'');
+  if(n===3)return paintStrip(W3,k=>k===1?'prop cur alr':'');
+  if(n===5)return paintStrip(W3,k=>k<DE3?fx3(k):k===DE3?'cur':'');
+  if(n===6)return paintStrip(W3,k=>k<J3?fx3(k):k===J3?'undo cur':k<DE3?'undo':'');
+  paintStrip(W3,ok3);
+}
+let c3=[1,0,0,0];
+function cnt3(k,r,t,s){
+  c3=[k,r,t,s];
+  $('#c3k').textContent=k;$('#c3r').textContent=r;$('#c3t').textContent=t;$('#c3s').textContent=s;
+  const w=[k/21,r/2,s/30];
+  $$('#d3 .rg .rb i').forEach((i,x)=>i.style.width=w[x]*100+'%');
+}
+function turn3(k,cls){
+  const h=[['orq_t1',''],['t1_a1',''],['a1_t2',''],['t2_a2','']];
+  if(REJ3.includes(k))h.push(['rej',''],()=>{setSc(W3[k-1],'rej cur',k);cnt3(c3[0],1,c3[2]+1,c3[3]);},['a1_t2',''],['t2_a2','']);
+  h.push(['acc',k<21?'turno '+(k+1):''],()=>{
+    setSc(W3[k-1],cls(k),k);popSc(W3[k-1]);
+    if(k<21)setSc(W3[k],'cur',k+1);
+    cnt3(Math.min(k+1,21),0,c3[2],c3[3]);
+  });
+  return h;
+}
+const FAST={speed:3,min:55};
+H.d3={
+  step(n,prev){
+    gen++;F3.state(S3,n);explain($('#x3'),S3[n],n,S3.length-1);side3(n);
+    const anim=prev===n-1&&n>0;
+    F3.hide(1);
+    if(!anim){
+      restPk(F3,S3,n);
+      if(n===6)F3.put(1,'t5_a2',F3.endU('t5_a2'),'lección');
+      strip3(n);cnt3(...CNT3[n]);
+      return;
+    }
+    strip3(n-1);cnt3(...CNT3[n-1]);
+    if(n===2||n===3){F3.run(S3[n].hops,()=>{strip3(n);popSc(W3[0]);});return;}
+    if(n===4){
+      const h=S3[4].hops;
+      F3.run([...h.slice(0,4),
+              ()=>{setSc(W3[0],'rej cur shk',1);cnt3(1,1,1,0);},
+              h[4],
+              ()=>{setSc(W3[0],'prop cur',1);popSc(W3[0]);},
+              h[5]]);
+      return;
+    }
+    if(n===5){
+      const rest=[];
+      for(let k=2;k<DE3;k++)rest.push(...turn3(k,fx3));
+      F3.run(S3[5].hops,()=>{
+        setSc(W3[0],fx3(1),1);popSc(W3[0]);setSc(W3[1],'cur',2);cnt3(2,0,1,0);
+        F3.run(rest,null,FAST);
+      });
+      return;
+    }
+    if(n===6){
+      const h=S3[6].hops;
+      F3.run([h[0],
+              ()=>setSc(W3[DE3-1],'dead shk',DE3),
+              h[1],
+              ()=>F3.run([['a3_t5','lección'],['t5_a2','lección']],null,{i:1}),
+              h[2],
+              ()=>{
+                for(let k=J3;k<=DE3;k++){setSc(W3[k-1],k===J3?'undo cur':k<DE3?'undo':'',k);popSc(W3[k-1]);}
+                cnt3(J3,0,c3[2],1);
+              }]);
+      return;
+    }
+    if(n===7){
+      const loop=[];
+      for(let k=J3;k<=21;k++)loop.push(...turn3(k,k=>k<DE3?'redo':fx3(k)));
+      F3.run(loop,()=>F3.run([...S3[7].hops,
+        ()=>W3.forEach((c,i)=>laterG(i*45,()=>{setSc(c,ok3(i+1),i+1);popSc(c);}))]),FAST);
+      return;
+    }
+    strip3(n);cnt3(...CNT3[n]);
+    if(S3[n].hops)F3.run(S3[n].hops);else restPk(F3,S3,n);
+  },
+  leave(){gen++;}
+};
+
+/* =====================================================================
+   Ejecución de los scripts del video (servidor_video.py)
+   El servidor corre video/pasoN_*.py y transmite NDJSON: {t:"linea"} por cada línea de la consola,
+   {t:"ev"} por cada mensaje entre agentes y {t:"fin"} al terminar.
+   ===================================================================== */
+let SERVER=location.protocol.startsWith('http');
+let RUN=null;                       /* {n, ctrl, t0}: un solo paso a la vez */
+
+async function stream(url,onObj,signal){
+  const r=await fetch(url,{signal,cache:'no-store'});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const rd=r.body.getReader(),dec=new TextDecoder();let buf='';
+  for(;;){
+    const {value,done}=await rd.read();
+    if(done)break;
+    buf+=dec.decode(value,{stream:true});
+    let i;while((i=buf.indexOf('\n'))>=0){const l=buf.slice(0,i);buf=buf.slice(i+1);if(l.trim())onObj(JSON.parse(l));}
+  }
+}
+const slideOf=n=>slides.find(s=>s.dataset.paso===String(n));
+function status(n,cls,html){const s=$('.st',slideOf(n));s.className='st '+(cls||'');s.innerHTML='<i></i>'+html;}
+function syncBtns(){
+  $$('[data-run]').forEach(b=>{
+    const n=b.closest('.slide').dataset.paso,on=RUN&&RUN.n===n;
+    b.classList.toggle('stop',!!on);
+    b.textContent=on?'■ Detener':(n==='2'?'▶ Ejecutar en vivo':'▶ Ejecutar');
+    b.disabled=!SERVER;
+  });
+}
+/* h: {linea(x), ev(e), fin(o), fail(err), stop()} */
+function startRun(n,h){
+  if(RUN)abortRun();
+  const ctrl=new AbortController();
+  RUN={n:String(n),ctrl,t0:performance.now(),h};syncBtns();
+  stream('/api/correr?paso='+n,o=>{
+    if(o.t==='linea')h.linea(o.x);
+    else if(o.t==='ev')h.ev(o.e);
+    else if(o.t==='fin'){RUN=null;syncBtns();h.fin(o);}
+  },ctrl.signal).then(()=>{if(RUN&&RUN.ctrl===ctrl){RUN=null;syncBtns();h.fail(new Error('la conexión se cerró antes de terminar'));}})
+   .catch(err=>{if(RUN&&RUN.ctrl===ctrl){RUN=null;syncBtns();}if(err.name!=='AbortError')h.fail(err);});
+}
+function abortRun(){if(!RUN)return;const r=RUN;RUN=null;r.ctrl.abort();syncBtns();r.h.stop&&r.h.stop();}
+function stopRun(){abortRun();if(SERVER)fetch('/api/detener').catch(()=>{});}
+setInterval(()=>{if(RUN&&RUN.n!=='2'){const s=$('.st',slideOf(RUN.n));const t=$('.tm',s);if(t)t.textContent=((performance.now()-RUN.t0)/1000).toFixed(1)+' s';}},200);
+
+/* ---------------------------------------------------------------------
+   Terminal: muestra la salida tal cual (misma alineación que la consola)
+   y resalta títulos, conteos x/30 y x/90, veredictos y mensajes [A → B].
+   --------------------------------------------------------------------- */
+let CW=0;
+function charW(){if(!CW){const c=document.createElement('canvas').getContext('2d');c.font='100px "Cascadia Mono","Cascadia Code",Consolas,monospace';CW=c.measureText('0'.repeat(20)).width/2000;}return CW;}
+function hl(x){
+  if(/^\s*[=─\-]{12,}\s*$/.test(x))return `<span class="tr">${esc(x)}</span>`;
+  let h=esc(x);
+  if(/^&gt;&gt;&gt;/.test(h))h=`<span class="vb">${h}</span>`;
+  h=h.replace(/^(\d+\. )?([A-ZÁÉÍÓÚÑ][A-ZÁÉÍÓÚÑ ,]{2,}[A-ZÁÉÍÓÚÑ])(?=[\s:(—]|$)/,(m,a,b)=>`${a||''}<span class="th">${b}</span>`);
+  h=h.replace(/(\d+(?:\.\d+)?)\/(30|90)(?!\d)/g,(m,a,b)=>`<span class="${+a===+b?'tok':+a===0?'tbad':'tmid'}">${m}</span>`);
+  h=h.replace(/APROBADO|certificado=True|\bTrue\b|Certificado por el sistema: sí/g,m=>`<span class="tok">${m}</span>`);
+  h=h.replace(/FALLIDO|certificado=False|\bFalse\b|NO \(presupuesto agotado[^)]*\)/g,m=>`<span class="tbad">${m}</span>`);
+  h=h.replace(/\[([^\[\]]*?) → ([^\[\]]*?)\]/g,m=>`<span class="tg">${m}</span>`);
+  h=h.replace(/[┌┬┐├┼┤└┴┘│─]+/g,m=>`<span class="bx">${m}</span>`);
+  return h;
+}
+function Term(box){
+  const pre=$('pre',box),ph=$('.ph',box),wrap=box.classList.contains('wrap');
+  let cols=0,follow=false,n=0;
+  function fit(){
+    if(wrap)return;
+    const W=(box.clientWidth||1136)-36;
+    pre.style.fontSize=Math.max(8.5,Math.min(13.5,W/(Math.max(cols,80)*charW())))+'px';
+  }
+  return {
+    add(x){
+      if(ph)ph.remove();
+      const len=[...x].length;if(len>cols){cols=len;fit();}
+      const d=document.createElement('div');d.innerHTML=hl(x);pre.append(d);n++;
+      if(follow)box.scrollTop=box.scrollHeight;
+    },
+    clear(){pre.innerHTML='';cols=0;n=0;box.scrollTop=0;box.scrollLeft=0;if(ph&&ph.parentNode)ph.remove();},
+    follow(v){follow=v;if(v)box.scrollTop=box.scrollHeight;},
+    get n(){return n;}, fit
+  };
+}
+/* pasos 1 y 3: una terminal por diapositiva */
+const TERMS={};
+['1','3'].forEach(n=>{
+  const sl=slideOf(n),T=TERMS[n]=Term($('.term',sl));
+  $('[data-run]',sl).addEventListener('click',()=>{
+    if(RUN&&RUN.n===n){stopRun();return;}
+    T.clear();status(n,'live','ejecutando <b>'+$('code',sl).textContent+'</b> · <span class="tm">0.0 s</span>');
+    /* los scripts rápidos se leen desde arriba; solo se sigue el final si la salida tarda */
+    const fl=setTimeout(()=>{if(RUN&&RUN.n===n)T.follow(true);},1500);
+    startRun(n,{
+      linea:x=>T.add(x),ev:()=>{},
+      fin:o=>{clearTimeout(fl);T.follow(false);
+        const tb=$('.tbtn',sl),closed=tb&&!$('.tover',sl).classList.contains('on');
+        status(n,o.rc?'err':'ok',(o.rc?`<b>terminó con error (código ${o.rc})</b>`:'<b>terminado</b>')+` en ${o.s} s · ${T.n} líneas`+(closed?' · ábrela en Terminal':''));
+        if(closed){tb.classList.remove('new');void tb.offsetWidth;tb.classList.add('new');}},
+      fail:e=>{clearTimeout(fl);status(n,'err','<b>error:</b> '+esc(e.message));},
+      stop:()=>{clearTimeout(fl);status(n,'err','<b>detenido</b>');}
+    });
+  });
+});
+
+/* =====================================================================
+   1 · Paso 1: cómo se evalúa, con figuras (la salida del script queda
+   en la terminal superpuesta)
+   ===================================================================== */
+const F1=Flow($('#f1'),{w:1136,h:176,
+  nodes:{
+    in: {x:0,  y:16, w:170,h:78,k:'io',   n:'1 · Entradas', b:'90 instancias',  s:'3 conjuntos × 30'},
+    st: {x:212,y:16, w:206,h:78,          n:'Estrategia',   b:'Una a la vez',   s:'D1, D2, agentes y variantes'},
+    out:{x:460,y:16, w:160,h:78,k:'io',   n:'Salida',       b:'Horario JSON',   s:'7 días × 3 turnos'},
+    ver:{x:662,y:16, w:200,h:78,k:'judge',n:'2 · Juez',     b:'src/verifier.py',s:'HC1–HC6 + estructura'},
+    res:{x:904,y:16, w:232,h:78,k:'judge',n:'3 · Criterio', b:'Correcto ⇔ 0 violaciones',s:'y las métricas por estrategia'},
+    tr: {x:212,y:120,w:206,h:56,          n:'Trazas',       b:'Cada decisión'},
+    cp: {x:460,y:120,w:402,h:56,          n:'4 · Evaluación por decisión (offline)',b:'CP-SAT dice si cada decisión era fatal'}
+  },
+  edges:{
+    in_st: {p:[[170,55],[212,55]]},
+    st_out:{p:[[418,55],[460,55]]},
+    out_ver:{p:[[620,55],[662,55]]},
+    ver_res:{p:[[862,55],[904,55]]},
+    st_tr: {p:[[315,94],[315,120]]},
+    tr_cp: {p:[[418,148],[460,148]]}
+  }});
+const S1=[
+  {act:[],t:'Un solo protocolo, igual para todas las estrategias',
+   p:'La línea base de D1, la solución de D2, el sistema de agentes y cada ablación reciben <b>las mismas entradas</b>, las juzga <b>el mismo verificador</b> y cuentan con <b>el mismo criterio</b>. Es lo que imprime <span class="mono">src/protocol.py</span>: su salida se ve con el botón <b>Terminal</b>.'},
+  {act:['in'],tag:'1 · entradas',t:'Entradas: 90 instancias fijas',
+   p:'Tres conjuntos de 30. Todas tienen solución: CP-SAT las certifica al crearlas, pero no participa en ninguna estrategia. El conjunto <b>difícil</b> es nuevo en D3: la capacidad queda casi justa con la demanda, y ahí es donde D2 más falla (22/30).'},
+  {act:['st'],hops:[['in_st','instancia']],t:'Cada estrategia corre sobre las 90',
+   p:'Las estrategias con LLM corren <b>una sola vez</b> por instancia, con decodificación greedy: el resultado es determinista. Los controles que eligen al azar se corren con 5 semillas y se reporta el promedio y el rango.'},
+  {act:['out'],hops:[['st_out','horario']],t:'Lo que se evalúa es el horario final',
+   p:'Siempre el mismo objeto: el horario en JSON <span class="mono">{día: {turno: [IDs]}}</span>, 7 días × 3 turnos y 42 plazas. Da igual cómo se llegó a él: con un prompt, un turno por llamada o tres agentes.'},
+  {act:['ver'],hops:[['out_ver','horario']],tag:'2 · juez',t:'El juez: src/verifier.py',
+   p:'Es independiente del código de las soluciones. Cuenta las violaciones de las seis reglas duras (HC1–HC6) y los errores de estructura: JSON ilegible, días o turnos faltantes, IDs inexistentes o repetidos.'},
+  {act:['res'],hops:[['ver_res','reporte']],tag:'3 · criterio',t:'Correcto si y solo si hay 0 violaciones',
+   p:'No hay crédito parcial: una violación basta para que el horario sea incorrecto. Un horario que el sistema marca <b>no certificado</b> (agotó su presupuesto y completó relajando reglas) se evalúa igual.'},
+  {act:['res'],tag:'3 · métricas',t:'Métricas por estrategia y conjunto',
+   p:'Además de los horarios correctos de 30, se reportan las violaciones medias, los saltos o retrocesos, las decisiones deshechas, las pasadas del LLM y los segundos por horario en una RTX 5060. Son las columnas de la tabla del paso 3.'},
+  {act:['tr','cp'],hops:[['st_tr','decisiones'],['tr_cp','traza']],tag:'4 · por decisión',t:'Evaluación del modelo, decisión por decisión',
+   p:'Contar horarios correctos no dice si cada agente decide bien. Por eso, <b>offline y desde las trazas</b>, CP-SAT revisa cada decisión: si después de ella la semana todavía tiene solución. Así se compara cada agente con el azar en la misma situación.'},
+  {act:['cp'],tag:'resultado · Asignador',t:'¿El Asignador elige bien por sí solo?',
+   p:'En los <b>101 estados que deciden</b> (el menú mezcla opciones fatales y opciones con solución), el Asignador solo elige una fatal el <b>48 %</b> de las veces; el azar en el mismo menú, el 45 %. <b>En palabras simples:</b> solo, el Asignador no distingue mejor que una moneda. Su aporte aparece cuando el Crítico revisa su propuesta: las fatales bajan a <b>27 %</b>.'},
+  {act:['cp'],tag:'resultado · Crítico',t:'El Crítico atrapa casi todas las propuestas fatales',
+   p:'De las 52 propuestas fatales que le llegaron, rechazó <b>47 (90 %)</b>. A cambio da muchas falsas alarmas: de sus 488 rechazos, solo 47 eran fatales. <b>En palabras simples:</b> es un revisor desconfiado, y conviene que lo sea, porque un rechazo de más solo cuesta que el Asignador proponga otra opción. Sin Crítico, las fatales suben a 58 %.'},
+  {act:['cp'],tag:'resultado · Diagnosticador',t:'El Diagnosticador vuelve a la decisión culpable',
+   p:'En los 27 callejones del sistema completo, sus saltos fueron <b>útiles el 100 %</b> de las veces: deshicieron la decisión culpable. Elegir al azar entre los mismos candidatos acierta el 69 %, y retroceder un turno como D2, el 18 %. <b>En palabras simples:</b> la culpable suele estar varios turnos antes del callejón (mediana 6), y retroceder de a uno casi nunca llega.'},
+  {act:['cp','res'],tag:'resultado · ablaciones',t:'Qué se pierde al quitar cada pieza',
+   p:'Sin <b>Diagnosticador</b> se pierden 8 horarios (82/90); sin ejemplos, 3; sin Crítico, 1. Memoria y ensamble no cambian el total, aunque sí el costo. Los agentes eligiendo <b>al azar</b> también llegan a 90/90, pero con reglas fijas caen a 74/90. <b>En palabras simples:</b> la pieza que más pesa es el Diagnosticador.'},
+  {act:['res','cp'],tag:'interpretación',t:'Qué aporta el modelo',
+   p:'Los agentes llegan a 90/90, frente a 80/90 de D2 y 0/90 de D1. Como el azar dentro de la misma estructura también llega, el aporte del LLM no es <b>cuántos</b> horarios resuelve sino <b>cómo</b>: decide mejor donde critica y diagnostica, y busca menos (3,3 decisiones deshechas por horario contra 5,6 del azar).'}
+];
+const W1=strip('#w1'),W1b=strip('#w1b'),W1c=strip('#w1c'),W1d=strip('#w1d'),W1e=strip('#w1e');
+$$('#p1 .wf .g').forEach(g=>{for(let i=0;i<100;i++)g.append(el('i'));});
+for(let i=0;i<52;i++)$('#bul').append(el('i'));
+$$('#p1 .wf,#p1 .cr,#p1 .tk').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.className===x.className||y.classList.contains(x.classList[0]));x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.12+'s');});
+$$('#p1 .set').forEach(st=>{const d=$('.dots',st);for(let i=0;i<30;i++)d.append(el('i'));});
+$$('#p1 .ovc,#p1 .set,#p1 .mt,#p1 .dr,#p1 .dh').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.tagName===x.tagName);x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.09+'s');});
+$$('#p1 .sr').forEach((x,i)=>{x.classList.add('rz');x.style.setProperty('--d',i*.12+'s');$('.pb i',x).style.setProperty('--d',(.25+i*.12)+'s');});
+const M1={rt:'Qué se evalúa · el horario final (JSON)',
+  b:`{ <b>"Monday"</b>:  { "Morning": ["DOC_05", "DOC_07"], "Afternoon": […], … },
+  <b>"Tuesday"</b>: { … },
+  …
+  <b>"Sunday"</b>:  { … } }
+<span class="c">7 días × 3 turnos = 21 turnos · 2 médicos por turno = 42 plazas</span>`};
+const RULES=()=>$$('#p1 .rules li');
+/* figura de cada paso; anim = recién se llegó a este paso (las figuras se arman de a poco) */
+function vis1(n,anim){
+  $$('#p1 .pv').forEach(v=>v.classList.toggle('on',+v.dataset.v===n));
+  const run=(ms,fn)=>anim?laterG(ms,fn):fn();
+  if(n===1)$$('#p1 .set').forEach((st,si)=>$$('.dots i',st).forEach((d,i)=>{d.classList.remove('on');run(si*160+i*22,()=>d.classList.add('on'));}));
+  if(n===3){
+    message($('#m1'),M1);paintStrip(W1,()=>'');
+    W1.forEach((c,i)=>run(i*70,()=>{setSc(c,'f',i+1);if(anim)popSc(c);}));
+  }
+  if(n===4){
+    paintStrip(W1b,()=>'f');RULES().forEach(r=>r.classList.remove('ok','cur'));
+    W1b.forEach((c,i)=>run(i*55,()=>{if(i)setSc(W1b[i-1],'ok',i);setSc(c,'f cur',i+1);}));
+    run(21*55,()=>setSc(W1b[20],'ok',21));
+    RULES().forEach((r,i)=>run(21*55+150+i*230,()=>{RULES().forEach(x=>x.classList.remove('cur'));r.classList.add('ok','cur');}));
+    run(21*55+150+7*230,()=>RULES().forEach(x=>x.classList.remove('cur')));
+  }
+  if(n===5){
+    $$('#p1 .cx').forEach(x=>x.classList.remove('on'));
+    paintStrip(W1c,()=>'ok');paintStrip(W1d,k=>k===12?'f bad':'f');
+    run(350,()=>$('#p1 .cx.ok').classList.add('on'));
+    run(800,()=>{W1d[11].classList.add('shk');$('#p1 .cx.bad').classList.add('on');});
+  }
+  /* barras: se vacían y se llenan hasta data-w */
+  const bars=(sel,d0)=>$$(sel).forEach((b,i)=>{const t=b.matches('.sk')?b:$('i>i',b);t.style.width='0';run(d0+i*160,()=>t.style.width=b.dataset.w+'%');});
+  if(n===8)$$('#p1 .wf').forEach((w,wi)=>{const k=+w.dataset.n;$$('.g i',w).forEach((c,i)=>{c.classList.remove('f');if(i<k)run(300+wi*350+i*14,()=>c.classList.add('f'));});});
+  if(n===9){
+    $$('#bul i').forEach((c,i)=>{c.className='';run(200+i*28,()=>c.className=i<47?'ok':'f');});
+    bars('#p1 .stk .sk',1000);
+  }
+  if(n===10){
+    bars('#p1 [data-v="10"] .hb',150);
+    const cap=$('#dgcap');
+    paintStrip(W1e,k=>k<15?'f':k===15?'dead':'');setSc(W1e[8],'f alr',9);
+    cap.innerHTML='esquema: callejón en el turno <b>15</b>; la decisión culpable está en el <b>9</b> (punto ámbar)';
+    run(1200,()=>{setSc(W1e[13],'undo cur',14);cap.innerHTML='<b>D2</b> retrocede 1 turno, al 14: la culpable sigue en pie y vuelve el callejón';});
+    run(2700,()=>{paintStrip(W1e,k=>k<9?'f':k===9?'ok cur':k<=15?'undo':'');popSc(W1e[8]);cap.innerHTML='<b>A3</b> salta al 9, deshace 9–15 de una vez y rehace la culpable ✓';});
+  }
+  if(n===11)bars('#p1 [data-v="11"] .hb',150);
+}
+H.p1={
+  step(n,prev){
+    gen++;
+    const anim=prev===n-1&&n>0;
+    if(n===0){F1.hide(0);F1.paint(new Set(Object.keys(F1.N)),new Set(['in_st','st_out','out_ver','ver_res','st_tr','tr_cp']),new Set(),new Set(),0);}
+    else{F1.state(S1,n);if(anim&&S1[n].hops)F1.run(S1[n].hops);else restPk(F1,S1,n);}
+    explain($('#x1'),S1[n],n,S1.length-1);
+    vis1(n,anim||prev===-1);
+  },
+  leave(){gen++;toggleTerm(false,$('#p1'));}
+};
+
+/* =====================================================================
+   Paso 2 en vivo: los mensajes de la traza mueven el paquete por el
+   diagrama, llenan la tira de la semana y los contadores de los ciclos.
+   ===================================================================== */
+const F4=Flow($('#f4'),{w:1136,h:240,
+  nodes:{
+    in: {x:0,   y:52, w:84, h:64,k:'io',   n:'Entrada',  b:'hard_29',          s:'instancia'},
+    orq:{x:108, y:52, w:140,h:64,          n:'Código',   b:'Coordinador',      s:'estado y turno k'},
+    t1: {x:276, y:52, w:156,h:64,          n:'T1',       b:'Opciones viables', s:'menú del turno k'},
+    a1: {x:462, y:52, w:150,h:64,k:'agent',n:'A1 · agente',b:'Asignador',      s:'propone 1 opción'},
+    t2: {x:642, y:52, w:140,h:64,          n:'T2',       b:'Perfilar',         s:'alertas R1–R3'},
+    a2: {x:812, y:52, w:150,h:64,k:'agent',n:'A2 · agente',b:'Crítico',        s:'acepta · rechaza · sondea'},
+    t3: {x:996, y:52, w:140,h:64,          n:'T3',       b:'Sondear',          s:'conteos a 2 turnos'},
+    t6: {x:0,   y:150,w:150,h:56,k:'judge',n:'T6 · juez',b:'Verificador',      s:'HC1–HC6'},
+    t4: {x:276, y:150,w:156,h:56,          n:'T4',       b:'Explicar callejón',s:'causa + candidatos'},
+    a3: {x:462, y:150,w:150,h:56,k:'agent',n:'A3 · agente',b:'Diagnosticador', s:'elige a dónde saltar'},
+    t5: {x:812, y:150,w:150,h:56,          n:'T5',       b:'Lecciones',        s:'memoria para A1 y A2'}
+  },
+  edges:{
+    in_orq:{p:[[84,84],[108,84]]},
+    orq_t1:{p:[[248,74],[276,74]]},
+    t1_orq:{p:[[276,96],[248,96]]},
+    t1_a1: {p:[[432,84],[462,84]]},
+    a1_t2: {p:[[612,84],[642,84]]},
+    t2_a2: {p:[[782,84],[812,84]]},
+    a2_t3: {p:[[962,74],[996,74]]},
+    t3_a2: {p:[[996,96],[962,96]]},
+    rej:   {p:[[880,52],[880,36],[537,36],[537,52]],cyc:true,ring:2,lab:[690,31,'↻ CICLO 2 · rechaza (≤2)','start']},
+    acc:   {p:[[940,52],[940,14],[178,14],[178,52]],cyc:true,ring:1,lab:[420,9,'↻ CICLO 1 · acepta o sin alertas → fija y pasa a k+1']},
+    fix:   {p:[[668,52],[668,14],[178,14],[178,52]],ring:1},
+    t1_t4: {p:[[354,116],[354,150]],lab:[364,138,'0 opciones','start']},
+    t4_a3: {p:[[432,178],[462,178]]},
+    a3_t5: {p:[[612,178],[812,178]],lab:[712,171,'lección']},
+    t5_a2: {p:[[887,150],[887,116]]},
+    t5_a1: {p:[[818,150],[592,116]]},
+    jump:  {p:[[537,206],[537,224],[178,224],[178,116]],cyc:true,ring:3,lab:[357,238,'↻ CICLO 3 · salta al turno j (≤30)']},
+    orq_t6:{p:[[130,116],[75,150]]}
+  },
+  rings:{
+    1:['orq_t1','t1_a1','a1_t2','acc','fix'],
+    2:['a1_t2','t2_a2','rej','a2_t3','t3_a2'],
+    3:['orq_t1','t1_t4','t4_a3','jump']
+  }});
+const W4=strip('#w4');
+const T4=Term($('#tover .term'));
+
+/* --- texto legible de cada mensaje (el mismo que imprime demo_agents.py) --- */
+const opt=o=>(o||[]).join(' + ');
+const kk=p=>p+1;
+function pretty(e){
+  const c=e.contenido||{};
+  switch(e.tipo){
+    case 'inicio':return `inicio en <b>${esc(c.instancia)}</b>; prompts ${Object.entries(c.prompts||{}).map(([a,p])=>`${a} v${p.version}`).join(', ')}`;
+    case 'propuesta':return `${c.turno}: propone <b>${opt(c.opcion)}</b> (opción ${c.etiqueta??'-'} de ${c.menu})${e.ronda?` · ${e.ronda+1}.ª propuesta`:''}`;
+    case 'única opción':return `${c.turno}: una sola opción viable → <b>${opt(c.opcion)}</b> (sin llamar al modelo)`;
+    case 'alertas':{const me=c.propuesta,alt=c.alternativa;return `alertas <b>${c.alertas.join(', ')}</b>: la propuesta deja ${me.nv} opciones al turno siguiente, ${me.sobre_cuota} especialistas sobre la cuota${alt?`; mejor alternativa ${opt(alt.opcion)} deja ${alt.rasgos.nv}`:''}`;}
+    case 'resultado':return `continuaciones a 2 turnos: propuesta <b>${c.propuesta}</b> | alternativa <b>${c.alternativa??'-'}</b>`;
+    case 'aceptar':case 'rechazar':return `<b>${e.tipo.toUpperCase()}</b> (respuesta ${c.etiqueta??'-'})`;
+    case 'sondear':return `<b>SONDEAR</b> (respuesta ${c.etiqueta??'-'})`;
+    case 'mantiene':return `<b>MANTIENE</b> su propuesta ${opt(c.opcion)}`;
+    case 'explicación':return `<b>CALLEJÓN</b>: ${esc(c.causa)}. ${c.candidatos.length} candidatos`;
+    case 'callejón':return `<b>callejón</b> en ${c.turno}: ${esc(c.causa||'')}`;
+    case 'salto':return `<b>SALTA</b> a ${c.a} y ${c.prohibir?`prohíbe a ${c.prohibir} ahí`:'prohíbe ahí la combinación anterior'} (respuesta ${c.etiqueta??'-'})`;
+    case 'retroceso':return `<b>RETROCEDE</b> al turno anterior, ${c.a}`;
+    case 'escribe':return `lección: ${esc(c)}`;
+    case 'presupuesto agotado':return `<b>presupuesto agotado</b> (${c.saltos} saltos): se completa en modo relajado`;
+    case 'modo relajado':return `${c.turno}: ${opt(c.opcion)} (modo relajado)`;
+    case 'horario final':return `horario terminado: certificado=<b>${c.certificado?'sí':'NO'}</b>, ${c.saltos} saltos, ${c.pasadas_modelo} pasadas del modelo`;
+    case 'fija':return c.vacio?`${c.turno}: el menú quedó vacío → se fija la propuesta rechazada ${opt(c.opcion)}`:c.forzada?`${c.turno}: tras 2 rechazos se fija la 3.ª propuesta ${opt(c.opcion)}`:`${c.turno}: sin alertas → se fija ${opt(c.opcion)}`;
+  }
+  return esc(JSON.stringify(c));
+}
+const AGENTS=new Set(['Asignador','Crítico','Diagnosticador']);
+function actor(x){const k=AGENTS.has(x)?'ag':x==='verificador'?'jd':x==='Coordinador'?'co':'';return `<span class="ac ${k}">${esc(x)}</span>`;}
+
+/* --- cómo viaja cada mensaje por el diagrama --- */
+function anim(e){
+  const c=e.contenido||{},k=c.paso!=null?kk(c.paso):null;
+  switch(e.tipo){
+    case 'inicio':return {act:['orq'],hops:[['in_orq',c.instancia]],ring:1};
+    case 'propuesta':return e.ronda?{act:['a1','t2'],hops:[['a1_t2',`${e.ronda+1}.ª propuesta`]],ring:2}
+                                   :{act:['a1','t2'],hops:[['orq_t1','turno '+k],['t1_a1','menú de '+c.menu],['a1_t2',opt(c.opcion)]],ring:1};
+    case 'alertas':return {act:['a2'],hops:[['t2_a2',c.alertas.join(', ')]],ring:2};
+    case 'sondear':return {act:['t3'],hops:[['a2_t3','sondear']],ring:2};
+    case 'resultado':return {act:['a2'],hops:[['t3_a2',`${c.propuesta} vs ${c.alternativa??'-'}`]],ring:2};
+    case 'aceptar':return {act:['orq'],hops:[['acc','acepta · turno '+(k+1)]],ring:1};
+    case 'rechazar':return {act:['a1'],hops:[['rej','rechaza']],ring:2};
+    case 'fija':return {act:['orq'],hops:[['fix',(c.forzada?'3.ª se fija':'sin alertas')+' · turno '+(k+1)]],ring:1};
+    case 'única opción':return {act:['t1','orq'],hops:[['orq_t1','turno '+k],['t1_orq','1 opción · fija']],ring:1};
+    case 'explicación':case 'callejón':return {act:['t4','a3'],hops:[['orq_t1','turno '+k],['t1_t4','0 opciones'],['t4_a3','causa']],ring:3};
+    case 'salto':case 'retroceso':return {act:['orq'],hops:[['jump','salta a '+kk(c.paso)]],ring:3};
+    case 'escribe':return {act:['t5'],hops:[['a3_t5','lección']],ring:3,also:[['t5_a1','lección']]};
+    case 'mantiene':case 'modo relajado':case 'presupuesto agotado':return {act:['orq'],hops:[],ring:1};
+    case 'horario final':return {act:['t6'],hops:[['orq_t6','k = 21']],ring:0};
+  }
+  return {act:[],hops:[]};
+}
+
+/* --- estado de la semana a partir de los mensajes --- */
+let L;
+function resetLive(){
+  L={tok:(L?L.tok:0)+1,Q:[],busy:false,evs:[],seenN:new Set(),seenE:new Set(),
+     fixed:new Set(),undone:new Set(),redo:new Set(),rej:new Set(),rx:new Set(),jmp:new Set(),
+     cur:null,curCls:'',dead:null,rejTurn:0,rejTot:0,saltos:0,undoneN:0,final:null,
+     cnt:{prop:0,alr:0,son:0,acc:0,fix:0,forz:0,uni:0,lec:0},anim:0,skip:null,pend:null,prompts:{},lastLi:null,live:false,stamp:null,ended:false};
+  $('#feed').innerHTML='';$('#feedPh').style.display='';
+  F4.hide(0);F4.hide(1);F4.paint(new Set(),new Set(),new Set(),new Set(),0);
+  $('#m4').innerHTML='<div class="rt">Último mensaje</div><pre class="c">—</pre>';
+  paintLive();
+}
+let SPEED=2;
+function cellCls(k){
+  const p=k-1;
+  if(L.dead===p)return 'dead';
+  let s='';
+  if(L.fixed.has(p)){
+    if(L.final&&L.final.certificado)s='ok'+(L.jmp.has(p)?' jmp':'');
+    else s=L.rx.has(p)?'rx'+(L.final?' bad':''):L.redo.has(p)?'redo':'f';
+    if(L.rej.has(p))s+=' crit';
+  }else if(L.undone.has(p))s='undo';
+  if(L.cur===p&&!L.final)s=(s&&L.curCls!=='cur'?'':s+' ')+(L.curCls||'cur');
+  return s.trim();
+}
+function paintLive(){
+  paintStrip(W4,cellCls);
+  const k=L.final?21:L.cur!=null?kk(L.cur):null;
+  $('#c4k').textContent=k??'–';
+  $('#c4r').textContent=L.rejTurn;$('#c4t').textContent=L.rejTot;
+  $('#c4s').textContent=L.saltos;$('#c4u').textContent=L.undoneN;
+  const w=[L.fixed.size/21,L.rejTurn/2,L.saltos/30];
+  $$('#rg4 .rb i').forEach((i,x)=>i.style.width=Math.min(1,w[x])*100+'%');
+  const C=L.cnt;
+  $('#cn4').innerHTML=`<span><b>${C.prop}</b>propuestas</span><span><b>${C.alr}</b>alertas</span><span><b>${C.son}</b>sondeos</span><span><b>${L.rejTot}</b>rechazos</span><span><b>${C.acc}</b>aceptadas</span><span><b>${C.fix}</b>sin alertas</span><span title="fijadas tras 2 rechazos"><b>${C.forz}</b>forzadas</span><span><b>${C.uni}</b>única opción</span>`;
+  $('#c4f').innerHTML=`<b>${L.fixed.size}</b> turnos fijados`+(L.final?` · <b>${L.final.pasadas_modelo}</b> pasadas`:'');
+}
+function fixP(p){L.fixed.add(p);L.undone.delete(p);L.cur=p+1<21?p+1:null;L.curCls='cur';L.rejTurn=0;}
+function applyEv(e){
+  const c=e.contenido||{},p=c.paso;
+  switch(e.tipo){
+    case 'inicio':L.prompts=c.prompts||{};F4.N.in.querySelector('b').textContent=c.instancia;
+      $('#k4').textContent=`Deliverable 3 · Paso 2 del video · sistema de agentes en vivo sobre ${c.instancia}`;L.cur=0;L.curCls='cur';break;
+    case 'propuesta':L.cur=p;L.curCls='prop cur';L.rejTurn=e.ronda||0;L.cnt.prop++;break;
+    case 'alertas':L.curCls='prop cur alr';L.cnt.alr++;break;
+    case 'sondear':L.cnt.son++;break;
+    case 'rechazar':L.curCls='rej cur';L.rej.add(p);L.rejTurn++;L.rejTot++;break;
+    case 'aceptar':L.cnt.acc++;fixP(p);break;
+    case 'fija':L.cnt[c.forzada?'forz':'fix']++;fixP(p);break;
+    case 'única opción':L.cnt.uni++;fixP(p);break;
+    case 'mantiene':fixP(p);break;
+    case 'modo relajado':L.rx.add(p);fixP(p);break;
+    case 'explicación':case 'callejón':L.dead=p;L.cur=p;break;
+    case 'salto':case 'retroceso':{
+      const k=L.dead!=null?L.dead:p+1;
+      for(let s=p;s<=k;s++){L.fixed.delete(s);L.undone.add(s);if(s<k){L.redo.add(s);L.jmp.add(s);}}
+      L.undoneN+=k-p;L.saltos++;L.dead=null;L.cur=p;L.curCls='cur';L.rejTurn=0;break;}
+    case 'escribe':L.cnt.lec++;break;
+    case 'horario final':L.final=c;L.cur=null;break;
+  }
+}
+/* la traza no registra cuándo se fija una propuesta sin alertas: se infiere porque al
+   mensaje siguiente no le llegan alertas de esa propuesta (así lo hace coordinator.py) */
+function feedEv(e){
+  if(L.pend&&!(e.tipo==='alertas'&&e.contenido.paso===L.pend.paso)){
+    const q=L.pend;L.pend=null;
+    push({i:null,de:'perfilar',a:'Coordinador',tipo:'fija',syn:true,contenido:{paso:q.paso,turno:q.turno,opcion:q.opcion,forzada:q.forzada}});
+  }
+  if(e.tipo==='alertas')L.pend=null;
+  push(e);
+  if(e.tipo==='propuesta')L.pend=L.prop={paso:e.contenido.paso,turno:e.contenido.turno,opcion:e.contenido.opcion,menu:e.contenido.menu,forzada:(e.ronda||0)>=2};
+  /* si el rechazo deja el menú vacío, el coordinador fija igual la propuesta rechazada */
+  if(e.tipo==='rechazar'&&L.prop&&L.prop.menu<=1){const q=L.prop;
+    push({i:null,de:'Coordinador',a:'Coordinador',tipo:'fija',syn:true,contenido:{paso:q.paso,turno:q.turno,opcion:q.opcion,forzada:true,vacio:true}});}
+}
+function endFeed(){if(L.pend){const q=L.pend;L.pend=null;push({i:null,de:'perfilar',a:'Coordinador',tipo:'fija',syn:true,contenido:{paso:q.paso,turno:q.turno,opcion:q.opcion,forzada:q.forzada}});}L.ended=true;pump();}
+function push(e){L.Q.push(e);pump();}
+function pump(){
+  if(L.busy)return;
+  if(!L.Q.length){liveStatus();return;}
+  const e=L.Q.shift(),tok=L.tok;L.busy=true;
+  play(e,()=>{if(tok!==L.tok)return;L.busy=false;if(SPEED&&isLive())setTimeout(()=>{if(tok===L.tok)pump();},160/SPEED);else pump();});
+}
+const isLive=()=>slides[cur].id==='live'&&!document.hidden;
+function play(e,done){
+  L.evs.push(e);
+  const li=addFeed(e,L.evs.length-1);
+  const a=anim(e);
+  const finish=()=>{applyEv(e);paintLive();detail(e,$('#m4'));liveStatus();
+    const ix={'propuesta':1,'aceptar':1,'fija':1,'única opción':1,'rechazar':1,'explicación':1,'salto':1}[e.tipo];
+    if(ix&&e.contenido&&e.contenido.paso!=null&&W4[e.contenido.paso])popSc(W4[e.contenido.paso]);
+    if(e.tipo==='explicación')W4[e.contenido.paso].classList.add('shk');
+    if(e.tipo==='horario final')W4.forEach((c,i)=>setTimeout(()=>popSc(c),i*35));
+    done();};
+  (a.act||[]).forEach(x=>L.seenN.add(x));(a.hops||[]).forEach(h=>L.seenE.add(h[0]));
+  F4.paint(L.seenN,new Set([...L.seenE,...(a.also||[]).map(h=>h[0])]),new Set(a.act||[]),new Set((a.hops||[]).map(h=>h[0])),a.ring||0);
+  (a.also||[]).forEach(h=>L.seenE.add(h[0]));
+  if(!SPEED||!isLive()||!a.hops||!a.hops.length){
+    const h=a.hops&&a.hops[a.hops.length-1];
+    if(h){F4.put(0,h[0],F4.endU(h[0]),h[1]);F4.settle(0,h[0]);}
+    finish();return;
+  }
+  /* skip() corta la animación en curso (al pasar a ⏭ o salir de la diapositiva) y deja el paquete en su destino */
+  const tok=L.tok,my=++L.anim,alive=()=>tok===L.tok&&my===L.anim,o={speed:.45*SPEED,min:240/SPEED,alive};
+  const h=a.hops[a.hops.length-1];
+  L.skip=()=>{L.skip=null;L.anim++;F4.put(0,h[0],F4.endU(h[0]),h[1]);F4.settle(0,h[0]);finish();};
+  F4.run(a.hops,()=>{L.skip=null;if(a.also)F4.run(a.also,null,{...o,i:1});finish();},o);
+}
+function addFeed(e,ix){
+  $('#feedPh').style.display='none';
+  const li=el('li','fi'+(e.syn?' syn':''),`<span class="ix">${e.i??'·'}</span><span class="who">${actor(e.de)} → ${actor(e.a)}</span><span class="tx">${pretty(e)}${e.observacion?'<span class="obs">prompt ↗</span>':''}</span>`);
+  if(e.syn)li.title='Paso inferido: la traza no registra cuándo se fija una propuesta sin alertas';
+  li.addEventListener('click',()=>openModal(L.evs[ix]));
+  const box=$('#feedBox'),stick=box.scrollTop+box.clientHeight>=box.scrollHeight-40;
+  if(L.lastLi)L.lastLi.classList.remove('cur');li.classList.add('cur');L.lastLi=li;
+  $('#feed').append(li);
+  if(stick)box.scrollTop=box.scrollHeight;
+  return li;
+}
+/* recuadro "qué viaja": el contenido del mensaje con sus números */
+function detail(e,box){
+  const c=e.contenido||{},k=c.paso!=null?` (k = ${kk(c.paso)})`:'';
+  let b='';
+  const resp=c.etiqueta!=null?`responde  <b>"${c.etiqueta}"</b>${c.logprob!=null?`   <span class="c">logprob ${c.logprob}</span>`:''}\n`:'';
+  switch(e.tipo){
+    case 'propuesta':b=`turno     ${c.turno}${k}\nmenú      ${c.menu} opciones viables${c.ordenes>1?`, en ${c.ordenes} órdenes (ensamble)`:''}\n${resp}propone   <b>${opt(c.opcion)}</b>\nprompt    ${(c.secciones||[]).join(' · ')}`;break;
+    case 'alertas':{const me=c.propuesta,al=c.alternativa;b=`alertas      <span class="a">${c.alertas.join(', ')}</span>\n                 opciones en k+1 · sobre la cuota · sin margen\npropuesta    ${String(me.nv).padStart(9)} · ${String(me.sobre_cuota).padStart(15)} · ${me.sin_margen}`+(al?`\nalternativa  ${String(al.rasgos.nv).padStart(9)} · ${String(al.rasgos.sobre_cuota).padStart(15)} · ${al.rasgos.sin_margen}   <span class="c">${opt(al.opcion)}</span>`:'');break;}
+    case 'sondear':b=`${resp}acción    pide T3: contar continuaciones a 2 turnos\n          de la propuesta y de la mejor alternativa`;break;
+    case 'resultado':b=`continuaciones a 2 turnos\n  propuesta     <b>${c.propuesta}</b>\n  alternativa   <b>${c.alternativa??'-'}</b>`;break;
+    case 'aceptar':b=`${resp}veredicto <span class="g">ACEPTAR</span> → se fija y pasa al turno ${kk(c.paso)+1}`;break;
+    case 'rechazar':b=`${resp}veredicto <b>RECHAZAR</b> → vuelve al Asignador con el motivo\n          y esa opción sale del menú`;break;
+    case 'fija':b=`turno     ${c.turno}${k}\n${c.vacio?'el rechazo dejó el menú vacío: se fija la propuesta':c.forzada?'2 rechazos: la 3.ª propuesta se fija sin volver al Crítico':'T2 no levantó alertas → se fija sin llamar al Crítico'}\nfija      <span class="g">${opt(c.opcion)}</span>   <span class="c">(inferido de la traza)</span>`;break;
+    case 'única opción':b=`turno     ${c.turno}${k}\nT1 deja 1 sola opción viable → se fija sin llamar al modelo\nfija      <span class="g">${opt(c.opcion)}</span>`;break;
+    case 'explicación':b=`<b>callejón</b> en el turno ${kk(c.paso)}\ncausa     ${esc(c.causa)}\n${c.candidatos.slice(0,3).map((x,i)=>`${String(i+1).padStart(2)}. ${esc(x)}`).join('\n')}\n    … ${c.candidatos.length} candidatos en total`;break;
+    case 'salto':b=`${resp}salta a   <b>${c.a}</b> (k = ${kk(c.paso)})\nrehace    ${opt(c.rehace)}\nprohíbe   ${c.prohibir?`a ${c.prohibir} en ese turno`:'ahí la combinación anterior'}`;break;
+    case 'escribe':b=`T5 guarda la lección (la leen A1 y A2):\n<span class="c">${esc(c)}</span>`;break;
+    case 'horario final':b=`certificado      ${c.certificado?'<span class="g">sí</span>':'<b>NO</b>'}\nsaltos           ${c.saltos}\npasadas modelo   ${c.pasadas_modelo}   <span class="c">→ verificador (T6)</span>`;break;
+    case 'inicio':b=Object.entries(c.prompts||{}).map(([a,p])=>`${a.padEnd(15)} ${p.file}  v${p.version}  <span class="c">sha ${p.sha}</span>`).join('\n');break;
+    default:b=pretty(e);
+  }
+  box.innerHTML=`<div class="rt"><span>Qué viaja · ${esc(e.de)} → ${esc(e.a)} · ${esc(e.tipo)}</span>${e.observacion?'<em>clic: prompt exacto ↗</em>':''}</div><pre>${b}</pre>`;
+  box.onclick=()=>openModal(e);
+  box.classList.remove('in');void box.offsetWidth;box.classList.add('in');
+}
+function liveStatus(){
+  if(!L)return;
+  const q=L.Q.length,n=L.evs.filter(e=>!e.syn).length;
+  if(L.final&&!q&&L.ended){status(2,L.final.certificado?'ok':'err',`<b>${L.final.certificado?'certificado':'NO certificado'}</b> · ${n} mensajes · salida final →`);return;}
+  if(L.live&&RUN&&RUN.n==='2'){
+    if(!n){status(2,'live',esc(L.lastLine||'iniciando…'));return;}
+    status(2,'live',`<b>en vivo</b> · ${n} mensajes${q?` · ${q} en cola`:''}`);return;
+  }
+  if(L.evs.length)status(2,q?'live':'',`${n} mensajes${q?` · ${q} en cola`:''}`);
+}
+
+/* --- ejecutar en vivo --- */
+$('[data-run]',$('#live')).addEventListener('click',()=>{
+  if(RUN&&RUN.n==='2'){stopRun();return;}
+  resetLive();L.live=true;T4.clear();T4.follow(true);
+  status(2,'live','iniciando <b>python video/paso2_agentes.py</b>: cargando el modelo…');
+  startRun(2,{
+    linea:x=>{T4.add(x);if(x.trim())L.lastLine=x.trim();
+      if(/^Modelo \(/.test(x))L.lastLine='modelo cargado · '+x.replace(/^Modelo \([^)]*\):\s*/,'');
+      const m=/results\/demo\/(\S+)\.jsonl/.exec(x);if(m)L.stamp=m[1];
+      liveStatus();},
+    ev:e=>feedEv(e),
+    fin:o=>{endFeed();if(o.rc){status(2,'err',`<b>el script terminó con error (código ${o.rc})</b> · abre la Terminal (T) para ver el detalle`);return;}
+      if(L.stamp)loadResult(L.stamp);},
+    fail:e=>status(2,'err','<b>error:</b> '+esc(e.message)),
+    stop:()=>{status(2,'err','<b>detenido</b>');}
+  });
+});
+$$('#spd button').forEach(b=>b.addEventListener('click',()=>{SPEED=+b.dataset.v;$$('#spd button').forEach(x=>x.classList.toggle('on',x===b));if(L){if(!SPEED&&L.skip)L.skip();pump();}}));
+$(`#spd button[data-v="${SPEED}"]`).classList.add('on');
+/* terminal superpuesta (pasos 1 y 2): se abre con el botón Terminal o la tecla T */
+function toggleTerm(v,sl=slides[cur]){
+  const o=$('.tover',sl);if(!o)return;
+  const on=v??!o.classList.contains('on'),b=$('.tbtn',sl);
+  o.classList.toggle('on',on);if(b){b.classList.toggle('on',on);b.classList.remove('new');}
+  if(on&&sl.id==='live'){T4.fit();const t=$('.term',o);t.scrollTop=t.scrollHeight;}
+}
+$$('.tbtn').forEach(b=>b.addEventListener('click',()=>toggleTerm(undefined,b.closest('.slide'))));
+$$('.tover .x').forEach(b=>b.addEventListener('click',()=>toggleTerm(false,b.closest('.slide'))));
+H.live={
+  enter(){
+    if(!L.busy)F4.paint(L.seenN,L.seenE,new Set(),new Set(),0);
+    pump();
+  },
+  leave(){toggleTerm(false,$('#live'));if(L.skip)L.skip();}
+};
+
+/* ---------------------------------------------------------------------
+   Detalle de un mensaje: contenido y el mensaje de usuario exacto
+   (la "observación") que armó el código para el agente.
+   --------------------------------------------------------------------- */
+function openModal(e){
+  if(!e)return;
+  const c=e.contenido||{};
+  $('#mdN').textContent=e.syn?'paso inferido':`evento ${e.i}`;
+  $('#mdT').innerHTML=`${actor(e.de)} → ${actor(e.a)} · ${esc(e.tipo)}`;
+  const kv=[];
+  if(typeof c==='string')kv.push(['texto',esc(c)]);
+  else for(const [k,v] of Object.entries(c)){
+    if(k==='paso'){kv.push(['turno k',`${kk(v)} de 21`]);continue;}
+    if(k==='candidatos'){kv.push([k,v.map((x,i)=>`${i+1}. ${esc(x)}`).join('<br>')]);continue;}
+    kv.push([k,Array.isArray(v)?esc(v.map(x=>typeof x==='object'?JSON.stringify(x):x).join(Array.isArray(v[0])?' | ':k==='opcion'||k==='rehace'?' + ':' · ')):typeof v==='object'&&v?esc(JSON.stringify(v)):`<b>${esc(v)}</b>`]);
+  }
+  if(e.ronda!=null)kv.push(['ronda',e.ronda]);
+  const ag=AGENTS.has(e.de)?e.de:null;
+  if(ag&&L.prompts[ag]){const p=L.prompts[ag];kv.push(['prompt sistema',`${esc(p.file)} v${p.version} (sha ${p.sha})`]);}
+  $('#mdKV').innerHTML=kv.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${v}</dd>`).join('');
+  const ops=e.opciones||[];
+  $('#mdOp').innerHTML=ops.length?`<h4 style="column-span:all;margin-top:6px">Menú de opciones viables (T1)</h4>`+ops.map((o,i)=>`<li class="${opt(o)===opt(c.opcion)?'ch':''}">${i+1}. ${esc(opt(o))}</li>`).join(''):'';
+  const obs=e.observacion==null?[]:Array.isArray(e.observacion)?e.observacion:[e.observacion];
+  $('#mdOH').textContent=ag?`Mensaje de usuario que recibió el ${ag}`:'Mensaje de usuario';
+  const tabs=$('#mdTabs');tabs.innerHTML='';
+  const show=i=>{$('#mdObs').textContent=obs[i];$('#mdObs').className='obs-pre';$$('button',tabs).forEach((b,j)=>b.classList.toggle('on',j===i));};
+  if(obs.length>1)obs.forEach((_,i)=>{const b=el('button','btn ghost',`orden ${i+1} del ensamble`);b.style.height='26px';b.style.fontSize='12px';b.onclick=()=>show(i);tabs.append(b);});
+  if(obs.length)show(0);
+  else{$('#mdObs').className='obs-none';$('#mdObs').textContent=ag?'Este mensaje no lleva observación registrada.':'Es una herramienta o el coordinador (código): no recibe un prompt; calcula con el estado de la semana.';}
+  $('#modal').classList.add('on');
+}
+function closeModal(){$('#modal').classList.remove('on');}
+$('#mdX').addEventListener('click',closeModal);
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+
+/* =====================================================================
+   Salida final: horario, verificador y comparación en la misma instancia
+   ===================================================================== */
+const SPC={Emergency:8,General:1,Anesthesiology:6};
+const TURNO={Morning:'Mañana',Afternoon:'Tarde',Night:'Noche'};
+const ESP={Emergency:'Urgencia',General:'General',Anesthesiology:'Anestesiología'};
+let FIN=null;
+async function loadResult(f,origen='en vivo'){
+  try{const r=await fetch('/api/resultado?f='+encodeURIComponent(f),{cache:'no-store'});if(!r.ok)throw 0;renderFin(await r.json(),origen);}catch(e){}
+}
+function renderFin(R,origen){
+  FIN=R;
+  const v=R.verification,o=R.output,sp={},colors={};let ci=0;
+  R.staff.forEach(s=>{sp[s.id]=s;if(!colors[s.specialty])colors[s.specialty]=SPC[s.specialty]||[2,3,4,5,7][ci++%5];});
+  $('#finE').style.display='none';$('#finG').style.display='';
+  $('#finK').textContent=`Deliverable 3 · Paso 2 del video · salida final · ${R.instance} (${origen})`;
+  $('#finH').textContent=v.is_valid?`${R.instance}: horario ${o.certified?'certificado':'no certificado'} y aprobado por el verificador`
+                                   :`${R.instance}: el verificador encuentra ${v.total_hard_violations} violaciones`;
+  const days=R.demands.days,shifts=R.demands.shifts,rel=new Set();
+  if(!o.certified){/* los turnos completados en modo relajado son los últimos relaxed_steps */
+    const n=days.length*shifts.length;for(let p=n-(o.relaxed_steps||0);p<n;p++)rel.add(p);}
+  $('#sch').innerHTML=`<thead><tr><th></th>${DIAS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>`+
+    shifts.map((t,ti)=>`<tr><th>${TURNO[t]||t}</th>${days.map((d,di)=>`<td class="${rel.has(di*3+ti)?'rlx':''}">${(o.schedule[d][t]||[]).map(id=>`<span class="dc" data-c="${colors[(sp[id]||{}).specialty]||1}" title="${esc((sp[id]||{}).name||id)}">${esc(id)}</span>`).join('')}</td>`).join('')}</tr>`).join('')+'</tbody>';
+  const req=R.demands.requirements_per_shift;
+  $('#splg').innerHTML=Object.keys(colors).map(s=>`<span><span class="dc" data-c="${colors[s]}">${ESP[s]||s}</span>${R.staff.filter(x=>x.specialty===s).map(x=>x.id.replace('DOC_','')).join(', ')}</span>`).join('')+
+    `<span>· demanda: ${shifts.map(t=>`${(TURNO[t]||t).toLowerCase()} ${req[t].required_total}`).join(', ')} médicos por turno</span>`;
+  const hd=v.assigned_hours_distribution||{};
+  $('#hrs').innerHTML=R.staff.map(s=>{const h=hd[s.id]||0,mx=s.max_weekly_hours;
+    return `<div class="hr" data-c="${colors[s.specialty]}"><span class="dc" data-c="${colors[s.specialty]}" style="margin:0">${s.id}</span><div class="t${h>mx?' over':''}"><i style="width:${Math.min(100,h/mx*100)}%"></i></div><span class="v">${h}<small> / ${mx} h</small></span></div>`;}).join('');
+  const vb=Object.entries(v.violations_by_type||{}).filter(([,n])=>n).map(([k,n])=>`${k}=${n}`).join(', ');
+  $('#verd').className='verd'+(v.is_valid?'':' bad');
+  $('#verd').innerHTML=v.is_valid?`<div class="big">✓ APROBADO · 0 violaciones</div><p>El verificador (<span class="mono">src/verifier.py</span>) revisa HC1–HC6 y la estructura. Certificado por el sistema: <b>${o.certified?'sí':'no'}</b>.</p>`
+    :`<div class="big">✕ FALLIDO · ${v.total_hard_violations} violaciones</div><p>${vb} · certificado por el sistema: <b>${o.certified?'sí':'no (presupuesto agotado, modo relajado)'}</b></p><ul>${v.violations.slice(0,4).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  const ac=o.agent_calls||{};
+  $('#fst').innerHTML=[[o.llm_calls,'pasadas del modelo'],[o.backtracks,'saltos'],[o.undone,'deshechas'],[o.rejections,'rechazos'],[o.probes,'sondeos'],[o.skipped_single,'única opción'],[o.seconds+' s','de cómputo']]
+    .map(([n,t])=>`<span><b>${n??'–'}</b>${t}</span>`).join('')+
+    `<span style="background:transparent;padding-left:4px">llamadas por agente: ${Object.entries(ac).map(([a,n])=>`${a} <b style="color:var(--ink)">${n}</b>`).join(' · ')}</span>`;
+  const C=R.comparacion||{},row=(lab,sub,x,me)=>x?`<tr class="${me?'me':''}"><td>${lab}<small>${sub}</small></td><td class="${x.is_valid?'y':'n'}">${x.is_valid?'✓ sí':'✕ no'}</td><td>${x.violaciones}</td><td>${x.llm_calls}</td><td>${x.backtracks??'–'}</td></tr>`:'';
+  $('#cmp').innerHTML=`<thead><tr><th>Estrategia</th><th>Válido</th><th>Viol.</th><th>Pasadas</th><th>Retroc./saltos</th></tr></thead><tbody>`+
+    row('D1 · prompt directo','resultado guardado',C.direct)+row('D2 · turno a turno','resultado guardado',C.stepwise)+
+    row('D3 · sistema de agentes',origen,{is_valid:v.is_valid,violaciones:v.total_hard_violations,llm_calls:o.llm_calls,backtracks:o.backtracks},true)+'</tbody>';
+  $('#fsrc').innerHTML=`Fuente: <span class="mono">results/demo/${esc(R.f)}.jsonl</span> · ${esc(R.model.model_id.split('/').pop())} ${esc(R.model.quant||'')} · ${esc((R.model.gpu||'').replace('NVIDIA GeForce ',''))}`;
+}
+H.fin={
+  enter(){
+    $$('#hrs .t i').forEach(i=>{const w=i.style.width;i.style.width='0';void i.offsetWidth;i.style.width=w;});
+  }
+};
+
+/* =====================================================================
+   Inicio (admite enlaces #n o #n.paso)
+   ===================================================================== */
+resetLive();
+if(!SERVER)document.body.classList.add('offline');
+syncBtns();
+fetch('/api/ping',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;}).catch(()=>{SERVER=false;document.body.classList.add('offline');syncBtns();});
+const mh=/^#(\d+)(?:\.(\d+))?$/.exec(location.hash||'');
+const start=mh?Math.min(slides.length-1,Math.max(0,+mh[1]-1)):0;
+slides[0].classList.add('is-active');cur=0;
+go(start,false,mh&&mh[2]!=null?+mh[2]:null);
+})();
+</script>
+</body>
+</html>
