@@ -815,20 +815,6 @@ body.offline .nosrv{display:block}
   </div>
 </section>
 
-<!-- ======================= 6 · PASO 3: RESULTADOS ======================= -->
-<section class="slide" id="p3" data-sec="Paso 3 · Resultados" data-paso="3">
-  <div class="kicker">Deliverable 3 · Paso 3 del video</div>
-  <h2>Resultados: las mismas 90 instancias para todas</h2>
-  <div class="runbar">
-    <button class="btn" data-run>▶ Ejecutar</button>
-    <code>python video/paso3_resultados.py</code>
-    <span class="st"><i></i>listo para ejecutar</span>
-  </div>
-  <div class="nosrv">Para ejecutar los scripts abre esta presentación con <code>python video/servidor_video.py</code> (o <code>video/0_presentacion.bat</code>).</div>
-  <div class="term"><pre></pre><div class="ph">Pulsa <span><kbd>R</kbd> o ▶ Ejecutar</span>para correr el script y ver su salida aquí</div></div>
-</section>
-
-
 <div class="modal" id="modal"><div class="mcard" role="dialog" aria-modal="true">
   <div class="mhead"><span class="n" id="mdN"></span><h3 id="mdT"></h3><button class="btn ghost" id="mdX">Cerrar ✕</button></div>
   <div class="mbody">
@@ -1292,9 +1278,9 @@ function Term(box){
     get n(){return n;}, fit
   };
 }
-/* pasos 1 y 3: una terminal por diapositiva */
+/* paso 1: su terminal superpuesta */
 const TERMS={};
-['1','3'].forEach(n=>{
+['1'].forEach(n=>{
   const sl=slideOf(n),T=TERMS[n]=Term($('.term',sl));
   $('[data-run]',sl).addEventListener('click',()=>{
     if(RUN&&RUN.n===n){stopRun();return;}

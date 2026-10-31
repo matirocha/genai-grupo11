@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Reporte de Deliverable 3 (paso 3 del video; con --fallas, el análisis de fallas)
+Reporte de Deliverable 3 (tabla de resultados; con --fallas, el análisis de fallas)
 ------------------------------------------------
 Lee los resultados guardados en results/ (no ejecuta el modelo) y muestra:
   (por defecto) la tabla principal: línea base, solución D2, sistema de agentes, cada ablación y los controles sin

@@ -10,7 +10,7 @@ y corre los pasos del video cuando el HTML lo pide. La salida se transmite en vi
 
 Rutas:
   GET /                         la presentación
-  GET /api/correr?paso=1..3     ejecuta video/pasoN_*.py y transmite su salida
+  GET /api/correr?paso=1..2     ejecuta video/pasoN_*.py y transmite su salida
   GET /api/resultado?f=<nombre> horario final, verificación, instancia y resultados guardados de D1 y D2
                                 de una corrida del paso 2 (results/demo/<nombre>_agentes.json)
 
@@ -37,7 +37,7 @@ HTML = os.path.join(VIDEO, "Deliverable 3 Representacion Video.html")
 sys.path.insert(0, os.path.join(ROOT, "src"))
 from instances import instance_dir  # noqa: E402
 
-PASOS = {"1": "paso1_protocolo.py", "2": "paso2_agentes.py", "3": "paso3_resultados.py"}
+PASOS = {"1": "paso1_protocolo.py", "2": "paso2_agentes.py"}
 MARCA = "\x1e"
 
 _lock = threading.Lock()

@@ -47,16 +47,15 @@ Llama-3.2 tiene licencia de Meta, así que hay que hacer esto una sola vez:
 
 La primera ejecución del paso 2 descarga el modelo (~6 GB). También se puede descargar antes con `hf download meta-llama/Llama-3.2-3B-Instruct --revision 0cb88a4f764b7a12671c53f0838cd831a0843b95`. Sin GPU local, se puede usar Colab T4: [`notebooks/D3_Demo_Colab.ipynb`](notebooks/D3_Demo_Colab.ipynb).
 
-### 2.2 Los 3 pasos del video
+### 2.2 Los 2 pasos del video
 Están en `video/` como archivos que se ejecutan sin argumentos: `pasoN_*.py` (botón ▶ del IDE) o `N_*.bat` (doble clic). Cada uno corre un comando:
 
 | Paso | Comando | Qué muestra |
 |---|---|---|
 | 1. Cómo se evalúa | `python src/protocol.py` | entradas (90 instancias), juez, criterio, métricas y la evaluación por decisión |
 | 2. Agentes en vivo | `python src/demo_agents.py --set hard --instance hard_29` | la instancia `hard_29`, donde la solución de D2 falla (agota sus 30 retrocesos y queda con 1 violación) y el sistema de agentes llega a un horario válido; actúan los tres agentes, con 2 saltos del Diagnosticador. Muestra los mensajes entre los agentes a medida que ocurren (propuestas, alertas, rechazos, sondeos, callejones, saltos y lecciones), la grilla final, el verificador y la comparación con D2 en la misma instancia |
-| 3. Resultados | `python src/report.py` | la tabla con la línea base, D2, los agentes, cada ablación y los controles |
 
-El análisis general de fallas y el caso de falla no aparecen en el video, pero se reproducen con `python src/report.py --fallas` (ver §8); la traza del caso de falla está en `results/traces/hard/llama-3.2-3b/agents_sin_diagnosticador/hard_22.jsonl`.
+La tabla de resultados (línea base, D2, agentes, cada ablación y los controles en las mismas 90 instancias) no aparece en el video, pero se reproduce con `python src/report.py` (ver §7). El análisis general de fallas y el caso de falla tampoco aparecen, y se reproducen con `python src/report.py --fallas` (ver §8); la traza del caso de falla está en `results/traces/hard/llama-3.2-3b/agents_sin_diagnosticador/hard_22.jsonl`.
 
 La traza completa de la demo queda en `results/demo/<instancia>_<fecha>.jsonl`. La de la corrida que aparece en el video es `results/demo/hard_29_<fecha del video>.jsonl`; las trazas de todas las instancias evaluadas están en `results/traces/`. Para otra instancia: `python src/demo_agents.py --random` (una al azar del conjunto difícil) o `--set stress --instance stress_04`.
 
@@ -348,7 +347,7 @@ Hay 124 fallas, y casi todas comparten el mismo mecanismo:
 │   ├── agents.py            # Asignador, Crítico y Diagnosticador (+ políticas de control azar/reglas)
 │   ├── coordinator.py       # el sistema de agentes y sus ablaciones
 │   ├── evaluate.py          # corre estrategias sobre los conjuntos
-│   ├── report.py            # tablas de D3 (paso 3 del video; --fallas: análisis de fallas)
+│   ├── report.py            # tabla de resultados de D3 (--fallas: análisis de fallas)
 │   ├── decision_eval.py     # evaluación por decisión contra CP-SAT
 │   ├── failure_analysis.py  # análisis general de fallas
 │   ├── diagnose.py          # decisión culpable de una falla (CP-SAT, offline)
@@ -356,7 +355,7 @@ Hay 124 fallas, y casi todas comparten el mismo mecanismo:
 │   ├── demo_agents.py       # demo en vivo (paso 2 del video)
 │   ├── build_fewshot.py     # ejemplos del Diagnosticador desde la calibración
 │   └── test_continuity.py   # el modo D2 reproduce D2; el verificador detecta cada violación
-├── video/                   # los 3 pasos del video, su presentación HTML (y video/deliverable2/ con los de D2)
+├── video/                   # los 2 pasos del video, su presentación HTML (y video/deliverable2/ con los de D2)
 ├── results/                 # resultados, trazas, tablas (d3_summary.md, decision_eval.md, failure_analysis.md)
 ├── notebooks/               # Colab de D1, D2 y D3
 └── deliverable1/, deliverable2/, deliverable3/
