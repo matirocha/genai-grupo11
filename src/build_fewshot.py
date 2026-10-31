@@ -20,7 +20,7 @@ from agent_core import Trace
 from agents import Config, Diagnosticador
 from diagnose import completable
 from instances import instance_dir, list_instances, load_instance
-from orchestrator import run_agents
+from coordinator import run_agents
 from stepwise_solver import Problem, State
 from tools import explicar_callejon
 

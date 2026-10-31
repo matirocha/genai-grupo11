@@ -11,16 +11,22 @@
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{tcolorbox}
 \usepackage{hyperref}
 \usepackage{amsmath,amssymb}
 \usepackage{microtype}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shadows}
 
 \definecolor{boxbg}{gray}{0.96}
 \definecolor{boxframe}{gray}{0.15}
 \definecolor{soft}{gray}{0.86}
+\definecolor{cuno}{RGB}{0,98,168}   % ciclo 1: turno a turno
+\definecolor{cdos}{RGB}{214,110,0}  % ciclo 2: revisión
+\definecolor{ctres}{RGB}{190,30,45} % ciclo 3: callejón
+\definecolor{cpar}{RGB}{0,128,90}   % parada
+\newcommand{\sw}[1]{\textcolor{#1}{\rule{1.6ex}{1.6ex}}}
 
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,
     pdftitle={IA Generativa - Entrega 3: Sistema de agentes para turnos medicos},pdfauthor={Grupo 11}}
@@ -35,6 +41,8 @@
 \pagestyle{empty}
 \newcommand{\tabfont}{\fontsize{6.7}{7.7}\selectfont\setlength{\tabcolsep}{2.6pt}}
 \newcommand{\notefont}{\fontsize{6.2}{7.1}\selectfont}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \begin{document}
 \fontsize{7.2}{8.2}\selectfont
@@ -57,179 +65,225 @@
 \begin{center}
 \begin{tikzpicture}[x=1mm,y=1mm,
     font=\fontsize{6}{6.9}\selectfont,
-    tool/.style={draw=boxframe,rounded corners=1pt,fill=boxbg,align=center,inner sep=1.4pt,minimum height=7.5mm,
+    tool/.style={draw=boxframe,sharp corners,fill=boxbg,line width=0.4pt,align=center,inner sep=1.4pt,minimum height=7.5mm,
                  execute at begin node={\hyphenpenalty 10000\relax}},
-    agent/.style={draw=boxframe,rounded corners=4pt,fill=soft,line width=1.1pt,align=center,inner sep=1.8pt,
-                  minimum height=9mm,execute at begin node={\hyphenpenalty 10000\relax}},
+    agent/.style={draw=boxframe,rounded corners=3mm,fill=soft,line width=1.4pt,align=center,inner sep=1.8pt,inner xsep=2.6pt,
+                  minimum height=9mm,drop shadow={opacity=0.4,shadow xshift=0.6mm,shadow yshift=-0.6mm},
+                  execute at begin node={\hyphenpenalty 10000\relax}},
     lbl/.style={font=\fontsize{5.5}{6.3}\selectfont,align=center,fill=white,inner sep=0.5pt},
     cyc/.style={font=\fontsize{5.6}{6.4}\selectfont\bfseries},
-    arr/.style={-{Latex[length=1.3mm]},line width=0.5pt}]
+    arr/.style={-{Latex[length=1.3mm]},line width=0.5pt},
+    c1/.style={draw=cuno,fill=cuno!10},  c1a/.style={draw=cuno,fill=cuno!35},
+    c2/.style={draw=cdos,fill=cdos!10},  c2a/.style={draw=cdos,fill=cdos!35},
+    c3/.style={draw=ctres,fill=ctres!10}, c3a/.style={draw=ctres,fill=ctres!35},
+    cp/.style={draw=cpar,fill=cpar!12}]
   % carril normal
   \node[tool,text width=10mm] (in) at (0,0) {Instancia\\JSON};
-  \node[tool,text width=19mm,line width=0.8pt] (orq) at (23,0) {\textbf{Orquestador}\\código, no agente:\\estado y turno $k$};
-  \node[tool,text width=19mm] (t1) at (55,0) {\textbf{T1 opciones viables}\\filtro legal + chequeo\\hacia adelante (D2)};
-  \node[agent,text width=19mm] (a1) at (91,0) {\textbf{A1 Asignador}\\elige 1 opción\\del menú};
-  \node[tool,text width=17mm] (t2) at (120,13) {\textbf{T2 perfilar}\\rasgos y alertas\\R1--R3};
-  \node[agent,text width=18mm] (a2) at (149,0) {\textbf{A2 Crítico}\\acepta, rechaza\\o sondea};
-  \node[tool,text width=13mm] (t3) at (179,0) {\textbf{T3 sondear}\\conteos a\\2 turnos};
+  \node[tool,text width=23mm,line width=0.8pt] (orq) at (23,0) {\textbf{Coordinador de turnos}\\código, no agente:\\estado y turno $k$};
+  \node[tool,c1,text width=19mm] (t1) at (55,0) {\textbf{T1 opciones}\\\textbf{viables}\\filtro legal (D2)};
+  \node[agent,c1a,text width=19mm] (a1) at (91,0) {\textbf{A1 Asignador}\\elige 1 opción\\del menú};
+  \node[tool,c1,text width=17mm] (t2) at (120,11) {\textbf{T2 perfilar}\\alertas R1--R3};
+  \node[agent,c2a,text width=18mm] (a2) at (149,0) {\textbf{A2 Crítico}\\acepta, rechaza\\o sondea};
+  \node[tool,c2,text width=13mm] (t3) at (179,0) {\textbf{T3 sondear}\\conteos a\\2 turnos};
   % carril de callejón
-  \node[tool,text width=19mm] (t4) at (55,-19) {\textbf{T4 explicar callejón}\\causa + 12 decisiones\\candidatas};
-  \node[agent,text width=21mm] (a3) at (91,-19) {\textbf{A3 Diagnosticador}\\elige a qué turno\\saltar};
-  \node[tool,text width=17mm] (t5) at (122,-19) {\textbf{T5 lecciones}\\memoria verbal};
-  \node[tool,text width=14mm] (t7) at (1,-17) {\textbf{T7 completar}\\relajado (D2);\\elige A1};
-  \node[tool,text width=14mm] (t6) at (1,-31) {\textbf{T6 verificador}\\HC1--HC6};
-  % carril normal: aristas
-  \draw[arr] (in) -- node[lbl,below=0.6pt]{JSON} (orq);
+  \node[tool,c3,text width=21mm] (t4) at (55,-15) {\textbf{T4 explicar}\\\textbf{callejón}\\causa + 12 candidatas};
+  \node[agent,c3a,text width=21mm] (a3) at (91,-15) {\textbf{A3 Diagnosticador}\\elige a qué turno\\saltar};
+  \node[tool,c3,text width=17mm] (t5) at (122,-15) {\textbf{T5 lecciones}\\memoria verbal};
+  \node[tool,cp,text width=15mm] (t7) at (1,-14) {\textbf{T7 completar}\\relajado (D2)};
+  \node[tool,cp,text width=15mm] (t6) at (1,-23.9) {\textbf{T6 verificador}\\HC1--HC6};
+  % leyenda
+  \node[tool,minimum height=4.5mm,minimum width=6mm] (lt) at (150,-17) {T};
+  \node[anchor=west] at (154.5,-17) {\textbf{Herramienta} (código)};
+  \node[agent,minimum height=5mm,minimum width=6mm,rounded corners=2mm] (la) at (150,-23.5) {A};
+  \node[anchor=west] at (154.5,-23.5) {\textbf{Agente} (LLM)};
+  % carril normal: aristas (ciclo 1, azul)
+  \begin{scope}[cuno]
+  \draw[arr] (in) -- (orq);
   \draw[arr] (orq) -- node[lbl,above=0.4pt]{turno $k$} (t1);
-  \draw[arr] (t1) -- node[lbl,above=0.4pt]{$\geq$2 opciones:\\estado + menú\\barajado} (a1);
+  \draw[arr] (t1) -- node[lbl,above=0.4pt]{$\geq$2 opciones:\\menú barajado} (a1);
   \draw[arr] (a1.north east) -- node[lbl,above left=-0.5pt]{propuesta} (t2.west);
+  \draw[line width=0.5pt] (t2.north) -- (120,19);
+  \draw[arr] (120,19) -| (19,0 |- orq.north);
+  \node[lbl] at (84,19) {sin alertas, o \textbf{acepta}: fijar la opción y pasar a $k{+}1$};
+  \node[cyc,fill=white,inner sep=0.5pt] at (36,19) {CICLO 1: turno a turno};
+  \draw[arr] (t1.north) |- (27,8.2) -- (27,0 |- orq.north);
+  \node[lbl] at (41,8.2) {1 opción: fijar sin LLM};
+  \end{scope}
+  % revisión: aristas (ciclo 2, naranjo)
+  \begin{scope}[cdos]
   \draw[arr] (t2.east) -- node[lbl,above right=-0.5pt]{alertas +\\números} (a2.north west);
   \draw[arr] (a2.west) -- node[lbl,below=0.8pt]{\textbf{rechaza} + motivo} node[cyc,above=0.8pt]{CICLO 2 ($\leq$2/turno)} (a1.east);
   \draw[arr] ([yshift=1.3mm]a2.east) -- node[lbl,above=0.4pt]{sondear ($\leq$1)} ([yshift=1.3mm]t3.west);
   \draw[arr] ([yshift=-1.3mm]t3.west) -- node[lbl,below=0.4pt]{conteos} ([yshift=-1.3mm]a2.east);
-  \draw[line width=0.5pt] (t2.north) -- (120,22);
-  \draw[line width=0.5pt] (a2.north) |- (120,22);
-  \draw[arr] (120,22) -| (19,5.2);
-  \draw[line width=0.5pt] (a1.north) -- (91,22);
-  \node[lbl,anchor=west] at (91.6,15.5) {A1 mantiene\\o 3.ª propuesta};
-  \node[lbl] at (84,22) {sin alertas, o \textbf{acepta}: fijar la opción y pasar a $k{+}1$};
-  \node[cyc] at (46,24.4) {CICLO 1: turno a turno (21 turnos)};
-  \draw[arr] (t1.north) |- (27,9.5) -- (27,5.2);
-  \node[lbl] at (41,9.5) {1 opción: fijar sin LLM};
-  % carril de callejón: aristas
+  \draw[line width=0.5pt] (a2.north) |- (120,19);
+  \draw[line width=0.5pt] (a1.north) -- (91,19);
+  \node[lbl,anchor=west] at (91.6,12.6) {A1 mantiene\\o 3.ª propuesta};
+  \end{scope}
+  % carril de callejón: aristas (ciclo 3, rojo)
+  \begin{scope}[ctres]
   \draw[arr] (t1) -- node[lbl,right=0.5pt]{0 opciones:\\callejón} (t4);
   \draw[arr] (t4) -- node[lbl,above=0.4pt]{explicación} (a3);
   \draw[arr] (a3) -- node[lbl,above=0.4pt]{lección} (t5);
   \draw[arr] (t5.north west) -- node[lbl,left=0.3pt,pos=0.5]{$\leq$3\\lecciones} (a1.south east);
   \draw[arr] (t5.north east) -- node[lbl,right=0.3pt,pos=0.5]{$\leq$3\\lecciones} (a2.south west);
-  \draw[arr] (a3.south) |- (29,-29) -- (29,-5.2);
-  \node[lbl] at (64,-29) {\textbf{salta} al turno $j$ y prohíbe ahí a un médico};
-  \node[cyc] at (64,-32.2) {CICLO 3: saltos ($\leq$30, como los 30 retrocesos de D2)};
+  \draw[arr] (a3.south) |- (29,-23.5) -- (29,0 |- orq.south);
+  \node[lbl] at (60,-23.5) {\textbf{salta} al turno $j$ y prohíbe ahí a un médico};
+  \node[cyc,anchor=west] at (93,-23.5) {CICLO 3: saltos ($\leq$30)};
+  \end{scope}
+  % parada (verde)
+  \begin{scope}[cpar]
   \draw[arr] (orq.south west) -- node[lbl,left=0.2pt,pos=0.4]{presupuesto\\agotado} (t7.north east);
   \draw[arr] (t7) -- node[lbl,right=0.3pt]{no cert.} (t6);
-  \draw[arr] (17,-5.2) |- (t6.east);
-  \node[lbl,anchor=west] at (17.6,-23) {\textbf{PARADA}\\$k{=}21$};
+  \draw[arr] (17,0 |- orq.south) |- (t6.east);
+  \node[lbl,anchor=west] at (17.6,-17.5) {\textbf{PARADA}\\$k{=}21$};
+  \end{scope}
 \end{tikzpicture}
 \end{center}
-\vspace{-8pt}
+\vspace{-15pt}
 
 \raggedcolumns
 \begin{multicols}{2}
 
 \section{1. Continuidad con D1 y D2, y desviaciones declaradas}
-\textbf{Igual que en D1 y D2:}
+\textbf{Qué se mantiene de D1 y D2:}
 \begin{itemize}[label=$\blacktriangleright$]
-    \item la tarea: horario semanal de 10 médicos en 21 turnos, salida JSON;
-    \item el juez: \texttt{verifier.py}, donde correcto $=$ 0 violaciones de HC1--HC6;
-    \item el modelo: \textbf{Llama-3.2-3B-Instruct} (4-bit, greedy), el mismo en los tres agentes.
+    \item la tarea: horario de 10 médicos en 21 turnos (7 días $\times$ 3), salida JSON;
+    \item el juez: \texttt{verifier.py}; correcto $=$ no viola ninguna regla dura (HC1--HC6);
+    \item el modelo: \textbf{Llama-3.2-3B-Instruct} (4-bit, greedy).
+    \item las entradas: 30 principales y 30 de estrés (de D2), más 30 difíciles.
 \end{itemize}
-\textbf{La misma falla:} la decisión voraz de D1 (F1), que en D2 reapareció \emph{dentro} de la elección. La decisión culpable queda varios turnos antes del callejón y el retroceso cronológico no llega a ella (\S6).
-\textbf{Sobre D2:} T1 y T7 son el código de D2 sin cambios. En modo D2 (azar de D2, sin A2 ni A3), el orquestador reproduce idénticos los 90 horarios de D2 al azar (\texttt{test\_continuity.py}).
-\textbf{Desviaciones:}
+\textbf{La falla que se ataca:} la elección voraz de D1 (F1): gastar temprano las horas y el descanso de los médicos deja el fin de semana imposible. En D2 siguió \emph{dentro} de la elección: una opción legal podía condenar la semana 2--12 turnos antes del callejón, y retroceder de a un turno no llega a esa \emph{decisión culpable}. D3 vuelve directo a ella.\par
+\textbf{Cómo se construye sobre D2:} D3 reutiliza el código de D2 (\texttt{stepwise\_solver.py}, sin cambios) para filtrar las opciones legales y para completar el horario cuando se acaba el presupuesto. Prueba: si se le quita lo nuevo y elige al azar como D2, entrega los mismos 90 horarios que D2 (\texttt{test\_continuity.py}).\par
+\textbf{Desviaciones respecto de D2:}
 \begin{itemize}[label=$\blacktriangleright$]
-    \item \textbf{Conjunto difícil:} un conjunto nuevo de 30 instancias con capacidad justa, definido por un criterio estructural, porque el principal está saturado.
-    \item \textbf{Decisiones de 1 token:} se elige por log-probabilidad, lo que equivale al trie greedy. La caché del prompt no es idéntica bit a bit.
-    \item \textbf{Presupuesto:} 30 saltos. Un salto deshace varias decisiones, así que hay un control de D2 con 300 retrocesos.
-    \item \textbf{Ajuste:} los prompts se ajustaron solo con 20 instancias de calibración.
-    \item \textbf{Corrección:} una revisión del código corrigió herramientas y medición antes de la corrida final.
+    \item \textbf{Conjunto difícil:} D2 ya resolvía 30/30 del principal: se agregaron 30 instancias con capacidad justa, elegidas por su estructura, no por resultados.
+    \item \textbf{Respuestas de 1 token:} el modelo responde siempre un número, el de mayor probabilidad; equivale a la decodificación restringida de D2.
+    \item \textbf{Presupuesto:} 30 saltos, como los 30 retrocesos de D2; como un salto deshace hasta 12 decisiones, también se compara con D2 al azar con 300.
+    \item \textbf{Ajuste de prompts:} con 20 instancias de calibración aparte, que no están entre las 90 evaluadas.
+    \item \textbf{Correcciones:} antes de la corrida final, una revisión del código arregló errores del sistema y de la medición.
 \end{itemize}
 
-\section{2. Cómo se evalúa (respuesta al comentario sobre D2)}
-\begin{tcolorbox}[colback=boxbg,colframe=boxframe,arc=1mm,boxrule=0.5pt,top=1pt,bottom=1pt,left=3pt,right=3pt]
-\textbf{Entradas:} 90 instancias fijas, certificadas factibles con CP-SAT al crearlas: principal (30, escala de D1), estrés (30, más bloqueos) y difícil (30, capacidad justa).
-\textbf{Juez:} \texttt{verifier.py}, independiente del sistema. Revisa HC1 (descanso $\geq$16\,h), HC2 (un turno por día), HC3 (dotación), HC4 (cuota de especialidad), HC5 (horas) y HC6 (bloqueos).
-\textbf{Criterio:} correcto $\Leftrightarrow$ 0 violaciones, con una corrida greedy por instancia.
-\textbf{El modelo, decisión por decisión:} desde la traza se reconstruye cada estado. CP-SAT (offline) dice si la decisión deja la semana con solución, y se compara con el azar en el mismo menú.
-\textbf{Controles sin LLM:} los mismos agentes al azar (5 semillas), los mismos agentes con reglas fijas, y D2 con 300 retrocesos.
-\end{tcolorbox}
+\section{2. Las herramientas T1--T7 (\texttt{src/tools.py})}
+Código sin LLM: calculan números sobre el horario parcial para los agentes.\par
+{\tabfont
+\begin{tabularx}{\linewidth}{@{}L{19mm}Y@{}}
+\toprule
+\textbf{T1} opciones viables & Opciones para $k$ que cumplen HC1--HC6 y el chequeo hacia adelante (lógica de D2), sin las prohibidas por saltos. \\
+\addlinespace[1pt]
+\textbf{T2} perfilar & Alertas vs.\ la mejor alternativa: R1 más especialistas sobre la cuota, R2 deja la mitad de opciones o menos, R3 más turnos sin margen. \\
+\addlinespace[1pt]
+\textbf{T3} sondear & Continuaciones viables a 2 turnos (propuesta y alternativa). \\
+\addlinespace[1pt]
+\textbf{T4} explicar callejón & Requisito que ya no se cubre, médicos que faltan y por qué, y las últimas 12 decisiones como candidatas a rehacer. \\
+\addlinespace[1pt]
+\textbf{T5} lecciones & Memoria verbal: dónde fue el callejón, a qué turno se volvió y a quién se prohibió. A1 y A2 leen las 3 últimas. \\
+\addlinespace[1pt]
+\textbf{T6} verificador & \texttt{verifier.py}, el juez de D1 y D2: violaciones de HC1--HC6 del horario final (correcto $=$ 0). \\
+\addlinespace[1pt]
+\textbf{T7} completar relajado & Sin presupuesto, completa relajando horas, descanso y luego bloqueos; elige A1 (lógica de D2). \\
+\bottomrule
+\end{tabularx}\par}
+{\notefont \textbf{HC1} descanso $\geq$16\,h, \textbf{HC2} 1 turno/día, \textbf{HC3} dotación, \textbf{HC4} cuota de especialidad, \textbf{HC5} horas, \textbf{HC6} bloqueos.\par}
 
 \section{3. Los tres agentes (prompts versionados en \texttt{prompts/})}
+Mismo modelo, prompts distintos; cada uno responde un solo número.\par
 {\tabfont
-\begin{tabular}{@{}p{10.5mm}p{29mm}p{14.5mm}p{31.5mm}@{}}
+\begin{tabularx}{\linewidth}{@{}L{17.5mm}YL{16.5mm}Y@{}}
 \toprule
-\textbf{Agente} & \textbf{Recibe} & \textbf{Decide} & \textbf{Para o traspasa} \\
+\textbf{Agente} & \textbf{Recibe} & \textbf{Responde} & \textbf{Luego} \\
 \midrule
-\textbf{A1 Asig\-nador} & estado (D2), menú barajado de opciones viables (T1), lecciones (T5) y el motivo de un rechazo & n.º de opción, o \texttt{0} = mantener & propuesta $\to$ T2. Sin alertas: se fija y pasa a $k{+}1$ \\
-\textbf{A2 Crítico} & propuesta frente a la mejor alternativa, con números de T2 & \texttt{1} acepta, \texttt{2} rechaza, \texttt{3} sondea (T3) & acepta: se fija. Rechaza: vuelve a A1 (máx.\ 2; la 3.ª se fija) \\
-\textbf{A3 Diag\-nosti\-cador} & de T4: causa del callejón, médicos del conflicto y las últimas 12 decisiones & n.º de la decisión que se rehace & deshace $j..k$, prohíbe en $j$ y deja una lección por plantilla (T5). Máx.\ 30 saltos \\
+\textbf{A1}\newline Asignador & estado, menú barajado (T1), lecciones (T5) y motivo del rechazo & n.º de opción;\newline \texttt{0} $=$ mantener & T2 la perfila; sin alertas, se fija \\
+\addlinespace[1.5pt]
+\textbf{A2}\newline Crítico & propuesta frente a la mejor alternativa, con números de T2 y T3 & \texttt{1} acepta\newline \texttt{2} rechaza\newline \texttt{3} sondea & acepta: se fija; rechaza: vuelve a A1 (máx.\ 2) \\
+\addlinespace[1.5pt]
+\textbf{A3}\newline Diagnosticador & de T4: causa, médicos en conflicto y últimas 12 decisiones & n.º de la decisión a rehacer ($j$) & deshace $j..k$, prohíbe un médico en $j$, lección a T5 (máx.\ 30) \\
 \bottomrule
-\end{tabular}\par}
-\textbf{Por qué se divide así:} A1 mira a lo ancho (todas las opciones, con poco dato). A2 mira a fondo una sola propuesta, porque para un modelo de 3B verificar con números es más fácil que generar. A3 es el único que mira hacia atrás, donde está la culpable; A1 y A2 solo ven el turno actual.
+\end{tabularx}\par}
+\textbf{Herramientas:} A2 puede llamar a T3 (sondear); A1 y A3 no llaman herramientas: reciben lo que el coordinador obtiene de T1, T4 y T5.\par
+\textbf{Por qué se divide así:} A1 mira a lo ancho; A2 revisa a fondo una propuesta (a un 3B le cuesta menos verificar que generar); A3 mira hacia atrás.
 
-\section{4. Técnicas de prompting (The Prompt Report): ablación}
-{\notefont Cada fila quita una sola técnica; ReAct y CRITIC son lo que hacen A3 y A2, así que para quitarlas se quita ese agente. Correc. $=$ correctos de 90; 0 saltos $=$ correctos sin ningún salto; Pas. $=$ pasadas del modelo por horario. Sin el Crítico, las decisiones deshechas por horario suben de 3.3 a 12.2.\par}
-{\tabfont
-\begin{tabular}{@{}p{28mm}p{9.5mm}p{20.5mm}rrr@{}}
-\toprule
-\textbf{Técnica} & \textbf{Agente} & \textbf{Falla que ataca} & \textbf{Correc.} & \textbf{0 saltos} & \textbf{Pas.} \\
-\midrule
-\multicolumn{3}{@{}l}{\textbf{Sistema completo}} & \textbf{90} & 78 & 77 \\
-$-$ A3: ReAct (observ.) & A3 & culpable lejana & \textbf{82} & 78 & 66 \\
-$-$ Few-shot (ICL) & todos & mala elección & \textbf{87} & 67 & 112 \\
-$-$ A2: CRITIC + Self-Ref. & A2, A1 & chequeo D2 ciego & \textbf{89} & 57 & 63 \\
-$-$ Memoria (Reflexion) & todos & repetir el gasto & 90 & 81 & 86 \\
-$-$ Ensamble de órdenes & A1 & sesgo de posición & 90 & 76 & 48 \\
-Rol + salida 1 token & todos & F3: esquema e IDs & \multicolumn{3}{l}{base (no se ablacionan)} \\
-\bottomrule
-\end{tabular}\par}
-
-\section{5. Resultados (mismas 90 instancias, mismo juez)}
-{\tabfont
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-\textbf{Estrategia} & \textbf{Princ.} & \textbf{Estrés} & \textbf{Difícil} & \textbf{Total} & \textbf{Pas.} \\
-\midrule
-Línea base: prompt directo (D1) & 0 & 0 & 0 & 0/90 & 1 \\
-Solución D2 & 30 & 28 & 22 & 80/90 & 26 \\
-\textbf{Sistema de agentes (D3)} & \textbf{30} & \textbf{30} & \textbf{30} & \textbf{90/90} & 77 \\
-\midrule
-\multicolumn{6}{@{}l}{\emph{Controles sin LLM (5 semillas: media)}} \\
-D2 al azar, 30 / 300 retrocesos & 29.8 & 27.4\,/\,28.2 & 24.6\,/\,27.0 & 81.8\,/\,85.0 & 0 \\
-Agentes al azar & 30 & 30 & 30 & 90.0 & 0 \\
-Agentes con reglas fijas & 29 & 25 & 20 & 74 & 0 \\
-\bottomrule
-\end{tabular}\par}
-\textbf{El modelo, decisión por decisión} (CP-SAT offline sobre las trazas, \texttt{oracle\_eval.py}):
-
-{\tabfont
-\begin{tabular}{@{}lccc@{}}
-\toprule
- & \textbf{Elección fatal}$^a$ & \textbf{Crítico}$^b$ & \textbf{Salto útil}$^c$ \\
-\midrule
-\textbf{Agentes con LLM} & 48\,\% $\to$ \textbf{27\,\%} & 47/52 & \textbf{100\,\%} \\
-\quad azar en el mismo menú / candidatos & 45\,\% & -- & 69\,\% \\
-\quad sin Crítico & 58\,\% & -- & 98\,\% \\
-\quad sin few-shot & 53\,\% $\to$ 35\,\% & 120/124 & 38\,\% \\
-\quad sin memoria & 48\,\% $\to$ 25\,\% & 49/59 & 70\,\% \\
-Agentes al azar (control) & 42\,\% $\to$ 37\,\% & 21/45 & 73\,\% \\
-\bottomrule
-\end{tabular}\par}
-{\notefont $^a$ En los estados donde la elección importa: Asignador solo $\to$ tras el Crítico. $^b$ Propuestas fatales rechazadas, de las que revisó (también rechaza muchas buenas: precisión 10\,\%). $^c$ Deshace la culpable y deja alguna opción con solución; retroceder 1 turno (D2) acierta el 18\,\%.\par}
-\textbf{Lectura:} el Asignador solo elige como el azar. El Crítico casi reduce a la mitad las elecciones fatales, y los saltos del Diagnosticador deshacen siempre la culpable. Sin ejemplos, el Crítico rechaza casi todo y los saltos útiles bajan a 38\,\%.
-
-\section{6. Análisis general de fallas (respuesta al comentario sobre D2)}
-Se analizaron \textbf{todas} las corridas con búsqueda: 77 configuraciones, 2\,310 horarios y \textbf{124 fallas}. Son D2 con 5 modelos, controles, agentes y ablaciones, todos con el mismo diagnóstico CP-SAT offline.
+\section{4. Cómo leer el grafo de agentes}
+Rectángulos: herramientas (código); cajas redondeadas: agentes (LLM). Cada color es un ciclo. Todo lo dirige el \textbf{coordinador de turnos} (gris), código que guarda el horario a medio armar y el turno $k$, y decide a quién le toca. Se llena de a un turno, del lunes AM ($k{=}1$) al domingo PM ($k{=}21$):
 \begin{itemize}[label=$\blacktriangleright$]
-    \item \textbf{Qué se rompe:} HC5 (73\,\%) y HC1 (24\,\%).
-    \item \textbf{Dónde:} la culpable queda \textbf{2--12 turnos antes} del callejón final (mediana 6), que cae de jueves a domingo (sábado: 80 de 124).
-    \item \textbf{Por qué no se ve:} en el turno culpable, solo el \textbf{48\,\%} de las opciones que dejaba pasar el chequeo de D2 tenía solución.
-    \item \textbf{Conflicto:} casi siempre horas, descanso y bloqueos (HC5 en 124/124, HC1 en 123, HC6 en 122).
-    \item \textbf{Cuándo:} falla el 7.8\,\% de los horarios con holgura de capacidad 0, y el 1.3\,\% con holgura $\geq$3.
-    \item \textbf{Agentes:} el sistema completo no falla nunca. En las 12 fallas de sus ablaciones, la culpable pasó porque \texttt{perfilar} no alertó (4), el Crítico la aceptó (3), se agotó la revisión (2) u otras causas (3).
-\end{itemize}
-\textbf{Caso de falla (ilustración):} \texttt{hard\_22} sin Diagnosticador.
-\begin{itemize}[label=$\blacktriangleright$]
-    \item La culpable es el martes en la tarde, 10 turnos antes del callejón.
-    \item Los 30 retrocesos no pasan del viernes, y el horario sale con 5 violaciones.
-    \item El sistema completo salta 2 veces al lunes en la noche y termina con 0 violaciones.
+    \item[\sw{cuno}] \textcolor{cuno}{\textbf{Ciclo 1, turno a turno:}} T1 da las opciones viables de $k$. Con 1 se fija sin LLM; con $\geq$2, A1 elige y T2 la perfila. Sin alertas, se fija y se pasa a $k{+}1$.
+    \item[\sw{cdos}] \textcolor{cdos}{\textbf{Ciclo 2, revisión:}} con alertas decide A2 (puede sondear con T3). Acepta: se fija. Rechaza: vuelve a A1 con el motivo (máx.\ 2; la 3.ª se fija).
+    \item[\sw{ctres}] \textcolor{ctres}{\textbf{Ciclo 3, callejón:}} con 0 opciones, T4 lo explica y A3 elige a qué turno $j$ volver: se deshace $j..k$, se prohíbe un médico en $j$ y T5 anota la lección.
+    \item[\sw{cpar}] \textcolor{cpar}{\textbf{Parada:}} 21 turnos fijados $=$ certificado. Con los 30 saltos gastados, T7 completa relajado (no certificado). T6 juzga ambos.
 \end{itemize}
 
+\section{5. Técnicas de prompting}
+\textbf{5a. Qué técnicas usa cada agente} (categorías de \emph{The Prompt Report})\par
+{\tabfont
+\begin{tabularx}{\linewidth}{@{}L{25mm}cccY@{}}
+\toprule
+\textbf{Técnica} (\emph{categoría}) & \textbf{A1} & \textbf{A2} & \textbf{A3} & \textbf{Falla que ataca} \\
+\midrule
+Role prompting\newline\emph{zero-shot} & $\checkmark$ & $\checkmark$ & $\checkmark$ & F3 de D1: en salidas largas el modelo inventaba IDs de médicos y rompía el JSON. \\
+\addlinespace[1pt]
+Salida 1 token\newline\emph{answer engineering} & $\checkmark$ & $\checkmark$ & $\checkmark$ & F3: responde solo un número, así que no puede inventar IDs ni romper el JSON. \\
+\addlinespace[1pt]
+Few-shot\newline\emph{few-shot (ICL)} & $\checkmark$ & $\checkmark$ & $\checkmark$ & Elegir mal la opción o el salto; los ejemplos muestran casos ya resueltos. \\
+\addlinespace[1pt]
+CRITIC\newline\emph{agentes: tool use} & & $\checkmark$ & & El chequeo de D2 deja pasar opciones legales que ya condenan la semana. \\
+\addlinespace[1pt]
+Self-Refine\newline\emph{self-criticism} & $\checkmark$ & & & La misma: A1 rehace su propuesta con el motivo del rechazo de A2. \\
+\addlinespace[1pt]
+ReAct\newline\emph{agentes: observación} & & & $\checkmark$ & F1: la decisión culpable está 2--12 turnos atrás y retroceder 1, como D2, no llega. \\
+\addlinespace[1pt]
+Reflexion\newline\emph{agentes: observación} & $\checkmark$ & $\checkmark$ & $\checkmark$ & Repetir, después de un salto, el mismo gasto que causó el callejón. \\
+\addlinespace[1pt]
+Ensamble\newline\emph{ensembling} & $\checkmark$ & & & Sesgo de posición: D2 elegía los primeros candidatos el 33\,\% de las veces (azar: 17\,\%). \\
+\bottomrule
+\end{tabularx}\par}
+\textbf{5b. Qué pasa al quitar cada técnica} (mismas 90 instancias)\par
+{\fontsize{6.3}{7.2}\selectfont\setlength{\tabcolsep}{2.2pt}
+\begin{tabularx}{\linewidth}{@{}L{17mm}>{\centering\arraybackslash}p{12.8mm}>{\centering\arraybackslash}p{10.5mm}>{\centering\arraybackslash}p{12.5mm}Y@{}}
+\toprule
+\textbf{Sistema} & \textbf{Correctos} & \textbf{Sin\newline callejón} & \textbf{Llamadas al LLM} & \textbf{Qué aporta y por qué} \\
+\midrule
+Línea base & 0 & -- & 1 & \\
+Solución D2 & 80 & 42 & 26 & \\
+\textbf{D3 completo} & \textbf{90} & \textbf{78} & \textbf{77} & \\
+\midrule
+$-$ ReAct (sin A3) & 82 ($-$8) & 78 (=) & 66 & \textbf{Clave:} sin A3 se retrocede 1 turno, como D2: vuelve F1. \\
+\addlinespace[1pt]
+$-$ Few-shot & 87 ($-$3) & 67 ($-$11) & 112 & \textbf{Ayuda:} sin ejemplos, +11 callejones y +45\,\% llamadas. \\
+\addlinespace[1pt]
+$-$ CRITIC+ Self-Refine & 89 ($-$1) & 57 ($-$21) & 63 & \textbf{Ayuda:} A2 frena malas elecciones; sin él, +21 callejones. \\
+\addlinespace[1pt]
+$-$ Reflexion & 90 (=) & 81 (+3) & 86 & \textbf{Mejora saltos:} sin lecciones, sirve el 70\,\% de los saltos (no el 100\,\%). \\
+\addlinespace[1pt]
+$-$ Ensamble & 90 (=) & 76 ($-$2) & 48 & \textbf{No aporta:} casi igual, pero cuesta 60\,\% más llamadas. \\
+\bottomrule
+\end{tabularx}\par}
+{\notefont Rol y salida de 1 token son la base: sin ellas, es la línea base (0/90).\par}
+
+\section{6. Resultados (mismas 90 instancias, mismo juez)}
+Horarios correctos según \texttt{verifier.py}. Abajo, \emph{controles}: el mismo sistema con el LLM reemplazado por azar (promedio de 5 corridas) o por reglas fijas.\par
+{\tabfont
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Sistema} & \textbf{Princ.} & \textbf{Estrés} & \textbf{Difícil} & \textbf{Total} \\
+\midrule
+Línea base: prompt directo (D1) & 0 & 0 & 0 & 0/90 \\
+Solución D2 & 30 & 28 & 22 & 80/90 \\
+\textbf{Sistema de agentes (D3)} & \textbf{30} & \textbf{30} & \textbf{30} & \textbf{90/90} \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Controles: el LLM se reemplaza por azar o por reglas}} \\
+C1. D2 eligiendo al azar & 29.8 & 27.4 & 24.6 & 81.8 \\
+C2. D2 al azar con 300 retrocesos & 29.8 & 28.2 & 27.0 & 85.0 \\
+C3. D3 con agentes al azar & 30 & 30 & 30 & 90.0 \\
+C4. D3 con reglas fijas & 29 & 25 & 20 & 74 \\
+\bottomrule
+\end{tabular}\par}
+\begin{itemize}[label=$\blacktriangleright$]
+    \item D3 resuelve los 90 horarios; D2, 80; la línea base, 0. D3 gana en estrés y difícil (30 y 30, contra 28 y 22).
+    \item D2 sin LLM da casi lo mismo (C1: 81.8), y ni con 10 veces más retrocesos alcanza a D3 (C2: 85).
+    \item D3 con agentes al azar también llega a 90 (C3): el total lo da la estructura de D3; el LLM aporta menos callejones (5b).
+    \item Con reglas fijas (C4) baja a 74: saltan a la decisión equivocada.
+\end{itemize}
 \section{7. Límites y reproducción}
-\textbf{Límites:}
-\begin{itemize}[label=$\blacktriangleright$]
-    \item Los agentes al azar también llegan a 90/90: buena parte de la mejora viene de la división en agentes y sus herramientas. El LLM aporta eficiencia: 78 horarios resueltos sin saltar, contra 65.6 del azar, y un Diagnosticador mejor que el azar.
-    \item Con N\,=\,90, diferencias de 1--3 instancias pueden ser ruido.
-\end{itemize}
+\textbf{Límites} (lo que este trabajo no demuestra): el 90/90 no se debe al LLM: con agentes al azar (C3) también se llega. El LLM aporta menos callejones y mejores saltos (A3 arregló los 27 callejones; al azar, 69\,\%; \texttt{oracle\_eval.py}). Con 90 instancias, diferencias de 1 a 3 horarios pueden ser azar.\par
 \textbf{Reproducción:} los pasos del video están en \texttt{video/}; las corridas, trazas y tablas, en \texttt{results/}; y el paso a paso, en el README.
 
 \end{multicols}

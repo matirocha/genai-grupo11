@@ -2,7 +2,7 @@
 """
 Pruebas de continuidad de Deliverable 3 (CPU, sin modelo)
 ---------------------------------------------------------
-1. El orquestador de agentes "en modo D2" (mismo azar secuencial que la política aleatoria de D2, sin Crítico y sin
+1. El coordinador de turnos "en modo D2" (mismo azar secuencial que la política aleatoria de D2, sin Crítico y sin
    Diagnosticador) reproduce EXACTAMENTE los horarios y retrocesos guardados en results/<conjunto>/no_llm/random:
    el sistema de agentes está construido sobre la solución de D2, no al lado de ella.
 2. El verificador acepta un horario correcto (el de la corrida guardada) y detecta una perturbación de cada tipo
@@ -19,7 +19,7 @@ import sys
 
 from agents import Config
 from instances import BASE_DIR, list_instances, load_instance
-from orchestrator import ABLATIONS, run_agents
+from coordinator import ABLATIONS, run_agents
 from verifier import ScheduleVerifier
 
 

@@ -108,7 +108,7 @@ def main():
     hf_logging.disable_progress_bar()
     from agents import Config
     from llm import LLM
-    from orchestrator import ABLATIONS, run_agents
+    from coordinator import ABLATIONS, run_agents
 
     t0 = time.time()
     llm = LLM()

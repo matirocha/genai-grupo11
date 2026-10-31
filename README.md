@@ -75,7 +75,7 @@ python src/oracle_eval.py --runs "*/llama-3.2-3b/agents,*/llama-3.2-3b/agents_si
 python src/failure_analysis.py
 python src/test_continuity.py
 ```
-`evaluate.py` se salta las instancias que ya tienen resultado. Para volver a ejecutarlas hay que mover o borrar la carpeta correspondiente de `results/`. Cada resultado queda en `results/<conjunto>/<modelo>/<estrategia>/<instancia>.json`, y su traza en `results/traces/<conjunto>/<modelo>/<estrategia>/<instancia>.jsonl`.
+`evaluate.py` se salta las instancias que ya tienen resultado. Para volver a ejecutarlas hay que mover o borrar la carpeta correspondiente de `results/`. Cada resultado queda en `results/<conjunto>/<modelo>/<estrategia>/<instancia>.json`, y su traza en `results/traces/<conjunto>/<modelo>/<estrategia>/<instancia>.jsonl`. En las trazas ya guardadas (y en las de `results/demo/`), el coordinador de turnos aparece con su nombre anterior, `Orquestador`.
 
 ## 3. Continuidad con Deliverable 1 y 2, y desviaciones declaradas
 
@@ -92,7 +92,7 @@ python src/test_continuity.py
 **Construido sobre D2:**
 - La herramienta T1 es el estado, el filtro legal y el chequeo hacia adelante de D2 (`src/stepwise_solver.py`, sin cambios).
 - T7 es el completado relajado de D2.
-- Con la elección al azar de D2, sin Crítico y con retroceso cronológico, el orquestador reproduce idénticos los 90 horarios y retrocesos de la política al azar de D2 (`python src/test_continuity.py`).
+- Con la elección al azar de D2, sin Crítico y con retroceso cronológico, el coordinador de turnos reproduce idénticos los 90 horarios y retrocesos de la política al azar de D2 (`python src/test_continuity.py`).
 
 **Desviaciones declaradas:**
 1. **Conjunto difícil** (`data/instances_hard/`, 30 instancias, semillas 9000+). El principal está saturado: D2 ya hace 30/30. El conjunto se definió con criterios estructurales: capacidad total = demanda + 0..2, Urgencia = cuota + 0..2 y 1–2 bloqueos extra. Cada instancia está certificada factible y ninguna se eligió según el resultado de un método. La línea base y D2 se corrieron en él igual que en los otros.
@@ -112,7 +112,7 @@ python src/test_continuity.py
 
 ## 4. El sistema de agentes
 
-Tres agentes, el mismo modelo, cada uno con su prompt en [`prompts/`](prompts/). El orquestador (`src/orchestrator.py`) es código, no un agente: lleva el estado y enruta el trabajo según lo que decide cada agente. Cada decisión es una etiqueta de un menú numerado, con salida restringida a 1 token.
+Tres agentes, el mismo modelo, cada uno con su prompt en [`prompts/`](prompts/). El coordinador de turnos (`src/coordinator.py`) es código, no un agente: lleva el estado y enruta el trabajo según lo que decide cada agente. Cada decisión es una etiqueta de un menú numerado, con salida restringida a 1 token.
 
 | Agente | Rol | Recibe | Decide | Herramientas | Para o traspasa |
 |---|---|---|---|---|---|
@@ -136,7 +136,7 @@ Tres agentes, el mismo modelo, cada uno con su prompt en [`prompts/`](prompts/).
 
 ```mermaid
 flowchart LR
-  I[Instancia] -->|instancia JSON| O{{Orquestador: estado, turno k}}
+  I[Instancia] -->|instancia JSON| O{{Coordinador de turnos: estado, turno k}}
   O -->|turno k| T1[T1 opciones viables - D2]
   T1 -->|1 opción: fijar sin LLM| O
   T1 -->|2 o más: estado + menú barajado| A1((A1 Asignador))
@@ -341,7 +341,7 @@ Hay 124 fallas, y casi todas comparten el mismo mecanismo:
 │   ├── agent_core.py        # prompts versionados (Prompt) y trazas (Trace)
 │   ├── tools.py             # herramientas T1–T5
 │   ├── agents.py            # Asignador, Crítico y Diagnosticador (+ políticas de control azar/reglas)
-│   ├── orchestrator.py      # el sistema de agentes y sus ablaciones
+│   ├── coordinator.py       # el sistema de agentes y sus ablaciones
 │   ├── evaluate.py          # corre estrategias sobre los conjuntos
 │   ├── report.py            # tablas de D3 (pasos 3 y 4 del video)
 │   ├── oracle_eval.py       # evaluación por decisión contra CP-SAT

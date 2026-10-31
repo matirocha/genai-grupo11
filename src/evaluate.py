@@ -34,7 +34,7 @@ from typing import Any, Dict, List
 from instances import BASE_DIR, instance_dir, list_instances, load_instance
 from verifier import ScheduleVerifier, VIOLATION_TYPES
 
-from orchestrator import ABLATIONS
+from coordinator import ABLATIONS
 
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 if hasattr(sys.stdout, "reconfigure"):
@@ -68,7 +68,7 @@ def run_strategy(strategy: str, llm, staff_data, demands, inst_id: str, run_dir:
     if strategy in ABLATIONS:
         from agent_core import Trace
         from agents import Config
-        from orchestrator import run_agents
+        from coordinator import run_agents
         trace = Trace()
         # el modo D2 usa la semilla de la política al azar de D2 (índice de la instancia), como `random`
         d2_seed = int(inst_id.split("_")[-1]) + 1000 * seed

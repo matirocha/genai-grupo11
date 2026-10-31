@@ -146,7 +146,7 @@ def analyze(runs: List[str]) -> Dict:
                         "violations_by_type": rec["verification"]["violations_by_type"]})
             tpath = os.path.join(RESULTS_DIR, "traces", inst_set, model, strategy, fn[:-5] + ".jsonl")
             if "culprit_step" in rep and os.path.exists(tpath):
-                from orchestrator import ABLATIONS
+                from coordinator import ABLATIONS
                 has_critic = ABLATIONS.get(re.sub(r"_s\d+$", "", strategy), {}).get("critic", True)
                 with open(tpath, encoding="utf-8") as f:
                     rep["eslabon"] = attribute([json.loads(x) for x in f if x.strip()], rep["culprit_step"],

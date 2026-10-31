@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Sistema de agentes de Deliverable 3: orquestador
-------------------------------------------------
-El orquestador es código, NO es un agente: lleva el estado (como en D2), llama a las herramientas y enruta el
+Sistema de agentes de Deliverable 3: coordinador de turnos
+---------------------------------------------------------
+El coordinador de turnos es código, NO es un agente: lleva el estado (como en D2), llama a las herramientas y enruta el
 trabajo según lo que deciden los agentes. Las decisiones de control las toman los agentes:
 
   turno k ──T1 opciones_viables──► 0 opciones ──T4 explicar_callejon──► Diagnosticador ──► saltar al turno j
@@ -18,8 +18,8 @@ deshicieron y se compara con D2 al azar con 300 retrocesos). En ese caso se comp
 se marca NO certificado. No hay tope de pasadas del modelo: el costo se reporta, no corta corridas.
 
 Uso:
-    python src/orchestrator.py --set hard --instance hard_09
-    python src/orchestrator.py --set stress --instance stress_04 --strategy agents_sin_critico
+    python src/coordinator.py --set hard --instance hard_09
+    python src/coordinator.py --set stress --instance stress_04 --strategy agents_sin_critico
 """
 
 import argparse
@@ -76,7 +76,7 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
     def passes():
         return (llm.calls - calls0) if llm else 0
 
-    trace.log("Orquestador", "-", "inicio", {"instancia": inst_id, "config": cfg.__dict__,
+    trace.log("Coordinador", "-", "inicio", {"instancia": inst_id, "config": cfg.__dict__,
                                               "prompts": {a.name: a.prompt.info() for a in (a1, a2, a3)}})
     k, exhausted = 0, False
     while k < n:
@@ -89,7 +89,7 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
             if k == 0 or stats["backtracks"] >= max_jumps or (max_passes is not None and passes() >= max_passes):
                 exhausted = True
                 stats["stop"] = "k0" if k == 0 else ("saltos" if stats["backtracks"] >= max_jumps else "pasadas")
-                trace.log("Orquestador", "-", "presupuesto agotado",
+                trace.log("Coordinador", "-", "presupuesto agotado",
                           {"saltos": stats["backtracks"], "pasadas": passes(), "motivo": stats["stop"]})
                 break
             # T4 es una herramienta (sin LLM): siempre explica el callejón. La usa el Diagnosticador para decidir y,
@@ -104,14 +104,14 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
                           estado=snapshot(st), pasos=pasos, medicos=[c["medico"] for c in expl["candidatos"]])
                 cand, info = a3.decide(expl, lessons.recent(), stats["dead_ends"])
             else:   # ablación: sin Diagnosticador, el retroceso cronológico de D2 (la lección se escribe igual)
-                trace.log("explicar_callejon", "Orquestador", "callejón",
+                trace.log("explicar_callejon", "Coordinador", "callejón",
                           {"paso": k, "turno": p.slot_name(k), "causa": expl["causa"]},
                           estado=snapshot(st), pasos=pasos, medicos=[c["medico"] for c in expl["candidatos"]])
                 cand, info = None, {"politica": "anterior"}
             target = cand or {"paso": k - 1, "turno": p.slot_name(k - 1), "asignados": list(st.assign[k - 1]),
                               "medico": None, "causa": None}
             j = target["paso"]
-            trace.log("Diagnosticador" if cfg.diag else "Orquestador", "Orquestador", "salto" if cand else "retroceso",
+            trace.log("Diagnosticador" if cfg.diag else "Coordinador", "Coordinador", "salto" if cand else "retroceso",
                       {"a": p.slot_name(j), "paso": j, "prohibir": target["medico"], "rehace": target["asignados"],
                        **{x: v for x, v in info.items() if x != "observacion"}},
                       observacion=info.get("observacion"))
@@ -134,7 +134,7 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
                     stats["nogood_relaxed"] += 1
             if cfg.memory:
                 lessons.write(expl, target, applied)
-                trace.log("Diagnosticador" if cfg.diag else "Orquestador", "lecciones", "escribe", lessons.items[-1])
+                trace.log("Diagnosticador" if cfg.diag else "Coordinador", "lecciones", "escribe", lessons.items[-1])
             stats["backtracks"] += 1
             stats["undone"] += k - j
             stats["jumps"].append({"desde": k, "hasta": j, "medico": target["medico"] if applied else None,
@@ -148,7 +148,7 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
         elif len(menu) == 1:
             choice = menu[0]
             stats["skipped_single"] += 1
-            trace.log("opciones_viables", "Orquestador", "única opción", {"paso": k, "turno": p.slot_name(k),
+            trace.log("opciones_viables", "Coordinador", "única opción", {"paso": k, "turno": p.slot_name(k),
                                                                            "opcion": list(choice)})
         else:
             choice = assign_step(st, k, menu, a1, a2, cfg, lessons.recent(), visits[k], stats, trace)
@@ -180,12 +180,12 @@ def run_agents(staff_data, demands, llm, cfg: Config, inst_id: str = "?", trace:
             stats["decisions"] += 1
             stats["relaxed_steps"] += 1
             st.apply(kk, choice)
-            trace.log("Asignador", "Orquestador", "modo relajado", {"paso": kk, "turno": p.slot_name(kk),
+            trace.log("Asignador", "Coordinador", "modo relajado", {"paso": kk, "turno": p.slot_name(kk),
                                                                     "opcion": list(choice)})
     stats["seconds"] = round(time.time() - t0, 1)
     stats["llm_calls"] = passes()
     stats["agent_calls"] = {a.name: a.calls for a in (a1, a2, a3)}
-    trace.log("Orquestador", "verificador", "horario final", {"certificado": certified,
+    trace.log("Coordinador", "verificador", "horario final", {"certificado": certified,
                                                               "saltos": stats["backtracks"],
                                                               "pasadas_modelo": stats["llm_calls"]})
     return {"schedule": st.schedule(), "certified": certified, **stats,
@@ -201,9 +201,9 @@ def assign_step(st: State, k: int, menu: List[Option], a1: Asignador, a2: Critic
         choice, info = a1.choose(st, k, menu, lessons, visit * 10 + round_, feedback, rejected)
         if choice is None:                      # mantener la propuesta rechazada
             stats["keeps"] += 1
-            trace.log("Asignador", "Orquestador", "mantiene", {"paso": k, "opcion": list(rejected)})
+            trace.log("Asignador", "Coordinador", "mantiene", {"paso": k, "opcion": list(rejected)})
             return rejected
-        trace.log("Asignador", "perfilar" if cfg.critic else "Orquestador", "propuesta",
+        trace.log("Asignador", "perfilar" if cfg.critic else "Coordinador", "propuesta",
                   {"paso": k, "turno": p.slot_name(k), "opcion": list(choice), "menu": len(menu),
                    **{x: v for x, v in info.items() if x != "observacion"}},
                   estado=snapshot(st), opciones=[list(o) for o in menu], ronda=round_,
@@ -229,7 +229,7 @@ def assign_step(st: State, k: int, menu: List[Option], a1: Asignador, a2: Critic
             probe = sondear(st, k, choice, alt)
             trace.log("sondear", "Crítico", "resultado", {"paso": k, **probe})
             verdict, cinfo = a2.decide(st, k, report, probe, lessons, visit * 10 + round_)
-        trace.log("Crítico", "Orquestador" if verdict == ACCEPT else "Asignador", verdict,
+        trace.log("Crítico", "Coordinador" if verdict == ACCEPT else "Asignador", verdict,
                   {"paso": k, **{x: v for x, v in cinfo.items() if x != "observacion"}},
                   observacion=cinfo.get("observacion"))
         if verdict == ACCEPT:

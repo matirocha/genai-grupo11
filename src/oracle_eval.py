@@ -111,7 +111,9 @@ def eval_instance(inst_set: str, inst_id: str, events: List[Dict]) -> Dict:
             out["a2"].append({"k": last_prop["k"], "rechaza": ev["tipo"] == "rechazar", "fatal": fatal})
         elif ev["de"] == "explicar_callejon" or ev["tipo"] == "callejón":
             last_expl = ev
-        elif ev["de"] in ("Diagnosticador", "Orquestador") and ev["tipo"] in ("salto", "retroceso") and last_expl:
+        # "Orquestador": nombre del coordinador en las trazas guardadas antes del cambio de nombre
+        elif ev["de"] in ("Diagnosticador", "Coordinador", "Orquestador") and ev["tipo"] in ("salto", "retroceso") \
+                and last_expl:
             prefix = {k: ids for k, ids in last_expl["estado"]}
             k = last_expl["contenido"]["paso"]
             culprit = None
