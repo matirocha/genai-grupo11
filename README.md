@@ -6,7 +6,7 @@
 - 🎥 **Video (≤3 min):** [VIDEO_LINK](VIDEO_LINK)
 - 📄 **Documento técnico (1 página, LaTeX):** [`deliverable3/Deliverable 3 Grupo 11.pdf`](deliverable3/Deliverable%203%20Grupo%2011.pdf) · fuente [`deliverable3/deliverable3.tex`](deliverable3/deliverable3.tex) (se compila con `pdflatex -jobname="Deliverable 3 Grupo 11" deliverable3.tex` dentro de `deliverable3/`)
 - 🧩 **Prompts de los agentes (versionados, fuera del código):** [`prompts/`](prompts/)
-- 📁 Entregas anteriores: [`deliverable1/`](deliverable1/) · [`deliverable2/`](deliverable2/) (README de D2 en [`deliverable2/README.md`](deliverable2/README.md))
+- 📁 Entregas anteriores: [`deliverable1/`](deliverable1/) · [`deliverable2/`](deliverable2/)
 
 ---
 
@@ -29,6 +29,7 @@ Mismas 90 instancias y mismo verificador para todas las filas. Correcto = 0 viol
 - **Le siguen los ejemplos (few-shot) y el Crítico.** Sin ejemplos el sistema queda en 87/90 y usa 44 % más pasadas. Sin el Crítico queda en 89/90, pero necesita casi 4 veces más saltos y deshace 12 decisiones por horario en vez de 3. La memoria (Reflexion) y el ensamble no cambian el resultado.
 - **Lo que logra el andamiaje por sí solo:** los controles sin LLM ponen esto en contexto. Los mismos agentes eligiendo **al azar** también llegan a 90/90, con más saltos. D2 eligiendo al azar con 10 veces más presupuesto (300 retrocesos) llega a 85/90 de media, y los mismos agentes con reglas fijas, a 74/90.
 - **Dónde aporta el modelo:** la evaluación por decisión con CP-SAT (§7) muestra que el Diagnosticador elige saltos útiles más que el azar. El Asignador solo, en cambio, no es mejor que el azar: la mejora viene de dividir el trabajo y de las herramientas tanto como del modelo.
+- **Por qué D3 tarda menos con más pasadas:** cada llamada de D1 y D2 *genera* texto (`generate()`). D1 escribe el horario entero en JSON (~350 tokens) y D2 escribe una pareja de médicos por turno (unos 10 tokens), procesando cada vez el prompt completo. Cada pasada de D3 es una sola pasada hacia adelante (`score()`) que lee la probabilidad de etiquetas de 1 token y reutiliza en caché el prompt de sistema. Por eso el tiempo de D3 crece casi en proporción a las pasadas (sin ensamble: 48 pasadas, 5 s). Los segundos son el tiempo real medio por horario, sin la carga del modelo.
 
 Modelo de los tres agentes: **meta-llama/Llama-3.2-3B-Instruct** (3.21B parámetros, revisión `0cb88a4f764b7a12671c53f0838cd831a0843b95`). Es el mismo de D2: 4-bit NF4, decodificación greedy, RTX 5060 8 GB.
 
@@ -220,7 +221,8 @@ Llama-3.2-3B, 4-bit NF4, greedy, RTX 5060. Cada número sale de los JSON de `res
 **Columnas:**
 - *Saltos*: retrocesos (D2) o saltos (agentes) por horario.
 - *Deshechas*: decisiones deshechas por horario.
-- *Pasadas LLM*: pasadas del modelo por horario.
+- *Pasadas LLM*: llamadas al modelo por horario. En D1 y D2 cada una genera texto (varios tokens); en los agentes cada una es una sola pasada hacia adelante que puntúa etiquetas de 1 token.
+- *Seg.*: tiempo real medio por horario en la RTX 5060, sin contar la carga del modelo. Una pasada de los agentes cuesta mucho menos que una llamada de D2 (ver §1).
 - En los controles al azar se muestra la media de 5 semillas, con el rango entre paréntesis.
 
 ### 7.1 Horarios correctos por conjunto
