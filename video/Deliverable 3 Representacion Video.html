@@ -469,19 +469,43 @@ body.offline .nosrv{display:block}
 .stk .sk.ok{background:var(--green)}.stk .sk.am{background:var(--amber);opacity:.75}
 .crt .facts{margin-top:0}
 .hbs{display:grid;gap:8px;margin-bottom:12px}
-.hbs.sm{gap:5px}
 .hb{display:grid;grid-template-columns:230px 1fr 78px;gap:12px;align-items:center;font-size:13px;color:var(--ink-2)}
 .hb>i{display:block;height:22px;background:var(--card);border-radius:5px;overflow:hidden}
-.hbs.sm .hb>i{height:19px}
 .hb>i>i{display:block;height:100%;width:0;background:var(--slate-2);border-radius:5px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
-.hb.good>i>i{background:var(--green)}.hb.bad>i>i{background:var(--crimson)}.hb.ctl>i>i{background:var(--slate-2);opacity:.45}
-.hb.ctl{color:var(--slate)}
+.hb.good>i>i{background:var(--green)}.hb.bad>i>i{background:var(--crimson)}
 .hb>b{font:600 15px var(--mono);text-align:right;white-space:nowrap}
 .hb.good>b{color:var(--green)}.hb.bad>b{color:var(--crimson)}
 .hb>b em{font-style:normal;font-size:12px;color:var(--crimson);margin-left:3px}
 #w1e{margin-top:0}
 #dgcap{margin-top:5px;min-height:18px}
 #dgcap b{color:var(--ink)}
+.cps{display:grid;gap:9px}
+.cpr h4{margin-bottom:5px;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--ink-2)}
+.cpr .strip{margin-top:0}
+.cpbox{background:var(--ink);color:#fff;border-radius:14px;padding:10px 16px;display:grid;grid-template-columns:190px 1fr;gap:14px;align-items:center}
+.cpbox b{display:block;font:600 22px var(--mono);color:var(--crimson-on-dark)}
+.cpbox span{font-size:12px;color:#C6CBD8}
+.cpbox ul{list-style:none;display:grid;gap:2px;font-size:12.5px;color:#E3E6EE}
+.cpbox li::before{content:"▸ ";color:var(--crimson-on-dark)}
+.ans{display:flex;gap:10px}
+.ans>span{border-radius:999px;padding:4px 14px;font-size:13px;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s}
+.ans>span.on{opacity:1;transform:none}
+.ans .an1{background:var(--green-soft);color:var(--green)} .ans .an2{background:var(--crimson-soft);color:var(--crimson-deep)}
+.cps .facts{margin-top:0}
+.cal{display:grid;grid-template-columns:230px 1fr;gap:16px;align-items:start}
+.menu{background:var(--card);border-radius:12px;padding:10px 14px 10px}
+.menu ol{list-style:none;display:grid;gap:4px;counter-reset:m}
+.menu li{counter-increment:m;display:grid;grid-template-columns:20px 1fr 22px;align-items:center;gap:6px;font:500 12.5px var(--mono);color:var(--ink-2);border-radius:6px;padding:3px 6px;transition:background .3s,box-shadow .3s}
+.menu li::before{content:counter(m) ".";color:var(--slate-2)}
+.menu li i{font-style:normal;font-weight:700;text-align:center;opacity:0;transition:opacity .3s}
+.menu li.ok i{opacity:1;color:var(--green)} .menu li.f i{opacity:1;color:var(--crimson)}
+.menu li.f{background:var(--crimson-soft)}
+.menu li.pick{box-shadow:0 0 0 2px var(--crimson)}
+.menu .tiny{margin-top:6px;min-height:36px}
+.rls{display:grid;gap:7px}
+.rl{background:var(--card);border-radius:9px;padding:8px 12px;display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:12.8px;line-height:1.38;color:var(--ink-2)}
+.rl b{font-size:13.5px;color:var(--ink)}
+.rl em{font-style:normal;font-weight:600;color:var(--crimson-deep)}
 .tks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tk{background:var(--card);border-radius:12px;padding:11px 15px 12px;min-height:110px}
 .tk>b{display:block;font:600 22px var(--mono);color:var(--crimson);letter-spacing:-.01em;margin-bottom:3px}
@@ -575,10 +599,35 @@ body.offline .nosrv{display:block}
         <div class="dr"><b>Asignador</b><span>% de elecciones <em>fatales</em> (después la semana ya no tiene solución), sola y tras el Crítico</span><span>el azar en el mismo menú</span></div>
         <div class="dr"><b>Crítico</b><span>propuestas fatales que rechaza y rechazos innecesarios</span><span>aceptar todo (sin Crítico)</span></div>
         <div class="dr"><b>Diagnosticador</b><span>% de saltos <em>útiles</em>: deshacen la decisión culpable</span><span>el azar y retroceder 1 turno (D2)</span></div>
-        <div class="dr"><b>Sistema</b><span>horarios correctos con los agentes reemplazados</span><span>azar o reglas fijas</span></div>
       </div></div>
-      <!-- 8 · resultado: Asignador -->
-      <div class="pv" data-v="8">
+      <!-- 8 · qué es CP-SAT -->
+      <div class="pv" data-v="8"><div class="cps">
+        <div class="cpr"><h4>1 · Recibe la semana hasta el turno k y la opción que se quiere calificar</h4><div class="strip" id="w1f"></div></div>
+        <div class="cpbox"><div><b>CP-SAT</b><span>solver de restricciones de Google OR-Tools</span></div>
+          <ul><li>una variable sí/no por médico y turno</li><li>las reglas HC1–HC6 como restricciones</li><li>los turnos ya decididos quedan fijos</li></ul></div>
+        <div class="cpr"><h4>2 · Responde: ¿se puede completar la semana sin violar ninguna regla?</h4>
+          <div class="ans"><span class="an1" id="ans1"><b>opción A</b> → ✓ sí: tiene solución</span><span class="an2" id="ans2"><b>opción B</b> → ✕ no: es <b>fatal</b></span></div></div>
+        <div class="facts"><span><b>✓</b>exacto: si dice que no hay solución, no la hay</span><span><b>✕</b>no es un LLM y no decide en el sistema</span><span><b>⏱</b>se usa después, offline, sobre las trazas</span></div>
+      </div></div>
+      <!-- 9 · cómo se califica cada decisión -->
+      <div class="pv" data-v="9"><div class="cal">
+        <div class="menu"><h4>Menú del turno k · ejemplo</h4><ol id="menu1">
+          <li><span>DOC_05 + DOC_08</span><i>✓</i></li>
+          <li><span>DOC_05 + DOC_10</span><i>✕</i></li>
+          <li><span>DOC_06 + DOC_08</span><i>✓</i></li>
+          <li><span>DOC_06 + DOC_09</span><i>✕</i></li>
+          <li><span>DOC_05 + DOC_07</span><i>✕</i></li>
+          <li><span>DOC_06 + DOC_07</span><i>✓</i></li>
+        </ol><p class="tiny" id="menucap">CP-SAT marca cada opción</p></div>
+        <div class="rls">
+          <div class="rl"><b>Asignador</b><span>¿eligió una opción ✕? Eso es una elección <em>fatal</em>. El azar en este menú elige fatal 3 de cada 6 veces (50 %).</span></div>
+          <div class="rl"><b>Crítico</b><span>rechazar una propuesta ✕ es un acierto; rechazar una ✓ es una falsa alarma.</span></div>
+          <div class="rl"><b>Diagnosticador</b><span>ante un callejón, el salto es <em>útil</em> si deshace la decisión culpable y la semana vuelve a tener solución.</span></div>
+          <p class="tiny">Solo cuentan los <b>estados que deciden</b>: menús que mezclan ✓ y ✕. Si todas son ✓ o todas ✕, da igual qué se elija.</p>
+        </div>
+      </div></div>
+      <!-- 10 · resultado: Asignador -->
+      <div class="pv" data-v="10">
         <div class="waf">
           <div class="wf" data-n="48"><b>Asignador solo</b><div class="g"></div><div class="pc">48 %</div><span>elige una opción fatal</span></div>
           <div class="wf" data-n="45"><b>Azar en el mismo menú</b><div class="g"></div><div class="pc">45 %</div><span>la referencia</span></div>
@@ -586,16 +635,16 @@ body.offline .nosrv{display:block}
         </div>
         <p class="tiny wcap"><i class="sw f"></i>fatal: después de esa decisión la semana ya no tiene solución · cada cuadro = 1 % de los <b>101</b> estados que deciden · <b>menos es mejor</b></p>
       </div>
-      <!-- 9 · resultado: Crítico -->
-      <div class="pv" data-v="9"><div class="crt">
+      <!-- 11 · resultado: Crítico -->
+      <div class="pv" data-v="11"><div class="crt">
         <div class="cr"><h4>Propuestas fatales que revisó: 52</h4><div class="bul" id="bul"></div>
           <div class="lgd"><span><i class="sw ok"></i>47 interceptadas (90 %)</span><span><i class="sw f"></i>5 se le escaparon</span></div></div>
         <div class="cr"><h4>Sus 488 rechazos</h4><div class="stk"><i class="sk ok" data-w="9.6"></i><i class="sk am" data-w="90.4"></i></div>
           <div class="lgd"><span><i class="sw ok"></i>47 eran fatales</span><span><i class="sw am"></i>441 falsas alarmas: baratas, A1 propone otra</span></div></div>
         <div class="facts"><span><b>58 %</b>elecciones fatales si se quita el Crítico</span><span><b style="color:var(--green)">27 %</b>con el Crítico</span></div>
       </div></div>
-      <!-- 10 · resultado: Diagnosticador -->
-      <div class="pv" data-v="10">
+      <!-- 12 · resultado: Diagnosticador -->
+      <div class="pv" data-v="12">
         <h4>Saltos útiles en los 27 callejones del sistema completo · más es mejor</h4>
         <div class="hbs">
           <div class="hb good" data-w="100"><span>Diagnosticador (A3)</span><i><i></i></i><b>100 %</b></div>
@@ -605,27 +654,6 @@ body.offline .nosrv{display:block}
         <div class="strip" id="w1e"></div>
         <p class="tiny" id="dgcap">esquema: callejón en el turno 15; la decisión culpable está en el 9</p>
       </div>
-      <!-- 11 · resultado: ablaciones y controles -->
-      <div class="pv" data-v="11">
-        <h4>Horarios correctos de 90 · mismo protocolo</h4>
-        <div class="hbs sm">
-          <div class="hb good" data-w="100"><span>Sistema completo</span><i><i></i></i><b>90</b></div>
-          <div class="hb bad" data-w="91.1"><span>sin Diagnosticador</span><i><i></i></i><b>82 <em>−8</em></b></div>
-          <div class="hb" data-w="96.7"><span>sin ejemplos (few-shot)</span><i><i></i></i><b>87 <em>−3</em></b></div>
-          <div class="hb" data-w="98.9"><span>sin Crítico</span><i><i></i></i><b>89 <em>−1</em></b></div>
-          <div class="hb" data-w="100"><span>sin memoria · sin ensamble</span><i><i></i></i><b>90</b></div>
-          <div class="hb ctl" data-w="100"><span>Control: agentes al azar</span><i><i></i></i><b>90</b></div>
-          <div class="hb ctl" data-w="82.2"><span>Control: agentes con reglas fijas</span><i><i></i></i><b>74</b></div>
-          <div class="hb ctl" data-w="88.9"><span>Solución D2</span><i><i></i></i><b>80</b></div>
-        </div>
-      </div>
-      <!-- 12 · interpretación -->
-      <div class="pv" data-v="12"><div class="tks">
-        <div class="tk"><b>90/90</b><span>incluso con agentes que eligen <b>al azar</b>: la división en agentes con herramientas es lo que vuelve resoluble el problema</span></div>
-        <div class="tk"><b>48 % → 27 %</b><span>el <b>Crítico</b> corrige al Asignador: menos decisiones que dejan la semana sin solución</span></div>
-        <div class="tk"><b>100 % vs 18 %</b><span>el <b>Diagnosticador</b> encuentra la decisión culpable; retroceder de a un turno casi nunca llega</span></div>
-        <div class="tk"><b>78 vs 65,6</b><span>de 90 horarios, cuántos salen bien <b>a la primera</b>, sin chocar con ningún callejón: con el <b>LLM</b>, 78; eligiendo <b>al azar</b>, 65,6 en promedio. El modelo comete menos errores en el camino</span></div>
-      </div><p class="tiny" style="margin-top:9px">El precio: 77 pasadas del LLM por horario, contra 26 de D2. Fuentes: <span class="mono">results/decision_eval.md</span> y la tabla del paso 3.</p></div>
     </div>
   </div>
   <div class="tover" style="top:164px"><button class="btn ghost x">Cerrar ✕</button><div class="term"><pre></pre><div class="ph">Pulsa <span><kbd>R</kbd> o ▶ Ejecutar</span>para correr el script y ver su salida aquí</div></div></div>
@@ -1311,7 +1339,7 @@ const S1=[
   {act:[],t:'Un solo protocolo, igual para todas las estrategias',
    p:'La línea base de D1, la solución de D2, el sistema de agentes y cada ablación reciben <b>las mismas entradas</b>, las juzga <b>el mismo verificador</b> y cuentan con <b>el mismo criterio</b>. Es lo que imprime <span class="mono">src/protocol.py</span>: su salida se ve con el botón <b>Terminal</b>.'},
   {act:['in'],tag:'1 · entradas',t:'Entradas: 90 instancias fijas',
-   p:'Tres conjuntos de 30. Todas tienen solución: CP-SAT las certifica al crearlas, pero no participa en ninguna estrategia. El conjunto <b>difícil</b> es nuevo en D3: la capacidad queda casi justa con la demanda, y ahí es donde D2 más falla (22/30).'},
+   p:'Tres conjuntos de 30. Todas tienen solución: CP-SAT (un solver exacto, ver paso 9) las certifica al crearlas, pero no participa en ninguna estrategia. El conjunto <b>difícil</b> es nuevo en D3: la capacidad queda casi justa con la demanda, y ahí es donde D2 más falla (22/30).'},
   {act:['st'],hops:[['in_st','instancia']],t:'Cada estrategia corre sobre las 90',
    p:'Las estrategias con LLM corren <b>una sola vez</b> por instancia, con decodificación greedy: el resultado es determinista. Los controles que eligen al azar se corren con 5 semillas y se reporta el promedio y el rango.'},
   {act:['out'],hops:[['st_out','horario']],t:'Lo que se evalúa es el horario final',
@@ -1323,22 +1351,22 @@ const S1=[
   {act:['res'],tag:'3 · métricas',t:'Métricas por estrategia y conjunto',
    p:'Además de los horarios correctos de 30, se reportan las violaciones medias, los saltos o retrocesos, las decisiones deshechas, las pasadas del LLM y los segundos por horario en una RTX 5060. Son las columnas de la tabla del paso 3.'},
   {act:['tr','cp'],hops:[['st_tr','decisiones'],['tr_cp','traza']],tag:'4 · por decisión',t:'Evaluación del modelo, decisión por decisión',
-   p:'Contar horarios correctos no dice si cada agente decide bien. Por eso, <b>offline y desde las trazas</b>, CP-SAT revisa cada decisión: si después de ella la semana todavía tiene solución. Así se compara cada agente con el azar en la misma situación.'},
+   p:'Contar horarios correctos no dice si cada agente decide bien. Por eso, <b>offline y desde las trazas</b>, se califica cada decisión de cada agente y se compara con lo que habría hecho el azar en la misma situación. El que califica es <b>CP-SAT</b>, que se explica en el paso siguiente.'},
+  {act:['cp'],tag:'4 · el calificador',t:'¿Qué es CP-SAT?',
+   p:'Es un <b>solver de programación con restricciones</b> de Google (OR-Tools). Se le describe la semana con una variable sí/no por médico y turno, las reglas HC1–HC6 como restricciones y los turnos ya decididos como fijos, y responde <b>con certeza</b> si existe una forma de completarla. <b>En palabras simples:</b> es un juez exacto que no adivina; no es un LLM y nunca decide dentro del sistema.'},
+  {act:['tr','cp'],tag:'4 · el calificador',t:'Cómo se califica cada decisión',
+   p:'Se reconstruye cada estado desde la traza y CP-SAT marca cada opción del menú: <b>✓ con solución</b> o <b>✕ fatal</b> (después de ella, la semana ya no se puede completar). Con esas marcas se califica lo que hizo cada agente. <b>En palabras simples:</b> como se sabe cuáles opciones eran buenas, se puede medir si el agente eligió bien y cuánto habría acertado el azar.'},
   {act:['cp'],tag:'resultado · Asignador',t:'¿El Asignador elige bien por sí solo?',
    p:'En los <b>101 estados que deciden</b> (el menú mezcla opciones fatales y opciones con solución), el Asignador solo elige una fatal el <b>48 %</b> de las veces; el azar en el mismo menú, el 45 %. <b>En palabras simples:</b> solo, el Asignador no distingue mejor que una moneda. Su aporte aparece cuando el Crítico revisa su propuesta: las fatales bajan a <b>27 %</b>.'},
   {act:['cp'],tag:'resultado · Crítico',t:'El Crítico atrapa casi todas las propuestas fatales',
    p:'De las 52 propuestas fatales que le llegaron, rechazó <b>47 (90 %)</b>. A cambio da muchas falsas alarmas: de sus 488 rechazos, solo 47 eran fatales. <b>En palabras simples:</b> es un revisor desconfiado, y conviene que lo sea, porque un rechazo de más solo cuesta que el Asignador proponga otra opción. Sin Crítico, las fatales suben a 58 %.'},
   {act:['cp'],tag:'resultado · Diagnosticador',t:'El Diagnosticador vuelve a la decisión culpable',
    p:'En los 27 callejones del sistema completo, sus saltos fueron <b>útiles el 100 %</b> de las veces: deshicieron la decisión culpable. Elegir al azar entre los mismos candidatos acierta el 69 %, y retroceder un turno como D2, el 18 %. <b>En palabras simples:</b> la culpable suele estar varios turnos antes del callejón (mediana 6), y retroceder de a uno casi nunca llega.'},
-  {act:['cp','res'],tag:'resultado · ablaciones',t:'Qué se pierde al quitar cada pieza',
-   p:'Sin <b>Diagnosticador</b> se pierden 8 horarios (82/90); sin ejemplos, 3; sin Crítico, 1. Memoria y ensamble no cambian el total, aunque sí el costo. Los agentes eligiendo <b>al azar</b> también llegan a 90/90, pero con reglas fijas caen a 74/90. <b>En palabras simples:</b> la pieza que más pesa es el Diagnosticador.'},
-  {act:['res','cp'],tag:'interpretación',t:'Qué aporta el modelo',
-   p:'Los agentes llegan a 90/90, frente a 80/90 de D2 y 0/90 de D1. Como el azar dentro de la misma estructura también llega, el aporte del LLM no es <b>cuántos</b> horarios resuelve sino <b>cómo</b>: decide mejor donde critica y diagnostica, y busca menos (3,3 decisiones deshechas por horario contra 5,6 del azar).'}
 ];
-const W1=strip('#w1'),W1b=strip('#w1b'),W1c=strip('#w1c'),W1d=strip('#w1d'),W1e=strip('#w1e');
+const W1=strip('#w1'),W1b=strip('#w1b'),W1c=strip('#w1c'),W1d=strip('#w1d'),W1e=strip('#w1e'),W1f=strip('#w1f');
 $$('#p1 .wf .g').forEach(g=>{for(let i=0;i<100;i++)g.append(el('i'));});
 for(let i=0;i<52;i++)$('#bul').append(el('i'));
-$$('#p1 .wf,#p1 .cr,#p1 .tk').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.className===x.className||y.classList.contains(x.classList[0]));x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.12+'s');});
+$$('#p1 .wf,#p1 .cr,#p1 .rl').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.className===x.className||y.classList.contains(x.classList[0]));x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.12+'s');});
 $$('#p1 .set').forEach(st=>{const d=$('.dots',st);for(let i=0;i<30;i++)d.append(el('i'));});
 $$('#p1 .ovc,#p1 .set,#p1 .mt,#p1 .dr,#p1 .dh').forEach(x=>{const sib=[...x.parentNode.children].filter(y=>y.tagName===x.tagName);x.classList.add('rz');x.style.setProperty('--d',sib.indexOf(x)*.09+'s');});
 $$('#p1 .sr').forEach((x,i)=>{x.classList.add('rz');x.style.setProperty('--d',i*.12+'s');$('.pb i',x).style.setProperty('--d',(.25+i*.12)+'s');});
@@ -1373,20 +1401,31 @@ function vis1(n,anim){
   }
   /* barras: se vacían y se llenan hasta data-w */
   const bars=(sel,d0)=>$$(sel).forEach((b,i)=>{const t=b.matches('.sk')?b:$('i>i',b);t.style.width='0';run(d0+i*160,()=>t.style.width=b.dataset.w+'%');});
-  if(n===8)$$('#p1 .wf').forEach((w,wi)=>{const k=+w.dataset.n;$$('.g i',w).forEach((c,i)=>{c.classList.remove('f');if(i<k)run(300+wi*350+i*14,()=>c.classList.add('f'));});});
+  if(n===8){
+    const a1=$('#ans1'),a2=$('#ans2');a1.classList.remove('on');a2.classList.remove('on');
+    paintStrip(W1f,k=>k<9?'f':k===9?'prop cur':'');
+    run(900,()=>a1.classList.add('on'));
+    run(1700,()=>{setSc(W1f[8],'rej cur shk',9);a2.classList.add('on');});
+  }
   if(n===9){
+    const li=$$('#menu1 li'),cap=$('#menucap');
+    li.forEach(x=>x.classList.remove('ok','f','pick'));cap.textContent='CP-SAT marca cada opción';
+    li.forEach((x,i)=>run(300+i*260,()=>x.classList.add($('i',x).textContent==='✓'?'ok':'f')));
+    run(300+6*260+500,()=>{li[1].classList.add('pick');cap.innerHTML='si el Asignador elige la 2, eligió una opción <b>fatal</b>';});
+  }
+  if(n===10)$$('#p1 .wf').forEach((w,wi)=>{const k=+w.dataset.n;$$('.g i',w).forEach((c,i)=>{c.classList.remove('f');if(i<k)run(300+wi*350+i*14,()=>c.classList.add('f'));});});
+  if(n===11){
     $$('#bul i').forEach((c,i)=>{c.className='';run(200+i*28,()=>c.className=i<47?'ok':'f');});
     bars('#p1 .stk .sk',1000);
   }
-  if(n===10){
-    bars('#p1 [data-v="10"] .hb',150);
+  if(n===12){
+    bars('#p1 [data-v="12"] .hb',150);
     const cap=$('#dgcap');
     paintStrip(W1e,k=>k<15?'f':k===15?'dead':'');setSc(W1e[8],'f alr',9);
     cap.innerHTML='esquema: callejón en el turno <b>15</b>; la decisión culpable está en el <b>9</b> (punto ámbar)';
     run(1200,()=>{setSc(W1e[13],'undo cur',14);cap.innerHTML='<b>D2</b> retrocede 1 turno, al 14: la culpable sigue en pie y vuelve el callejón';});
     run(2700,()=>{paintStrip(W1e,k=>k<9?'f':k===9?'ok cur':k<=15?'undo':'');popSc(W1e[8]);cap.innerHTML='<b>A3</b> salta al 9, deshace 9–15 de una vez y rehace la culpable ✓';});
   }
-  if(n===11)bars('#p1 [data-v="11"] .hb',150);
 }
 H.p1={
   step(n,prev){
